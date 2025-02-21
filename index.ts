@@ -1,7 +1,5 @@
 #!/usr/bin/env node
-import { DocumentService } from './src/services/document.service'
 import { ServerService } from './src/services/server.service'
-import { resolve } from 'path'
 import { logger } from './src/utils/logger'
 
 // Version is injected during build
@@ -28,19 +26,16 @@ function printHelp() {
   console.error(`
 specif-ai-mcp-server - v${process.env.VERSION}
 
-Usage: specif-ai-mcp-server <project-path>
-
-Arguments:
-  project-path    Path to the project directory containing specification files
+Usage: specif-ai-mcp-server
 
 Options:
   -h, --help      Display this help message
   -v, --version   Display version information
 
 Example:
-  specif-ai-mcp-server ./my-project
-  npx specif-ai-mcp-server ./my-project
-  bunx specif-ai-mcp-server ./my-project
+  specif-ai-mcp-server
+  npx specif-ai-mcp-server
+  bunx specif-ai-mcp-server
 `)
 }
 
@@ -51,10 +46,9 @@ async function main() {
   try {
     logger.info({ version: process.env.VERSION }, 'Starting Specif-ai MCP Server')
 
-    // Get project path from command line arguments
     const args = process.argv.slice(2)
 
-    if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
+    if (args[0] === '--help' || args[0] === '-h') {
       printHelp()
       process.exit(args.length === 0 ? 1 : 0)
     }
@@ -64,15 +58,8 @@ async function main() {
       process.exit(0)
     }
 
-    const projectPath = resolve(process.cwd(), args[0])
-    logger.info({ projectPath }, 'Initializing with project path')
-
-    // Initialize document service and load solution
-    const documentService = new DocumentService()
-    const solution = await documentService.loadSolution(projectPath)
-
     // Initialize and start server
-    const serverService = new ServerService(solution)
+    const serverService = new ServerService()
     await serverService.start()
 
     logger.info('Specif-ai MCP Server running on stdio')

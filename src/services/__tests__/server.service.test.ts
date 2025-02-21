@@ -56,6 +56,46 @@ const mockSolution: Solution = {
   ],
 }
 
+// Mock DocumentService
+jest.mock('../document.service', () => ({
+  DocumentService: jest.fn().mockImplementation(() => ({
+    loadSolution: jest.fn().mockImplementation((path) => {
+      if (path === '/test/path') {
+        return Promise.resolve(mockSolution)
+      }
+      if (path === '/test/malformed/path') {
+        return Promise.resolve({
+          ...mockSolution,
+          PRD: [
+            {
+              id: 'PRD01',
+              title: '',
+              description: '',
+              userStories: [],
+            },
+          ],
+        })
+      }
+      if (path === '/test/empty/path') {
+        return Promise.resolve({
+          ...mockSolution,
+          PRD: [],
+        })
+      }
+      return Promise.reject(new Error('Invalid path'))
+    }),
+    findPRD: jest.fn().mockImplementation((solution: Solution, prdId: string) => {
+      return solution.PRD.find((prd) => prd.id === prdId) || null
+    }),
+    findUserStory: jest.fn().mockImplementation((prd: PRD, userStoryId: string) => {
+      return prd.userStories?.find((story) => story.id === userStoryId) || null
+    }),
+    findTask: jest.fn().mockImplementation((userStory: UserStory, taskId: string) => {
+      return userStory.tasks?.find((task) => task.id === taskId) || null
+    }),
+  })),
+}))
+
 // Mock Server and StdioServerTransport
 const mockRequestHandlers = new Map()
 const mockServer = {
@@ -93,9 +133,17 @@ describe('ServerService', () => {
 
   let serverService: ServerService
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockRequestHandlers.clear()
-    serverService = new ServerService(mockSolution)
+    serverService = new ServerService()
+    // Initialize server with mock solution using set-project-path
+    const handler = mockRequestHandlers.get('call-tool')
+    await handler({
+      params: {
+        name: 'set-project-path',
+        arguments: { path: '/test/path' },
+      },
+    })
   })
 
   describe('List Tools Handler', () => {
@@ -103,8 +151,9 @@ describe('ServerService', () => {
       const handler = mockRequestHandlers.get('list-tools')
       const response = await handler()
 
-      expect(response.tools).toHaveLength(8)
+      expect(response.tools).toHaveLength(9)
       expect(response.tools.map((t: { name: string }) => t.name)).toEqual([
+        'set-project-path',
         'get-brds',
         'get-prds',
         'get-nfrs',
@@ -132,6 +181,12 @@ describe('ServerService', () => {
         (t: { name: string; inputSchema: any }) => t.name === 'get-task'
       )
       expect(taskSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId', 'taskId'])
+
+      // Verify schema for set-project-path
+      const setProjectPathSchema = response.tools.find(
+        (t: { name: string; inputSchema: any }) => t.name === 'set-project-path'
+      )
+      expect(setProjectPathSchema?.inputSchema.required).toEqual(['path'])
     })
   })
 
@@ -287,19 +342,14 @@ describe('ServerService', () => {
     })
 
     test('should handle malformed PRD in get-user-stories', async () => {
-      const malformedSolution: Solution = {
-        ...mockSolution,
-        PRD: [
-          {
-            id: 'PRD01',
-            title: '',
-            description: '',
-            userStories: [],
-          },
-        ],
-      }
-      const malformedServerService = new ServerService(malformedSolution)
       const handler = mockRequestHandlers.get('call-tool')
+      // Set malformed solution path
+      await handler({
+        params: {
+          name: 'set-project-path',
+          arguments: { path: '/test/malformed/path' },
+        },
+      })
       const response = await handler({
         params: {
           name: 'get-user-stories',
@@ -310,12 +360,14 @@ describe('ServerService', () => {
     })
 
     test('should handle empty PRD list', async () => {
-      const emptyPRDSolution: Solution = {
-        ...mockSolution,
-        PRD: [],
-      }
-      const emptyServerService = new ServerService(emptyPRDSolution)
       const handler = mockRequestHandlers.get('call-tool')
+      // Set empty PRD solution path
+      await handler({
+        params: {
+          name: 'set-project-path',
+          arguments: { path: '/test/empty/path' },
+        },
+      })
       const response = await handler({
         params: {
           name: 'get-prds',
@@ -429,11 +481,133 @@ describe('ServerService', () => {
 
       expect(response.content[0].text).toBe('No User Story found with ID nonexistent')
     })
+
+    test('should handle get-user-stories before project path is set', async () => {
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-user-stories',
+            arguments: { prdId: 'PRD01' },
+          },
+        })
+      ).rejects.toThrow('No project path set. Use set-project-path first.')
+    })
+
+    test('should handle get-brds before project path is set', async () => {
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-brds',
+            arguments: {},
+          },
+        })
+      ).rejects.toThrow('No project path set. Use set-project-path first.')
+    })
+
+    test('should handle get-prds before project path is set', async () => {
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-prds',
+            arguments: {},
+          },
+        })
+      ).rejects.toThrow('No project path set. Use set-project-path first.')
+    })
+
+    test('should handle get-nfrs before project path is set', async () => {
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-nfrs',
+            arguments: {},
+          },
+        })
+      ).rejects.toThrow('No project path set. Use set-project-path first.')
+    })
+
+    test('should handle get-uirs before project path is set', async () => {
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-uirs',
+            arguments: {},
+          },
+        })
+      ).rejects.toThrow('No project path set. Use set-project-path first.')
+    })
+
+    test('should handle get-bps before project path is set', async () => {
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-bps',
+            arguments: {},
+          },
+        })
+      ).rejects.toThrow('No project path set. Use set-project-path first.')
+    })
+
+    test('should handle get-tasks before project path is set', async () => {
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-tasks',
+            arguments: {
+              prdId: 'PRD01',
+              userStoryId: 'US1',
+            },
+          },
+        })
+      ).rejects.toThrow('No project path set. Use set-project-path first.')
+    })
+
+    test('should handle get-task before project path is set', async () => {
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-task',
+            arguments: {
+              prdId: 'PRD01',
+              userStoryId: 'US1',
+              taskId: 'T1',
+            },
+          },
+        })
+      ).rejects.toThrow('No project path set. Use set-project-path first.')
+    })
+
+    test('should handle set-project-path with invalid path', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'set-project-path',
+            arguments: { path: '/invalid/path' },
+          },
+        })
+      ).rejects.toThrow('Invalid path')
+    })
   })
 
   describe('Server Configuration', () => {
     test('should initialize with correct server config', () => {
-      const serverService = new ServerService(mockSolution)
       expect(mockServer.requestHandlers.has('list-tools')).toBeTruthy()
       expect(mockServer.requestHandlers.has('call-tool')).toBeTruthy()
     })

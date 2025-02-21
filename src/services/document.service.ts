@@ -127,8 +127,14 @@ export class DocumentService {
 
       return solution
     } catch (error) {
-      logger.error({ error, projectPath }, 'Failed to load solution')
-      throw error
+      logger.warn({ error, projectPath }, 'Some directories not found while loading solution')
+      return {
+        BP: [],
+        BRD: [],
+        PRD: [],
+        NFR: [],
+        UIR: [],
+      }
     }
   }
 

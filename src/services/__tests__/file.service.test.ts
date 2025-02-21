@@ -130,10 +130,11 @@ describe('FileService', () => {
       })
     })
 
-    test('should handle directory read errors', async () => {
+    test('should return empty array when directory does not exist', async () => {
       mockReaddir.mockRejectedValue(new Error('Directory not found'))
 
-      await expect(fileService.readAllJsonFiles('/test/dir')).rejects.toThrow('Directory not found')
+      const result = await fileService.readAllJsonFiles('/test/dir')
+      expect(result).toEqual([])
     })
   })
 

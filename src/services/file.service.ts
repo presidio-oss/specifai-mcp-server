@@ -39,8 +39,8 @@ export class FileService {
 
       return fileContents
     } catch (error) {
-      logger.error({ error }, 'Error reading directory')
-      throw error
+      logger.warn({ error }, 'Directory not found, returning empty array')
+      return []
     }
   }
 

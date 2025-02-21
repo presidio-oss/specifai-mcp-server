@@ -36,10 +36,12 @@ const GetTaskRequestSchema = object({
 export class ServerService {
   private server: Server
   private documentService: DocumentService
-  private solution: Solution
+  private solution: Solution | null
+  private projectPath: string | null
 
-  constructor(solution: Solution) {
-    this.solution = solution
+  constructor() {
+    this.solution = null
+    this.projectPath = null
     this.documentService = new DocumentService()
     this.server = new Server(
       {
@@ -90,6 +92,21 @@ export class ServerService {
       logger.info('Handling list tools request')
       return {
         tools: [
+          {
+            name: 'set-project-path',
+            description: 'Set the project path and reload the solution',
+            inputSchema: {
+              type: 'object',
+              required: ['path'],
+              properties: {
+                path: {
+                  type: 'string',
+                  description:
+                    'The absolute path to the project directory containing specification files',
+                },
+              },
+            },
+          },
           {
             name: 'get-brds',
             description: 'Get Business Requirement Documents for this project',
@@ -199,23 +216,48 @@ export class ServerService {
 
       try {
         switch (name) {
+          case 'set-project-path': {
+            const { path } = object({ path: z.string() }).parse(args)
+            this.projectPath = path
+            this.solution = await this.documentService.loadSolution(path)
+            return this.createTextResponse(`Project path set to: ${path}`)
+          }
+
           case 'get-brds':
+            if (!this.solution) {
+              throw new Error('No project path set. Use set-project-path first.')
+            }
             return this.createTextResponse(this.formatDocuments(this.solution.BRD))
 
           case 'get-prds':
+            if (!this.solution) {
+              throw new Error('No project path set. Use set-project-path first.')
+            }
             return this.createTextResponse(this.formatDocuments(this.solution.PRD))
 
           case 'get-nfrs':
+            if (!this.solution) {
+              throw new Error('No project path set. Use set-project-path first.')
+            }
             return this.createTextResponse(this.formatDocuments(this.solution.NFR))
 
           case 'get-uirs':
+            if (!this.solution) {
+              throw new Error('No project path set. Use set-project-path first.')
+            }
             return this.createTextResponse(this.formatDocuments(this.solution.UIR))
 
           case 'get-bps':
+            if (!this.solution) {
+              throw new Error('No project path set. Use set-project-path first.')
+            }
             return this.createTextResponse(this.formatDocuments(this.solution.BP))
 
           case 'get-user-stories': {
             const { prdId } = GetUserStoriesRequestSchema.parse(args)
+            if (!this.solution) {
+              throw new Error('No project path set. Use set-project-path first.')
+            }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
               logger.warn({ prdId }, 'PRD not found')
@@ -226,6 +268,9 @@ export class ServerService {
 
           case 'get-tasks': {
             const { prdId, userStoryId } = GetTasksRequestSchema.parse(args)
+            if (!this.solution) {
+              throw new Error('No project path set. Use set-project-path first.')
+            }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
               logger.warn({ prdId }, 'PRD not found')
@@ -241,6 +286,9 @@ export class ServerService {
 
           case 'get-task': {
             const { prdId, userStoryId, taskId } = GetTaskRequestSchema.parse(args)
+            if (!this.solution) {
+              throw new Error('No project path set. Use set-project-path first.')
+            }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
               logger.warn({ prdId }, 'PRD not found')

@@ -201,11 +201,18 @@ describe('DocumentService', () => {
       )
     })
 
-    test('should handle file read errors', async () => {
+    test('should handle file read errors by returning empty arrays', async () => {
       // Mock readAllJsonFiles to throw an error
       mockFileService.readAllJsonFiles = jest.fn().mockRejectedValue(new Error('File read error'))
 
-      await expect(documentService.loadSolution('/test/path')).rejects.toThrow('File read error')
+      const solution = await documentService.loadSolution('/test/path')
+      expect(solution).toEqual({
+        BP: [],
+        BRD: [],
+        PRD: [],
+        NFR: [],
+        UIR: [],
+      })
     })
   })
 

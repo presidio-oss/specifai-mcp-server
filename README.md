@@ -116,29 +116,56 @@ iwr -useb https://raw.githubusercontent.com/vj-presidio/specif-ai-mcp-server/mai
 You can run the CLI directly if installed:
 
 ```bash
-specif-ai-mcp-server ./path/to/project
+specif-ai-mcp-server
 ```
 
 Or use it without installation via npx:
 
 ```bash
-npx specif-ai-mcp-server ./path/to/project
+npx specif-ai-mcp-server
 ```
 
 Or via bunx:
 
 ```bash
-bunx specif-ai-mcp-server ./path/to/project
+bunx specif-ai-mcp-server
 ```
-
-### Arguments
-
-- `project-path`: Path to the project directory containing specification files
 
 ### Options
 
 - `--help`, `-h`: Display help information
 - `--version`: Display version information
+
+### Setting Project Path
+
+Once the server is running, you can set the project path using the `set-project-path` tool. This tool accepts a path to the directory containing your specification files. After setting the path, the server will load all documents from that directory.
+
+Example tool usage:
+
+```json
+{
+  "name": "set-project-path",
+  "arguments": {
+    "path": "./path/to/project"
+  }
+}
+```
+
+### Available Tools
+
+The server provides several tools for interacting with your specification documents:
+
+| Tool Name          | Description                              |
+| ------------------ | ---------------------------------------- |
+| `set-project-path` | Set or change the project directory path |
+| `get-brds`         | Get Business Requirement Documents       |
+| `get-prds`         | Get Product Requirement Documents        |
+| `get-nfrs`         | Get Non-Functional Requirements          |
+| `get-uirs`         | Get User Interface Requirements          |
+| `get-bps`          | Get Business Process Documents           |
+| `get-user-stories` | Get User Stories for a specific PRD      |
+| `get-tasks`        | Get Tasks for a specific User Story      |
+| `get-task`         | Get details of a specific Task           |
 
 ## Requirements
 
