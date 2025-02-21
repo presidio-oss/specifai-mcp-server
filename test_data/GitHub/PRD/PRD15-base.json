@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must provide repository insights with metrics on contributions, commits, and issue resolution time. Screens: Insights dashboard with multiple tabs for activity, contributions, and historical data. Personas: Project managers tracking team productivity and repository performance trends.",
+  "title": "Analytics and Insights"
+}

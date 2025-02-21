@@ -1,0 +1,4 @@
+{
+  "requirement": "The application must be compatible with screen reader technologies to provide descriptive labels and instructions for UI components, adhering to WCAG compliance guidelines.",
+  "title": "Screen Reader Accessibility"
+}

@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must support integrations with third-party tools like Slack, Trello, or Jira for notifications and task tracking. Screens: An integrations page for configuring connected apps and viewing status. Personas: Teams needing seamless connectivity between GitHub and other productivity tools.",
+  "title": "Third-party Integrations"
+}

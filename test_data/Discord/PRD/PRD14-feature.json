@@ -1,0 +1,160 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "File Upload and Sharing in Chat",
+      "description": "Ability to upload and share files in the chat. In order to exchange documents and files during discussions. As a member collaborating on a topic, I want to upload files into the chat seamlessly and share them with others. Acceptance Criteria: The chat composer must display a file upload button. Users must be able to select files of various types (e.g., images, PDFs, etc.). The system should enforce a file size limit and display a validation message if exceeded. Users must be able to drag and drop files into the chat composer with a visual indication (e.g., highlighted drop zone) to initiate uploads. Uploaded files must appear in the chat as downloadable links. A notification must be displayed upon a successful upload. If a file exceeds the size limit or is an unsupported format, the system must notify the user with error feedback and suggested corrective actions (e.g., resizing or format change).",
+      "tasks": [
+        {
+          "list": "Add file upload button to the chat composer UI",
+          "acceptance": "Implement a file upload button in the chat composer UI using React. Acceptance Criteria: The button must be styled and visible in the chat composer. When clicked, it must open the system's file selection dialog.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Integrate file type validation in the chat composer",
+          "acceptance": "Implement logic in React to verify that the selected file is in a supported format. Supported formats: images and PDFs. Acceptance Criteria: An error message should be displayed if the file format is not supported.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement file size validation in the chat composer",
+          "acceptance": "Implement a check to ensure that selected files do not exceed the file size limit as specified. Acceptance Criteria: If the file size exceeds the limit, display a validation message suggesting corrective actions (e.g., resizing the file).",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add drag-and-drop functionality to the chat composer",
+          "acceptance": "Enable drag-and-drop functionality for file uploads in the chat composer using React. Add a visual drop zone with appropriate styling when a file is dragged over the composer. Acceptance Criteria: Files dropped in the drag-and-drop zone should trigger the file upload process.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement AWS S3 file upload API in backend using Golang",
+          "acceptance": "Develop a backend API endpoint in Golang to handle file uploads to AWS S3. Acceptance Criteria: The API endpoint must accept files, validate their type and size, and upload them to the designated S3 bucket.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Return downloadable file link upon successful upload",
+          "acceptance": "The Golang API should return the S3 URL of the successfully uploaded file. Acceptance Criteria: Upon successful upload, the URL must be returned as part of the API response.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle error scenarios for file upload backend API",
+          "acceptance": "Implement error handling in the backend API to catch unsupported formats, file size violations, or upload failures. Acceptance Criteria: Appropriate error codes and messages must be returned for all error cases.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Display downloadable file link in the chat upon successful upload",
+          "acceptance": "Update the React front-end to display a clickable, downloadable link in the chat for each successfully uploaded file. Acceptance Criteria: The link must visually represent the file type (e.g., icon or preview) and be placed inline within the chat.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Show success notification upon file upload completion",
+          "acceptance": "Implement a success notification in React upon successful file upload and link generation. Acceptance Criteria: The notification must clearly inform the user that the file was uploaded successfully.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Show error notification for unsupported file types and size violations",
+          "acceptance": "Display error notifications in React for invalid file uploads, including unsupported formats or file size too large. Acceptance Criteria: Each error message must provide clear, actionable guidance to users.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Image Previews and Management in Chat",
+      "description": "Ability to preview images within the chat. In order to review shared images without downloading them. As a member of the discussion, I want to see an inline preview of any uploaded image. Acceptance Criteria: Any uploaded image must render as a thumbnail preview in the chat. Clicking the preview must open a full-sized modal view of the image. Previews must handle common image formats, such as JPEG and PNG. Non-image files should only appear as downloadable links without previews. Users must have the option to download the image directly from the preview view. An error message should display if the image fails to render or preview.",
+      "tasks": [
+        {
+          "list": "Implement backend API for image upload and validation",
+          "acceptance": "Create a REST API endpoint in the Golang backend to handle image uploads. Validate that uploaded files are in 'JPEG' or 'PNG' formats. Return an error response for unsupported formats. Acceptance Criteria: API successfully validates file type and accepts only 'JPEG' and 'PNG' formats. Returns an HTTP error code with an error message for unsupported formats.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Store uploaded images in AWS S3",
+          "acceptance": "Use AWS SDK for Golang to upload valid images to an S3 bucket. The upload response should return the image's S3 URL. Set appropriate permissions to allow retrieval of images for preview. Acceptance Criteria: Uploaded image is stored in the specified S3 bucket and is accessible via its URL. API response contains the S3 URL corresponding to the uploaded image. Failure to upload returns an error with an HTTP status code.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Extend backend API to handle image retrieval",
+          "acceptance": "Create a REST API endpoint in the Golang backend to retrieve the S3 URL for a given image ID. This will enable the frontend to display the image preview. Acceptance Criteria: API successfully returns the S3 URL for a valid image ID. An invalid or non-existent image ID returns an error message with status code 404.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement React component to render image thumbnails in chat",
+          "acceptance": "Create a React component to display image thumbnails inline within chat messages. Use the S3 URL returned from the backend API as the source for the thumbnail images. Style the thumbnail preview to fit within a chat message. Acceptance Criteria: Thumbnail images are displayed inline with chat messages. Thumbnails are generated for all valid uploaded images. Dummy text or a placeholder icon is displayed for non-image files.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add functionality to open full-sized view on thumbnail click",
+          "acceptance": "Modify the React component to open a modal displaying the full-sized image when the thumbnail is clicked. The modal should use the S3 URL for the full-sized image. Provide a close button to dismiss the modal. Acceptance Criteria: Clicking an image thumbnail opens a modal with the full-sized version. The modal is closable using the close button or clicking outside the modal.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add direct image download option in the modal view",
+          "acceptance": "Enhance the modal to include a download button. Clicking this button initiates the download of the full-sized image using the S3 URL. Acceptance Criteria: A download button is present in the modal view. Clicking the button downloads the full-sized image in its original format (JPEG or PNG).",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle unsupported file formats in the React chat interface",
+          "acceptance": "Modify the React chat interface to replace unsupported files with a styled downloadable link. The link should trigger a file download on click. Acceptance Criteria: Non-image files display as downloadable links instead of thumbnails. Clicking the link initiates a download for the unsupported file. Unsupported files do not break the chat layout.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Display error message in chat for failed image previews",
+          "acceptance": "Update the React component to display an error message when an image fails to render in the thumbnail or modal. Acceptance Criteria: A clear, user-friendly error message appears when a thumbnail or full-sized image fails to load. Errors do not disrupt other chat functionality.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Test backend APIs for image handling",
+          "acceptance": "Write unit and integration tests for all backend API endpoints related to image upload, validation, storage, and retrieval. Test against required scenarios, such as supported and unsupported formats, failed uploads, and invalid image IDs. Acceptance Criteria: Backend APIs pass all test cases, including edge cases for error scenarios. Test coverage is complete for all mentioned functionalities.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write frontend tests for image preview and modal functionality",
+          "acceptance": "Create unit and integration tests for the React components handling image previews, modal views, download buttons, and error scenarios. Test for valid thumbnails, full-sized views, and download behavior. Acceptance Criteria: React components pass all test cases, including rendering valid previews, proper error handling, and downloadable links for non-image files. Ensure visual consistency across different scenarios.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "File Download Management in Chat",
+      "description": "Ability to download files shared within the chat. In order to access shared documents and images. As a collaborator, I want to download any shared file directly from the chat conversation. Acceptance Criteria: Clicking on a file link must trigger a secure file download. For images, users must have an option to download the image from the preview modal or thumbnail. Downloaded files must retain their original filenames. The system must securely handle file permissions and access to ensure only authorized users can download the shared files. If a file download encounters an error, the system must display notification feedback to the user.",
+      "tasks": [
+        {
+          "list": "Create a secure API endpoint for file downloads",
+          "acceptance": "[Create a secure API endpoint in Golang that accepts file identifiers as input and validates user permissions before serving the file.] Acceptance Criteria: [1. API endpoint must validate that the request is authenticated and authorized based on the user's access permissions. 2. If access is denied, return a 403 forbidden error with a clear message. 3. Ensure the endpoint securely streams the file to the client while preserving the original filename. 4. Log any errors during the process and return an appropriate 500 error response for unexpected issues.]",
+          "id": "TASK1"
+        },
+        {
+          "list": "Integrate file permissions validation in backend",
+          "acceptance": "[Implement logic to check file permissions in the backend service before permitting the file to be downloaded.] Acceptance Criteria: [1. Ensure the file permissions validation logic uses the authenticated user's identifier to check access privileges. 2. Deny access if the user is not authorized. 3. Unit tests should be implemented to test both valid and invalid scenarios for access.]",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create React UI component for file download link",
+          "acceptance": "[Create a React component that displays the file download link within the chat interface.] Acceptance Criteria: [1. Component must render the file name as a clickable link. 2. On click, the component must trigger a secure download request to the backend API using the file identifier. 3. Handle and display error messages if the download API fails, in a user-friendly way.]",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add download button to image preview modal",
+          "acceptance": "[Update the React image preview modal to include a download button that triggers the file download.] Acceptance Criteria: [1. Button must use the associated file's identifier to initiate a secure download request to the backend API. 2. Preserve the original filename when saving the file locally. 3. Ensure the button is visible only for users with valid access permissions to the file.]",
+          "id": "TASK4"
+        },
+        {
+          "list": "Handle file download errors in the frontend",
+          "acceptance": "[Implement error handling logic in the frontend to display user-friendly notifications when a file download fails.] Acceptance Criteria: [1. Display a specific error message if the API returns a 403 (unauthorized access). 2. Display a generic error message for all other API errors (e.g., 500 server error). 3. Ensure the notification clears automatically after a set time or when dismissed by the user.]",
+          "id": "TASK5"
+        },
+        {
+          "list": "Ensure original filenames are preserved during download",
+          "acceptance": "[Implement logic in the backend and frontend to ensure the original filenames are preserved during file downloads.] Acceptance Criteria: [1. Include the original filename in the API response header (e.g., Content-Disposition). 2. Ensure the frontend fetches this header and applies it to the downloaded file. 3. Validate that all downloaded files retain their original filenames in functional tests.]",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement notifications for download progress and success",
+          "acceptance": "[Add a notification system in the frontend to inform users of the download progress.] Acceptance Criteria: [1. Show a progress indicator if the download takes more than 2 seconds. 2. Display a success notification when the download completes. 3. Clear the notifications automatically after 5 seconds or when dismissed by the user.]",
+          "id": "TASK7"
+        }
+      ]
+    }
+  ]
+}

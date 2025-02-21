@@ -1,0 +1,284 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Enable Video Calls in Channels and Private Sessions",
+      "description": "Ability to participate in video calls within channels or private one-on-one sessions. In order to facilitate collaboration or personal communication. As a user, I want to seamlessly start, join, and leave video calls in group channels or private calls. Acceptance Criteria: Users must be able to initiate video calls from a 'Start Call' button within a channel or private chat. The video interface must display participant feeds in a dynamic grid layout. Switchable controls for muting mic and toggling cameras must be available. Notifications should indicate participant join/leave activities. Error messages with retry options must appear in case of video connection failure.",
+      "tasks": [
+        {
+          "list": "Create 'Start Call' button component in React",
+          "acceptance": "Develop a React component named 'StartCallButton' that displays a button labeled 'Start Call'. Acceptance Criteria: The button should trigger a function to initiate a video call when clicked. This function will make an API call to the backend video initiation endpoint. Ensure the component is reusable for both channel and private chat views.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement backend endpoint for video call initiation in Golang",
+          "acceptance": "Develop a Golang API endpoint '/api/call/start'. Acceptance Criteria: The endpoint should accept the required parameters (e.g., channel ID or user ID) and return a unique call session ID. Validate input parameters, and ensure proper error handling with clear error messages for invalid inputs.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Design dynamic grid layout for participant video feeds in React",
+          "acceptance": "Create a React component named 'VideoFeedGrid' that dynamically arranges video streams of participants into a responsive grid layout. Acceptance Criteria: Ensure grid adjusts dynamically as participants join or leave. Test with varying numbers of participants to ensure a smooth layout transition.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add mute/unmute mic and toggle camera controls to the video interface",
+          "acceptance": "Develop React components 'MicControl' and 'CameraControl' within the video interface. Acceptance Criteria: Controls should respond to user input by enabling/disabling the local mic and camera streams. Ensure visual feedback (e.g., icons) is updated based on the state (muted/unmuted, camera on/off).",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement backend WebSocket notifications for participant join/leave events",
+          "acceptance": "Develop WebSocket logic in Golang to broadcast participant join/leave events to all users in a call session. Acceptance Criteria: Notifications should include participant details (e.g., username or ID) and update in real-time for all users in the session.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Display participant join/leave notifications in React video interface",
+          "acceptance": "Enhance the React video interface to show real-time notifications when participants join or leave a session. Acceptance Criteria: Notifications should appear briefly and disappear automatically (e.g., toast message). Test functionality to ensure accurate information and timing.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle video connection failure with retry functionality in React",
+          "acceptance": "Add error handling logic in the video interface using React. Acceptance Criteria: Display error messages when the video connection fails with options to retry. Implement a 'Retry' button that attempts to reconnect to the video session.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Create API endpoint for ending video calls in Golang",
+          "acceptance": "Develop a Golang API endpoint '/api/call/end'. Acceptance Criteria: Endpoint should accept parameters (e.g., session ID) to terminate an ongoing call. Ensure proper error handling, returning success or failure messages appropriately.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Integrate call termination logic into React interface",
+          "acceptance": "Add functionality in the React video interface to trigger call termination when users leave or end a call. Acceptance Criteria: Ensure termination API is called when a user clicks the 'Leave Call' button, and the video interface gracefully exits the session.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Test video interface and API endpoints integration",
+          "acceptance": "Conduct end-to-end testing for the seamless operation of the 'Start Call', 'Join Call', and 'Leave Call' functionalities. Acceptance Criteria: Validate that all functionality, including dynamic grids, notifications, and controls, operate as expected with API interactions. Simulate failure scenarios to ensure robust error handling.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Introduce Screen Sharing During Video Calls",
+      "description": "Ability to share my screen with participants in a video call. In order to collaborate effectively on visual content. As a user, I want to share my screen and select specific areas or applications to display. Acceptance Criteria: A 'Share Screen' button should be accessible in the call interface. Users must be able to choose between sharing their entire screen or selected content. A visible status indicator must notify participants about active screen sharing. Shared screens must integrate dynamically into the video grid. Error handling must inform users of failed sharing attempts with retry options.",
+      "tasks": [
+        {
+          "list": "Create 'Share Screen' button in the React video call interface",
+          "acceptance": "Implement a 'Share Screen' button within the existing video call interface using React. Button must be accessible during an active video call. Acceptance Criteria: The button should be visible in the interface, and clicking it should trigger an event for initiating screen sharing.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Add screen sharing options modal",
+          "acceptance": "Develop a modal that appears when the 'Share Screen' button is clicked. The modal should provide options for the user to select either the entire screen or specific application windows for sharing. Acceptance Criteria: The modal should display options for screen/application sharing, and selection should be possible. Closing the modal should not trigger screen sharing.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement screen sharing initiation logic using React APIs",
+          "acceptance": "Utilize the browser's Screen Capture API to enable selection and streaming of either the entire screen or specific application windows based on the user's selection in the modal. Update the React state to store the shared media stream. Acceptance Criteria: Upon selection, the screen sharing stream should start, and the media stream should be available in the React state.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Integrate screen sharing stream into the video grid",
+          "acceptance": "Modify the video call component to dynamically integrate the screen sharing stream into the video grid alongside participant video streams. Acceptance Criteria: The shared screen must appear as a new tile in the video grid in real-time and adjust to fit the layout dynamically.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Show visible status indicator for active screen sharing",
+          "acceptance": "Implement a persistent visible status indicator within the call interface to notify all participants when screen sharing is active. Acceptance Criteria: The indicator should display to all participants as long as screen sharing is ongoing and should disappear when sharing ends.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add error handling for screen sharing failures",
+          "acceptance": "Implement error handling logic for cases where screen sharing fails to start, such as user denial of screen sharing permission or device errors. Display a user-facing error message and provide a retry option. Acceptance Criteria: If screen sharing fails, an error message should appear with a retry button. Retry attempts must re-trigger the sharing workflow.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement stop-sharing logic with cleanup",
+          "acceptance": "Enable the user to stop screen sharing at any time. Stop the media stream and update React state to remove the shared screen from the video grid. Acceptance Criteria: Clicking the 'Stop Sharing' button should stop the screen sharing session immediately, remove the shared screen from the grid, and clear any associated resources.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Create backend API endpoint for screen sharing session notifications",
+          "acceptance": "In the Golang backend, create an API endpoint to send screen sharing status updates to other participants in the call. Use this endpoint to notify participants when sharing starts or stops. Acceptance Criteria: The API should accept screen sharing status updates (start/stop) and notify participants accordingly in real-time.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Integrate real-time screen sharing updates using WebSockets",
+          "acceptance": "Modify the Golang backend to use WebSockets or a similar mechanism to broadcast screen sharing start/stop updates to participants. Update the React frontend to listen and dynamically reflect these updates. Acceptance Criteria: All participants must see real-time updates of screen sharing status (start/stop) without relying on manual refresh.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write unit tests for screen sharing modal and logic",
+          "acceptance": "Write unit tests in the React codebase to validate the functionality of the screen sharing modal and initiation logic. Tests should cover correct rendering, selection options, modal visibility, and React state updates. Acceptance Criteria: All tests should pass, and coverage must include modal rendering, state management, and error scenarios.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Write integration tests for screen sharing in the video grid",
+          "acceptance": "Write integration tests to ensure that shared screens dynamically integrate into the video grid as described. Coverage should include stopping sharing, grid layout updates, and participant synchronization. Acceptance Criteria: All integration tests should pass with scenarios for starting, stopping, and updating the grid.",
+          "id": "TASK11"
+        },
+        {
+          "list": "Write API endpoint tests for screen sharing notifications",
+          "acceptance": "In the Golang backend, write unit and integration tests for the API endpoint handling screen sharing session notifications. Tests must validate proper routing, data persistence, and real-time updates to participants. Acceptance Criteria: All endpoint tests must pass, ensuring the server processes status update requests correctly and notifies participants.",
+          "id": "TASK12"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Facilitate Easy Camera Switching During Calls",
+      "description": "Ability to switch between camera inputs during an active video call. In order to resolve camera issues or switch perspectives conveniently. As a user, I want the ability to change between the front, back, or external cameras without disrupting the call. Acceptance Criteria: A 'Switch Camera' button must be present in the call interface. Post-switch confirmation of active camera should be displayed visually. Switching cameras must not interrupt or disrupt the active video feed. If the switch fails, error notifications with retry actions must guide the user. The system should allow users to set a default camera for future calls.",
+      "tasks": [
+        {
+          "list": "Implement 'Switch Camera' button in the React call interface",
+          "acceptance": "Add a 'Switch Camera' button to the React video call interface. Ensure the button is positioned intuitively for user interaction and is visually consistent with the existing call interface design. Acceptance Criteria: The button must be rendered correctly in the video call interface. It must trigger a camera switching function when clicked. The button must not disrupt the ongoing video stream. UI rendering must work across different browsers and resolutions.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create camera switching API endpoint in Golang backend",
+          "acceptance": "Develop a new API endpoint in Golang backend to handle camera switching requests. The endpoint must accept input identifying the target camera (e.g., 'front', 'back', or 'external') and return confirmation of the active camera or an error message if the switch fails. The API must validate the input and handle errors gracefully, including retries for failover scenarios. Acceptance Criteria: A POST endpoint must exist to process camera switching requests with appropriate validations. Successful requests must return the active camera identifier. Error responses must contain a retry suggestion. Logging must capture switch requests and errors.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Integrate camera switching API with React call interface",
+          "acceptance": "In the React frontend, implement the logic to trigger the Golang camera switching API when the 'Switch Camera' button is clicked. Ensure the selected camera type is sent as an input parameter. Acceptance Criteria: API integration must correctly send input parameters to the backend. API responses must update the frontend UI with the active camera confirmation. Error responses must trigger error notifications with retry options, and retries must correctly invoke the API again.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement visual confirmation of active camera in React frontend",
+          "acceptance": "Create a visual indicator in the React frontend to show the currently active camera after switching. The visual indicator must update dynamically when the active camera changes. Acceptance Criteria: The active camera indicator must display the camera type (e.g., 'Front Camera', 'Back Camera', 'External'). It must dynamically update after switching to the selected camera. The indicator must not obstruct or interfere with the video feed. Display must persist for the duration of the call.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Develop fallback and retry logic for camera switching failures",
+          "acceptance": "Add backend logic in Golang to handle camera switching failures gracefully by allowing retries with exponential backoff. The system must log failures for audit purposes and notify the frontend of the failure. Acceptance Criteria: Backend must retry switching logic a maximum of three times with exponential backoff if the initial attempt fails. Failure events must be logged with relevant error details. The frontend must receive notifications for each failure and retry attempt. Clear retry suggestions must be provided to the user via the React UI.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add capability to select a default camera in backend logic",
+          "acceptance": "Modify Golang backend to store and retrieve the user's default camera preference. This value must be configurable and retrieved at the start of a video call. Acceptance Criteria: A database mechanism or in-memory structure must store the default camera preference per user. The backend must expose an endpoint to modify and retrieve this setting. The retrieved camera preference must be applied automatically at the start of each video call.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Integrate default camera selection with React interface",
+          "acceptance": "Create a UI in the React application to allow users to set their default camera preference. This setting must be stored by calling the appropriate Golang backend endpoint. Acceptance Criteria: UI must provide options for 'Front', 'Back', or 'External' cameras. UI changes must trigger an API request to update the backend. Default camera selection must persist across sessions and automatically apply to new calls.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement unit tests for camera switching API in Golang",
+          "acceptance": "Develop unit tests for the Golang backend API to validate all camera switching scenarios, including success, failure, and retries. Acceptance Criteria: Unit tests must cover valid and invalid camera inputs, successful switches, and failure recovery scenarios. Tests must run successfully and meet predefined code coverage requirements. Error handling and logging correctness must be validated.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement unit tests for React camera switching logic",
+          "acceptance": "Write unit tests for React components related to camera switching functionality, including the 'Switch Camera' button and error handling. Acceptance Criteria: Unit tests must validate interaction with the 'Switch Camera' button, API calls, visual confirmation updates, error notifications, and retry logic. Tests must run successfully without regressions.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Perform end-to-end testing for camera switching experience",
+          "acceptance": "Conduct automated or manual end-to-end tests to validate the complete camera switching flow from UI to backend. Acceptance Criteria: Tests must verify the integration between React UI, the Golang backend, and camera hardware. Switching cameras must not disrupt the video feed. Tests must confirm error handling workflows, including retries. User preferences for default cameras must be validated.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Manage Participant Video Feeds for Custom Viewing",
+      "description": "Ability to control and customize the display of participant video feeds during a call. In order to focus on key participants or adjust the interface layout. As a user, I want to pin, hide, or minimize specific participant feeds to tailor my viewing experience. Acceptance Criteria: Users must have an option to pin a participant to highlight their feed. Layout toggle controls (grid view and presenter view) should be available. Minimized participants should appear in a smaller area or be hidden completely. A placeholder should display when video is unavailable for any participant. Participant grid adjustments must dynamically update based on user actions.",
+      "tasks": [
+        {
+          "list": "Implement pinning functionality for a participant video feed",
+          "acceptance": "Develop a method in the React frontend to allow users to pin a participant’s video feed (e.g., `pinParticipant(participantId: string)`). Update the UI to reflect a highlighted or enlarged state for the pinned participant. Acceptance Criteria: When a participant is pinned, their video feed should be highlighted or enlarged compared to the others. The UI must render this update dynamically and persist the highlight until the user unpins or switches layout.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create layout toggle control for grid view and presenter view",
+          "acceptance": "Develop a React component (`LayoutToggle`) that provides options for switching between 'grid view' and 'presenter view'. Implement corresponding state management using React hooks or context to update the layout dynamically. Acceptance Criteria: The user must be able to toggle between grid and presenter views. The layout state must dynamically update the arrangement of participant video feeds without requiring a page refresh.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Develop minimize functionality for participant video feeds",
+          "acceptance": "Add a mechanism in the React frontend to minimize a specific participant feed to a smaller section (e.g., `minimizeFeed(participantId: string)`) or remove it entirely from view. Update the participant grid state to reflect this dynamically. Acceptance Criteria: When a participant feed is minimized, it should resize to a smaller section or be hidden completely. Minimized feeds must not disrupt the layout of remaining feeds, and the participant grid must dynamically reorganize.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement dynamic adjustments to participant grid based on layout and pin/hide actions",
+          "acceptance": "Modify the React frontend grid rendering logic to dynamically adjust participant display based on user interactions such as pinning, hiding, or minimizing feeds. Ensure smooth transitions and layout responsiveness. Acceptance Criteria: The grid must automatically and smoothly rearrange participant feeds to match user actions. The layout must remain responsive across different screen sizes.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Display placeholder for participants with unavailable video",
+          "acceptance": "Update the React frontend to render a placeholder (default image or text) for any participant whose video feed is not available. Add logic to identify participants without a video stream in the backend Golang service and pass this information to the frontend. Acceptance Criteria: Participants without a video feed must display a placeholder in their position within the layout. The placeholder must dynamically update if the video becomes available again.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Integrate backend participant feed metadata for dynamic updates",
+          "acceptance": "Ensure the backend Golang service sends real-time updates (via WebSocket or similar mechanism) about participant video feed status (e.g., feed available/unavailable, pinned, minimized). Update the React frontend to consume and render these updates dynamically. Acceptance Criteria: The frontend must reflect any changes to participant video feeds as they are updated in real time by the backend service.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle errors and edge cases for user actions on video feeds",
+          "acceptance": "Implement error handling in the Golang backend for invalid participant IDs or unsupported actions (e.g., attempting to pin a feed that doesn’t exist). Reflect errors on the React frontend with appropriate user feedback (e.g., tooltips or popups). Acceptance Criteria: Errors such as invalid participant ID or unsupported layout actions must be gracefully handled with user-friendly error messages. The system must remain stable without crashing.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Test functionality for pinning, hiding, and layout adjustments",
+          "acceptance": "Develop unit and integration tests using the specified testing framework to cover all functionality for pinning, hiding, minimizing, and toggling layout views. Include tests in Golang for backend metadata updates and in React for frontend rendering behavior. Acceptance Criteria: All implemented features (pinning, hiding, placeholder rendering, layout toggling) must pass unit and integration tests. Tests must cover edge cases, such as multiple participants being pinned or hidden simultaneously.",
+          "id": "TASK8"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Provide Comprehensive Call Controls and Error Handling",
+      "description": "Ability to manage critical call controls and handle errors for uninterrupted communication. In order to enhance user experience and recover from issues. As a user, I want controls such as muting, ending calls, and reconnection in case of interruptions. Acceptance Criteria: The call interface must include an 'End Call' button with a confirmation prompt before call termination. Mute/unmute controls for audio and video must be synchronized and visually indicated for all participants. Error handling should warn about degraded connectivity or call interruptions. Reconnection options, such as retry buttons or auto-reconnect, must be available for users experiencing connectivity issues.",
+      "tasks": [
+        {
+          "list": "Implement 'End Call' button with confirmation prompt in React call interface",
+          "acceptance": "Add an 'End Call' button to the React call interface. Implement a modal that prompts users for confirmation before terminating the call. On user confirmation, trigger the call termination logic. Ensure the UI visually reflects the call ending state. Acceptance Criteria: The 'End Call' button should be clearly visible on the interface. The confirmation modal should have 'Confirm' and 'Cancel' options. Clicking 'Confirm' should end the call, and 'Cancel' should close the modal without terminating the call.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement mute/unmute controls for audio in React call interface",
+          "acceptance": "Add a mute/unmute audio button to the React call interface. Ensure the button toggles the local audio stream state using backend integration via Golang. Synchronize the mute/unmute state to all participants in the call. Visual indicators (icon changes) must clearly represent the active state (mute or unmute). Acceptance Criteria: The audio mute/unmute button must update correctly with user interaction. All participants should correctly see the updated state for the user who muted/unmuted. Ensure the audio stream stops transmitting when muted.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement mute/unmute controls for video in React call interface",
+          "acceptance": "Add a mute/unmute video button to the React call interface. Ensure the button toggles the local video stream state using backend integration via Golang. Synchronize the mute/unmute state to all participants in the call. Visual indicators should represent the active state (mute or unmute). Acceptance Criteria: The video mute/unmute button must update as expected with user interaction. All participants should correctly see the user's state change for video (muted/unmuted). Ensure the video stream stops transmitting when muted.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add error handling to detect degraded connectivity or call interruptions",
+          "acceptance": "Implement logic in the React call interface to detect degraded connectivity or call interruptions (e.g., packet loss or timeout). Display a warning message to the user when these scenarios occur. Use Golang backend API responses or WebRTC events to identify such issues. Acceptance Criteria: Connectivity-related warnings must appear when issues occur and disappear when resolved. Test scenarios must include packet loss simulation or deliberate call interruptions to verify accurate detection and warning display.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement auto-reconnect functionality for interrupted calls using Golang backend",
+          "acceptance": "Develop logic in the Golang backend to attempt auto-reconnect when call interruptions are detected. Introduce a retry mechanism with exponential backoff. Trigger reconnection attempts from the React frontend when interruptions are identified. Acceptance Criteria: The reconnection logic should seamlessly resume the call when connectivity is restored. If auto-reconnect fails after a defined number of attempts, inform the user and provide manual retry options.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add a 'Retry' button for manual reconnection in React interface",
+          "acceptance": "Include a 'Retry' button in the React interface to allow users to manually reconnect when a call is interrupted. The button must trigger the Golang backend reconnection logic. Acceptance Criteria: Ensure a clearly visible 'Retry' button is shown when a call interruption is detected. Clicking the button should attempt to reconnect the call and update the UI based on success or failure of reconnection.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Synchronize audio and video mute/unmute states across all participants",
+          "acceptance": "Ensure that audio and video mute/unmute states for any user are synchronized across all participants. Update the frontend React calls to broadcast state changes via the appropriate backend APIs in Golang. Acceptance Criteria: All participants in a call must see consistent mute/unmute states for any user. Verify state synchronization by toggling mute/unmute for both audio and video and checking reflected states for all participants simultaneously.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write unit tests for Golang backend call control and error handling logic",
+          "acceptance": "Develop unit tests to validate Golang backend logic for call termination, reconnection, and audio/video mute/unmute state synchronization. Use mock inputs to simulate degraded connectivity and validate error handling functionality. Acceptance Criteria: Tests should achieve at least 90% code coverage for the newly added Golang functions. All tests must successfully pass with valid results and handle edge cases such as maximum reconnection attempts.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit and integration tests for React call interface functionality",
+          "acceptance": "Develop React unit and integration tests to validate the behavior of audio/video mute/unmute controls, 'End Call' button, confirmation prompt, error messages, and reconnection logic. Acceptance Criteria: Tests must validate state changes, visibility of UI elements (e.g., buttons), and correct rendering of warning messages. Tests should cover user interactions, including manually retrying reconnection and dismissing the 'End Call' confirmation modal.",
+          "id": "TASK9"
+        }
+      ]
+    }
+  ]
+}

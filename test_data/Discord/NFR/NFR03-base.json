@@ -1,0 +1,4 @@
+{
+  "requirement": "The system must achieve an uptime of 99.9% or greater and handle automatic failover in case of service disruptions.",
+  "title": "Reliable Service Availability"
+}

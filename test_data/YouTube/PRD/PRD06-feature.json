@@ -1,0 +1,284 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Channel Subscription Management",
+      "description": "Ability to subscribe to and manage subscriptions to channels. In order to follow favorite creators and receive timely updates. As a regular viewer, I want to easily subscribe and unsubscribe to channels, as well as view a list of my current subscriptions. Acceptance Criteria: The creator's page must display a visible 'Subscribe' button. The button's state should toggle between 'Subscribe' and 'Unsubscribe' based on the user's current subscription status. A 'Subscriptions' page must exist to list all channels the user follows, with an option to unsubscribe. Actions like subscribing or unsubscribing must reflect in real-time with confirmation to the user. The system must handle situations like trying to subscribe to a non-existent channel or failed network issues with appropriate error messages.",
+      "tasks": [
+        {
+          "list": "Create 'Subscribe' Button on Creator's Page",
+          "acceptance": "Create a 'Subscribe' button on the Creator's page in the Angular front-end. Ensure the button's state toggles between 'Subscribe' and 'Unsubscribe' based on the user's current subscription status retrieved from the back-end API. The button must visually and functionally reflect the current subscription state immediately after interacting with it. Acceptance Criteria: The button is visible on the Creator's page. It toggles state between 'Subscribe' and 'Unsubscribe' accurately based on the user's subscription status. Proper styling is applied for clarity.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement API Endpoint for Subscribing to a Channel",
+          "acceptance": "Create a back-end API endpoint (e.g., POST /api/subscriptions/:channelId) in Rust. It should receive a channel ID and user ID, validate that the channel exists, and add a subscription entry to the database. Handle errors such as non-existent channels and database connection failures. Respond with confirmation of success or an appropriate error message. Acceptance Criteria: The endpoint subscribes the user to the channel. Appropriate error handling is in place for non-existent or invalid requests. Returns HTTP 201 for successful subscriptions and appropriate error codes for failures.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement API Endpoint for Unsubscribing from a Channel",
+          "acceptance": "Create a back-end API endpoint (e.g., DELETE /api/subscriptions/:channelId) in Rust. The endpoint should remove the subscription for the given channel ID and user ID from the database. Validate the user's existing subscription status before performing the deletion. Return appropriate success or failure responses. Acceptance Criteria: The endpoint unsubscribes the user from the channel if they are subscribed. Returns HTTP 200 for a successful operation and appropriate error codes for failures (e.g., trying to unsubscribe when not subscribed).",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create 'Subscriptions' Page in Angular",
+          "acceptance": "Develop a 'Subscriptions' page in the Angular front end. Query the API to retrieve the list of channels the user is subscribed to. Display each subscribed channel with an 'Unsubscribe' button next to it. Ensure the list updates in real-time when a subscription is removed. Acceptance Criteria: The page correctly displays all channels the user is subscribed to, fetched from the API. Each channel has a working 'Unsubscribe' button. The list updates dynamically when a subscription is removed.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement API Endpoint to Fetch User Subscriptions",
+          "acceptance": "Create a back-end API endpoint (e.g., GET /api/subscriptions) in Rust. It should fetch and return the list of all channels a user is currently subscribed to. Ensure appropriate error handling for database access issues. Acceptance Criteria: The endpoint returns the correct list of subscribed channels for the user making the request. Returns HTTP 200 along with the data or appropriate error codes on failure.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Handle API Integration for Subscribing/Unsubscribing on Creator's Page",
+          "acceptance": "Integrate the back-end API endpoints for subscribing (POST /api/subscriptions/:channelId) and unsubscribing (DELETE /api/subscriptions/:channelId) with the front-end Angular component for the Creator's page. Ensure the button's state accurately reflects the user's subscription status after interacting with the API. Handle API error responses with appropriate user-friendly messages. Acceptance Criteria: The integration ensures subscribing and unsubscribing happen correctly. The UI updates in real-time. Errors such as network issues or invalid channel IDs are displayed to the user in an understandable manner.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle API Integration for 'Subscriptions' Page",
+          "acceptance": "Integrate the 'Subscriptions' page in Angular with the back-end API (GET /api/subscriptions and DELETE /api/subscriptions/:channelId) to fetch and display the list of subscriptions and handle unsubscribe actions. The list must dynamically update when a subscription is removed. Handle API errors gracefully with appropriate on-screen messages. Acceptance Criteria: The list of subscribed channels is fetched and displayed correctly. Users can successfully unsubscribe from channels, with the list updating in real-time. Errors such as network or server issues are shown to the user.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Add Real-Time Feedback for Subscribing/Unsubscribing Actions",
+          "acceptance": "Implement real-time UI feedback (e.g., a loading spinner) on both the Creator's page and Subscriptions page to indicate when subscribing/unsubscribing actions are in progress. Show a confirmation message when an action completes successfully. Ensure these do not block the rest of the UI. Acceptance Criteria: The feedback appears when an API request is made and disappears after completion. Confirmation messages are displayed for successful actions, and any errors are properly shown.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Handle Edge Cases and Error Scenarios",
+          "acceptance": "Implement back-end validation to handle edge cases (e.g., subscribing to a non-existent channel, trying to unsubscribe without being subscribed). Return appropriate error messages for each scenario. Ensure the front end displays these errors clearly to the user. Acceptance Criteria: Edge cases such as invalid channel IDs or network issues are handled gracefully. Appropriate HTTP status codes and messages are sent by the back-end and displayed on the front-end.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write Unit and Integration Tests for Back-End API",
+          "acceptance": "Write unit tests for each API endpoint (POST /api/subscriptions/:channelId, DELETE /api/subscriptions/:channelId, GET /api/subscriptions) to ensure correct functionality, handling of edge cases, and proper error handling. Write integration tests to confirm the end-to-end behavior of the API in a real-world scenario. Acceptance Criteria: All unit and integration tests pass successfully, covering all normal and edge case scenarios outlined in the user story.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Write Unit Tests for Front-End Components",
+          "acceptance": "Write unit tests for Angular components (Creator's page and Subscriptions page) to ensure correct rendering, API integration, and state changes. Validate real-time behavior and error handling for subscribing/unsubscribing actions. Acceptance Criteria: All unit tests for front-end components pass successfully. Tests cover all described functionalities, including API integration, state updates, and real-time UI feedback.",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "New Content Subscription Feed",
+      "description": "Ability to view a feed of new content exclusively from subscribed channels. In order to track new uploads efficiently. As a regular viewer, I want my feed to display only the latest uploads from creators I follow and organize them in an easily digestible format. Acceptance Criteria: The subscriptions feed must arrange content from channels in reverse chronological order. Each content card must display a thumbnail, title, creator name, and upload timestamp. Filters must allow sorting by time, channel, or content type. Content from unsubscribed channels or irrelevant updates must not appear in the feed. The feed must automatically refresh to reflect new uploads. Any interactions, such as filtering, must provide instant feedback.",
+      "tasks": [
+        {
+          "list": "Implement backend API to fetch new uploads from subscribed channels",
+          "acceptance": "Create a Rust-based API endpoint to retrieve a list of new content from subscribed channels. Only return content with fields: thumbnail, title, creator name, and upload timestamp. Sort the content in reverse chronological order. Ensure the API filters out unlisted content or uploads from unsubscribed channels. Acceptance Criteria: The API must return data in reverse chronological order by upload timestamp. It must exclude content from unsubscribed creators. It should return only the specified fields for each content card.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement backend filtering for sorting by time, channel, or content type",
+          "acceptance": "Extend the Rust-based API to support optional query parameters for filtering: time (e.g., last 24 hours, last week), channel (specific subscribed creators), and content type (e.g., video, article). Acceptance Criteria: API must accept and correctly respect filtering query parameters. Each filter must function independently or combined. Include validation for invalid filter parameters (e.g., unsupported content type).",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement GCP data retrieval for new uploads from subscribed channels",
+          "acceptance": "Create a Rust service function to retrieve subscription data from GCP storage for a given user. Use this data to fetch new uploads from the relevant channels. Ensure this service only retrieves data for authenticated users. Acceptance Criteria: The function must retrieve a user's subscription data securely from GCP. It must fetch only the latest content linked with these subscriptions. It must handle scenarios where no subscriptions exist gracefully.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create Angular component for the content subscription feed",
+          "acceptance": "Develop an Angular component to render a feed of content cards. Each card must display the thumbnail, title, creator name, and upload timestamp. The feed must be scrollable and visually organized. Acceptance Criteria: The component must display one card per piece of content. Content must be visually arranged in reverse chronological order. The component must adhere to responsive design practices for desktop and mobile.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Integrate the backend API with the Angular content feed component",
+          "acceptance": "Implement a service in Angular to call the backend API and fetch the feed data. Populate the feed component with this data. Handle loading states while data is being fetched. Acceptance Criteria: The feed component must fetch and display data correctly from the backend API. It must handle empty states (e.g., no new uploads) gracefully. Loading states must be visually communicated to the user.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add filters to the frontend feed component",
+          "acceptance": "Enable filter options in the Angular feed component to allow users to sort data by time, channel, or content type. Connect the filters to the backend API and ensure they provide instant feedback. Acceptance Criteria: Filter options must reflect results instantly in the feed without a full page reload. Invalid filter combinations (if any) must be handled gracefully. User-selected filters must persist until changed.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement real-time feed auto-refresh functionality in the frontend",
+          "acceptance": "Create a mechanism in the Angular feed component to automatically refresh the feed every X seconds without interrupting the user's current view. Fetch incremental updates if new content exists. Acceptance Criteria: The feed must refresh without full page reloads. New content must appear seamlessly at the top of the feed. Content selection (e.g., filters in use) must persist through refresh cycles.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Add error handling for backend API failures in the feed component",
+          "acceptance": "Modify the Angular feed component to detect and manage errors such as failed API calls. Display user-friendly error messages when the API fails to fetch data. Acceptance Criteria: Errors must be displayed clearly in the UI without breaking the component. Retry mechanisms should be provided for users to re-fetch the feed. Error states must not disrupt other page functionalities.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit and integration tests for backend API and feed component",
+          "acceptance": "Develop test cases for the Rust API to ensure correct data fetching, filtering, and error handling. Similarly, write test cases for the Angular component to validate UI updates, filter functionality, and error handling. Acceptance Criteria: Tests for backend API should cover sorting, filtering, and failure scenarios comprehensively. Tests for the Angular component should verify data rendering, filter integration, error handling, and auto-refresh functionality.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Real-time Notifications for New Uploads",
+      "description": "Ability to receive instant notifications when subscribed channels upload new content. In order to stay updated without actively checking. As a regular viewer, I want notifications for uploads from channels I subscribe to, with clear details and direct navigation to the content. Acceptance Criteria: Notifications must trigger upon new uploads if the user has enabled them. Each notification should display the content's title, the creator's name, and the thumbnail. Clicking a notification must navigate the user to the content's page. A toggle for enabling/disabling notifications must be available in user settings. Notifications must avoid duplication, and batch multiple updates for the same time window where necessary. Viewed or expired notifications should not persist outside of the notification center.",
+      "tasks": [
+        {
+          "list": "Create backend logic to listen for new uploads from subscribed channels",
+          "acceptance": "Write a Rust service that listens for uploads from subscribed channels. The service must check the user's subscription list and identify new uploads. Acceptance Criteria: The service should trigger whenever there is a new upload for a subscribed channel based on the user’s enabled notifications. Ensure no duplicate event triggers for the same upload.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Generate notifications with content title, creator name, and thumbnail",
+          "acceptance": "Implement code in the backend service (Rust) to generate notifications containing the content's title, the creator's name, and the thumbnail URL. Acceptance Criteria: The notification payload must include exactly the mentioned properties and pass unit tests verifying payload accuracy. The thumbnail URL must format correctly for the front-end.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement duplication checks for notifications",
+          "acceptance": "Add logic in the backend to prevent duplicate notifications for the same upload. Use unique identifiers for content uploads to track already sent notifications. Acceptance Criteria: Notifications must not be sent multiple times for an upload. Write tests to confirm multiple notifications are not pushed for a single upload.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Batch multiple upload notifications within a specific time window",
+          "acceptance": "Add functionality in the backend to batch notifications for multiple uploads within a configurable time window (e.g., 10 minutes). Combine information for these uploads in a single notification payload. Acceptance Criteria: If a subscribed channel uploads multiple pieces of content within the time window, only one notification should be sent, listing all the uploads in that batch.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create a toggle in user settings to enable/disable notifications",
+          "acceptance": "Implement a new UI component in Angular for managing notification settings in the user settings page. Add a toggle switch to enable or disable notifications. On save, call the backend API to update the user’s preferences. Acceptance Criteria: The toggle must persist the enabled/disabled state. Unit tests must validate UI toggle functionality and API communication.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Update user notification preferences in the backend",
+          "acceptance": "Develop a Rust API endpoint to update user notification preferences (enabled/disabled). Integrate with the existing user preferences data store. Acceptance Criteria: The API must correctly update the notification status in the database. Unit tests must validate correct preference updates for various use cases.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Display notifications in the notification center",
+          "acceptance": "Update the Angular notification center UI component to display the list of notifications. Include the notification title, creator name, and thumbnail. Show only unexpired and new notifications. Acceptance Criteria: Notifications must match the payload from the backend and disappear after 24 hours or if viewed. Tests must validate visual presentation and expiration logic.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement frontend click-to-navigate logic for notifications",
+          "acceptance": "Add functionality to navigate users to the content's page when they click on a notification in the Angular UI. The navigation URL must include the content's unique identifier. Acceptance Criteria: Clicking a notification must open the correct content page. Integration tests must verify correct URL redirection for notifications.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Integrate backend and frontend for real-time notifications",
+          "acceptance": "Use a GCP Pub/Sub mechanism to push real-time notifications from the Rust backend to the Angular frontend when new uploads occur. Acceptance Criteria: Notifications must appear in real-time without requiring a page refresh. End-to-end tests must verify the full notification lifecycle from the backend to the client.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Notification Center for Missed Alerts",
+      "description": "Ability to access a centralized notification repository for all new upload alerts. In order to review updates conveniently. As a regular viewer, I want all my missed notifications to be visually grouped in one location for easy management. Acceptance Criteria: The notification center must list both read and unread notifications, visually differentiated for status. Each notification must include the content's title, thumbnail, creator name, and upload timestamp. Users must be able to mark notifications as read, delete them, or navigate to the content. Pagination must handle older alerts, allowing access to the past updates when needed. Real-time updates must add new alerts without requiring a full page refresh.",
+      "tasks": [
+        {
+          "list": "Create data structure in Rust for notification model",
+          "acceptance": "Define a Rust struct to represent a notification that includes fields for title (string), thumbnail (string or URL type), creator_name (string), upload_timestamp (datetime), and status (enum: Read/Unread). Acceptance Criteria: Ensure the struct can be serialized/deserialized into JSON for API communication. Include validation for required fields (e.g., title and upload_timestamp must not be empty).",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement Rust API endpoint to fetch notifications",
+          "acceptance": "Create a GET endpoint using Rust that retrieves both read and unread notifications. Support paging parameters (limit, offset). Return notifications sorted by upload_timestamp in descending order. Acceptance Criteria: API should return a JSON response containing notifications grouped by their read/unread status. Validate that non-existent paging params default appropriately, and errors (e.g., invalid offset) return a 400 response.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement Rust API endpoint to update notification status",
+          "acceptance": "Create a PUT endpoint in Rust that allows updating the status of a notification by its unique ID. Update the status between Read and Unread. Acceptance Criteria: Validate that the notification ID exists before updating. Return a success response upon valid update and a 404 error if the ID doesn't exist.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement Rust API endpoint to delete notifications",
+          "acceptance": "Create a DELETE endpoint in Rust to remove a notification by its unique ID. Acceptance Criteria: Validate that the notification ID exists before deletion. Return a 204 success response upon valid deletion and a 404 error if the ID doesn't exist.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement real-time notification updates using GCP Publish/Subscribe",
+          "acceptance": "Integrate GCP Pub/Sub to listen for new notification events and push them to the notification repository. Trigger real-time additions of new notifications when published via this channel. Acceptance Criteria: Validate that a new notification event correctly populates the notification repository without requiring a page refresh. Handle Pub/Sub message processing errors with clear logging and retries.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Develop Angular component to list notifications",
+          "acceptance": "Create an Angular component that fetches and displays notifications from the Rust API. Group notifications by read/unread status and visually differentiate them using styles. Acceptance Criteria: Confirm notifications are displayed with title, thumbnail, creator name, and timestamp. Ensure UI handles errors gracefully (e.g., API fetch failure shows appropriate error message). Validate that users can scroll through paginated data seamlessly.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement Angular functionality to mark notifications as read",
+          "acceptance": "Add functionality in Angular to invoke the Rust API to update the notification status to 'Read'. Acceptance Criteria: Ensure that clicking a notification sends a request to the PUT endpoint and updates the UI without a full page refresh. Validate handling of errors (e.g., if the API fails, show an error message in the UI).",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement Angular functionality to delete notifications",
+          "acceptance": "Add functionality in Angular to invoke the Rust API to delete a notification. Acceptance Criteria: Ensure a delete action triggers the DELETE endpoint and removes the notification from the UI without requiring a page refresh. Handle API errors gracefully by displaying messages if the delete operation fails.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add real-time updates to Angular notification center with GCP Pub/Sub",
+          "acceptance": "Integrate the Angular frontend with GCP Pub/Sub to receive and display new notifications in real-time. Acceptance Criteria: Validate that the UI automatically updates with newly received notifications without a page refresh. Confirm handling of errors from Pub/Sub integration with proper logging and notification in the UI.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Add pagination controls to Angular notification center",
+          "acceptance": "Implement pagination in the Angular component to fetch older notifications from the Rust API. Implement 'Next' and 'Previous' buttons to navigate between pages. Acceptance Criteria: Validate that older notifications load properly upon interacting with pagination controls. Show a loading indicator while fetching paginated data. Handle API errors and show appropriate messages in the UI.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Upload Processing Pipeline for Subscriptions",
+      "description": "Ability to process new uploads by creators and notify their subscribers. In order to ensure updates are timely and accurately delivered. As a system, I want to detect new uploads and trigger notifications or feed updates for relevant users. Acceptance Criteria: The system must track creator uploads regularly and validate them before actioning. Notifications must only trigger for valid uploads and for subscribed users. The pipeline must avoid delays and ensure high availability during peak activity times. Failures must retry or be logged with clear error details for administrative review. Integration with the real-time notification and feed systems must function seamlessly upon upload data processing.",
+      "tasks": [
+        {
+          "list": "Create a Rust function to detect new uploads from creators",
+          "acceptance": "A Rust function is implemented to query the data storage periodically (at configurable intervals) and detect new uploads from creators. The function must filter only new entries since the last query. Acceptance Criteria: The function must accurately track new uploads, handle edge cases (e.g., no new uploads or invalid data entries), and log errors in case of failures with precise error details.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Validate upload data for correctness in Rust",
+          "acceptance": "An upload validation function is implemented in Rust to check the validity of upload data. The function must ensure uploads meet predefined criteria (e.g., required metadata completeness, valid file formats). Acceptance Criteria: Invalid uploads must be flagged and logged with detailed error messages. Valid uploads must proceed to the next step.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Integrate subscription checks for relevant users in Rust",
+          "acceptance": "A Rust function is developed to retrieve and filter the list of users subscribed to the creator associated with each valid upload. This function must query the subscriptions data source. Acceptance Criteria: Only active subscriptions must be considered, inactive or invalid subscriptions must be excluded. Proper logging must be implemented for edge cases (e.g., creator with no subscribers).",
+          "id": "TASK3"
+        },
+        {
+          "list": "Trigger real-time notifications for subscribed users in Rust",
+          "acceptance": "A Rust function is implemented to call the real-time notification system for each relevant subscriber of a validated upload. The notification payload must include the creator name, upload details, and a timestamp. Acceptance Criteria: Notifications are triggered successfully for all valid subscriptions. Errors or failed delivery attempts must be logged with diagnostic details for retries.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Update the user feed system for validated uploads in Rust",
+          "acceptance": "A Rust function is developed to invoke the feed system API to update the user feed with the validated upload data. The feed update request must include the upload content, creator details, and timestamp. Acceptance Criteria: Feed updates must occur without errors or data loss. All failed attempts must be retried or logged with error diagnostic details.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement retry logic for failed tasks in Rust",
+          "acceptance": "Retry logic is added to ensure any failed notification delivery, feed update, or validation task is retried based on a defined retry strategy. Acceptance Criteria: Failed tasks are retried up to the predefined limit, and remaining failures are logged with clear error details for further administrative action.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Optimize the pipeline for high availability during peak activity in Rust",
+          "acceptance": "The upload processing pipeline is reviewed and optimized for concurrency and scalability. Batch processing is added where applicable, and appropriate asynchronous handling is implemented using Rust's async features. Acceptance Criteria: During peak load, the system must maintain low latency and high availability without dropping tasks. Performance improvements must be measurable using defined metrics.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Build Angular UI to display error logs",
+          "acceptance": "An Angular component is created to display the error logs generated by the upload processing pipeline. The component must retrieve error data from the logging system and show it in a user-friendly table with sortable columns (e.g., timestamp, error details). Acceptance Criteria: The UI fetches and displays errors accurately. The table must support filtering by error type and creator ID.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Test upload detection, validation, and notification pipeline",
+          "acceptance": "Unit and integration tests are implemented in Rust to ensure accurate detection of uploads, validation, and notification triggering. Test scenarios include valid uploads, invalid uploads, creators with no subscribers, and high-load situations. Acceptance Criteria: All test cases must pass, and the pipeline must meet specified performance thresholds during testing.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Conduct end-to-end testing of the upload processing and feed update",
+          "acceptance": "End-to-end tests are written to verify that a creator’s upload triggers accurate notifications and feed updates for subscribers. Scenarios must include edge cases such as invalid uploads, no subscriptions, and notification failures. Acceptance Criteria: Notifications and feed updates are verified to function fully for valid uploads and fail gracefully with detailed logs for invalid ones.",
+          "id": "TASK10"
+        }
+      ]
+    }
+  ]
+}

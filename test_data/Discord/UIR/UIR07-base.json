@@ -1,0 +1,4 @@
+{
+  "requirement": "Dropdown menus, modals, and tooltips should behave dynamically, such as auto-closing when users click outside and updating in real-time where applicable.",
+  "title": "Dynamic UI Details"
+}

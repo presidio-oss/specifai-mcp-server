@@ -1,0 +1,4 @@
+{
+  "requirement": "Provide a dashboard to track issues with status indicators like 'Open,' 'In Progress,' and 'Closed.' Screens: Issue Tracking Screen with a list view of all issues, filtering by status, and the ability to update issue progress. Personas: Developers and testers resolving and monitoring issues.",
+  "title": "Issue Tracking Dashboard"
+}

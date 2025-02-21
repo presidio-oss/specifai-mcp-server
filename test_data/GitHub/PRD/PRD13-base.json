@@ -1,0 +1,4 @@
+{
+  "requirement": "The app should allow users to fork repositories, creating their copy for independent modifications while keeping attribution to the parent. Screens: Fork confirmation modal and forked repository dashboard. Personas: Developers creating independent versions of public projects.",
+  "title": "Forking Repositories"
+}

@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must comply with industry standards like ISO 27001 and utilize encryption (e.g., TLS 1.2 or higher) for data in transit and at rest.",
+  "title": "Data Security Standards"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "YouTube",
+  "description": "YouTube is a video-sharing platform where users can upload, watch, and engage with content, featuring recommendations, live streaming, and monetization for creators.",
+  "technicalDetails": "Rust, Angular, GCP",
+  "createReqt": true,
+  "id": "242332b2-488d-492b-8beb-aa6994898d4a",
+  "createdAt": "2025-02-20T07:33:55.279Z",
+  "cleanSolution": false
+}

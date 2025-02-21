@@ -1,0 +1,4 @@
+{
+  "requirement": "The app should suggest personalized video recommendations based on user preferences, viewing history, and trending topics. Screens: A homepage displaying recommended videos under various categories like 'Trending' or 'For You.' Personas: Users interested in discovering relevant and curated content based on their taste.",
+  "title": "Content Recommendation Engine"
+}

@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must implement a disaster recovery solution that ensures data recovery within 4 hours in case of system failure.",
+  "title": "Disaster Recovery Support"
+}

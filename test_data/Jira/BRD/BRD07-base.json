@@ -1,0 +1,4 @@
+{
+  "requirement": "Develop capabilities to manage multiple projects concurrently with shared resources, dependencies, and timelines, ensuring no conflicts arise while offering visibility into parallel project progress.",
+  "title": "Scalable Multi-Project Support"
+}

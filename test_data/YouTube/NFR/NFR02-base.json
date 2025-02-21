@@ -1,0 +1,4 @@
+{
+  "requirement": "The system must handle millions of concurrent users globally, with elastic scaling to adapt to spikes in traffic such as during live events.",
+  "title": "Scalable Content Infrastructure"
+}

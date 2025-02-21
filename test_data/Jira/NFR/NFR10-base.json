@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must be deployable on cloud platforms such as AWS, Azure, or GCP with container orchestration using Kubernetes.",
+  "title": "Deployment Platform Constraints"
+}

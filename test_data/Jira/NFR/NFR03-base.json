@@ -1,0 +1,4 @@
+{
+  "requirement": "The app should have a minimum uptime of 99.95% over a calendar year, including during maintenance windows.",
+  "title": "System Uptime Reliability"
+}

@@ -1,0 +1,279 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Server Creation with Basic Details",
+      "description": "Ability to create a server with basic details. In order to establish a dedicated community space. As a community leader or moderator, I want to input essential server details to initiate the server creation process. Acceptance Criteria: The user must have access to a server management screen with a 'Create Server' button. The user can input a server name (max 50 characters, no blank or duplicate names), select an icon, or upload a custom one. Successful server creation should display a confirmation message, and errors such as name conflicts must show actionable error messages. Newly created servers should display in the server list with their defined name and icon.",
+      "tasks": [
+        {
+          "list": "Create 'Create Server' button on server management screen",
+          "acceptance": "Implement a 'Create Server' button on the server management screen in the React frontend. Clicking the button should initiate the server creation workflow. Acceptance Criteria: The button must be visible and functional within the server management screen. Clicking the button must trigger the server creation modal or screen.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Develop server creation form UI in React",
+          "acceptance": "Create a server creation form with input fields for server name, an icon selector, and a file upload option for a custom icon. The server name field must enforce a maximum of 50 characters and disallow empty input. Acceptance Criteria: The form must have input fields for server name, icon selection, and a custom icon upload. The form must validate that the server name is non-blank and under 50 characters.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Add server name duplication check in React UI",
+          "acceptance": "Implement client-side validation to check for duplicate server names before submission. This will involve an API call to validate uniqueness. Acceptance Criteria: If the entered server name already exists, display a clear, actionable error message. If the name is unique, allow form submission.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement 'Create Server' backend API endpoint in Golang",
+          "acceptance": "Create a new API endpoint in Golang for server creation. The endpoint should accept inputs (server name, icon, and custom icon upload) and validate them. Store the resulting server data in the database. Acceptance Criteria: The endpoint must validate the server name (max 50 characters, no duplicates) and handle received inputs (icon upload handling if applicable). On success, return a confirmation response. On failure, return appropriate error messages (e.g., 'duplicate name').",
+          "id": "TASK4"
+        },
+        {
+          "list": "Display confirmation message on successful server creation",
+          "acceptance": "Update the React frontend to display a success message when the server creation API endpoint responds with success. Acceptance Criteria: A confirmation message must be displayed to the user upon the successful creation of a new server.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Handle API error responses in the React frontend",
+          "acceptance": "Ensure the React frontend interprets and displays actionable error messages for failure responses from the server creation API (e.g., 'duplicate server name'). Acceptance Criteria: All error scenarios as specified in the user story must display actionable error messages in the UI.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Update server management screen to display the newly created server",
+          "acceptance": "Modify the React frontend to refresh and display the list of servers, including any newly created servers with their name and selected icon. Acceptance Criteria: Upon successful server creation, the server list must update to include the new server with the correct name and icon.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write unit tests for server creation API in Golang",
+          "acceptance": "Develop unit tests for the Golang server creation API endpoint to cover all core functionalities, including validations and error handling. Acceptance Criteria: Tests must verify name validation, duplicate name handling, icon processing, and successful data persistence.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write frontend unit tests for the server creation workflow",
+          "acceptance": "Implement unit tests in React to validate the form's input validation (max character limit, blank names), API calls, and success/error message handling. Acceptance Criteria: Tests must verify client-side validations, API call success handling, and the display of success/error messages.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Integrate server icon handling in Golang backend",
+          "acceptance": "Update the server creation API in Golang to handle icon upload, ensuring the file is validated and stored correctly (e.g., AWS). Return the appropriate icon path in the success response. Acceptance Criteria: The API must successfully validate and store uploaded icons, returning the correct file path or URL on success.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Update AWS storage for server icon uploads",
+          "acceptance": "Modify the backend to integrate with AWS for storing uploaded icons. Ensure proper file handling, unique file naming, and secure storage in S3 or similar AWS storage services. Acceptance Criteria: Uploaded icons must be stored in AWS, and the generated URL must be retrievable for use on the frontend.",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Channel Customization and Creation Options",
+      "description": "Ability to create and customize text, voice, and video channels within a server. In order to organize communication spaces for users. As a community leader or moderator, I want to add and define specific properties of the channels. Acceptance Criteria: The user must access a channel setup screen showing existing channels in a structured view. Users can add a new channel by selecting the type (text, voice, or video), assigning a name (max length of 30 characters, no special characters, no duplicates), and optionally setting permissions (e.g., visibility control). Channels should be grouped under relevant sections (e.g., 'Text Channels', 'Voice Channels'). Successful creation should refresh the list or show a confirmation popup. Errors, such as duplicate names, must show actionable messages.",
+      "tasks": [
+        {
+          "list": "Create backend API endpoint for fetching existing channels",
+          "acceptance": "Implement a GET '/channels' API endpoint in Golang to retrieve existing channels grouped under 'Text Channels', 'Voice Channels', and 'Video Channels' categorized structure. Acceptance Criteria: The endpoint should return a structured JSON response containing the list of all existing channels grouped by type. Ensure channels are retrieved efficiently from the database. Include proper error handling for database connection or query failures. Write unit tests for the endpoint to validate correct data structure and error handling.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create frontend component for channel setup page",
+          "acceptance": "Develop a React frontend component for the channel setup page. The page should display existing channels using the structured data returned from the API endpoint '/channels'. Acceptance Criteria: The setup page must correctly render grouped channels under headings: 'Text Channels', 'Voice Channels', and 'Video Channels'. Include error messages if the data retrieval fails. Add unit tests to confirm proper rendering of channel data and error messaging.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create backend API endpoint for creating a new channel",
+          "acceptance": "Implement a POST '/channels' API endpoint in Golang to allow creating a new channel. Acceptance Criteria: The endpoint should accept and validate inputs: 'type', 'name', and optional 'permissions'. Validate inputs for name length (max 30 characters), no special characters, and no duplicates within the server. If validations fail, return an actionable error message. On success, insert the channel into the database and return a success response. Write unit tests to cover successful creation, duplicate name validation, invalid name format, and required field validations.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add frontend form for new channel creation",
+          "acceptance": "Develop a React form component on the channel setup page to create a new channel. The form should allow users to select the type ('Text', 'Voice', 'Video'), provide a name, and optionally set permissions. Acceptance Criteria: Ensure the form validates input locally before submitting, including name length, no special characters, and duplicate names based on existing data from the API. Display error messages for any invalid inputs. On submission, call the POST '/channels' API and display success/confirmation or actionable error messages returned by the API. Add frontend tests for validation and API integration scenarios.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create backend logic for duplicate name check",
+          "acceptance": "Develop backend logic in Golang within the POST '/channels' endpoint to prevent duplicate names for channels within the same server. Acceptance Criteria: Add a check in the database query layer for existing channels with the same name within the server context. Return a clear error message if the name already exists. Ensure the check is case-insensitive. Add unit tests to ensure the duplicate name check works across all types of channels and server contexts.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement permissions handling for channels",
+          "acceptance": "Add logic in the POST '/channels' endpoint to process optional 'permissions' input for the new channel. Acceptance Criteria: Validate and store permissions in the database if provided. If not provided, set default permissions (e.g., all users can view). Ensure permissions are attached to the respective channel in both the API response and database. Write unit tests to validate the handling and storage of permissions.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Update frontend to refresh the channel list after a successful creation",
+          "acceptance": "Modify the React channel setup page to refresh the list of channels after successfully creating a new channel. Acceptance Criteria: After a successful API response from POST '/channels', automatically re-fetch data from GET '/channels' and update the UI. Ensure the refresh does not disrupt the user experience. Add tests to confirm the list refreshes only on successful channel creation.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Handle and display errors for backend validation failures on the frontend",
+          "acceptance": "Ensure the React frontend properly handles actionable error messages returned by the POST '/channels' API. Acceptance Criteria: Parse and display error messages clearly on the channel creation form. Show detailed errors for violations like duplicate names or invalid formats. Add unit tests to validate error message display for each failure mode.",
+          "id": "TASK8"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Server List and Navigation",
+      "description": "Ability to view and switch between servers. In order to efficiently navigate and manage multiple servers. As a user, I want to toggle between different server dashboards. Acceptance Criteria: A server list must appear on the left side of the interface showing the user’s associated servers by name and icon. Clicking a server should navigate to its dashboard without page reloads. The system must provide smooth navigation and show the selected server as active. A context menu for each server should allow options such as 'Edit Settings' or 'Delete Server'. Deleting a server must trigger a confirmation prompt and notify upon success or error.",
+      "tasks": [
+        {
+          "list": "Implement server list UI component",
+          "acceptance": "Create a UI component in React to display the server list on the left side of the interface. Ensure each server is displayed with its name and icon. Acceptance Criteria: The server list should visually appear on the left panel of the interface. Each server must display by name and an associated icon (if applicable). Validate that the data is dynamically passed and rendered correctly.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create server selection functionality",
+          "acceptance": "Implement functionality for selecting a server by clicking on it from the server list. Use React state to track the active server. Acceptance Criteria: Clicking a server updates the state to set the selected server as active. The selected server should be visually highlighted in the UI to indicate it is active. Ensure this works dynamically for any server in the list.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement server dashboard navigation logic",
+          "acceptance": "Set up navigation logic in React to switch to the selected server's dashboard without a full page reload. Use React Router to dynamically render dashboards based on the server selection. Acceptance Criteria: Clicking a server in the list dynamically loads the corresponding dashboard while maintaining the application state. Ensure there are no full page reloads during navigation.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add context menu functionality for servers",
+          "acceptance": "Implement a context menu component in React that appears when interacting with individual servers in the list. Options include 'Edit Settings' and 'Delete Server'. Acceptance Criteria: The context menu should appear on user action (e.g., right-click or menu button) and include options for 'Edit Settings' and 'Delete Server'. Each option should be dynamically linked to the appropriate server.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement server deletion functionality",
+          "acceptance": "Implement the deletion logic for servers. Trigger a confirmation prompt before proceeding with the deletion. Use AWS APIs or backend services in Golang to handle the deletion. Notify the user upon success or error. Acceptance Criteria: Deleting a server must trigger a modal confirmation before proceeding. Upon confirmation, the server should be removed from the list via an API call. Notify the user of successful deletion or display an error message if the process fails.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Handle error scenarios for server-related functionalities",
+          "acceptance": "Add error handling mechanisms for navigating to a server dashboard, loading the server list, and server deletion cases. Acceptance Criteria: Display user-friendly error messages if server dashboards fail to load or the server list cannot be retrieved. Ensure proper validation and error display for failed deletion attempts.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add unit tests for server list and navigation components",
+          "acceptance": "Write unit tests using a React testing library to validate functionality of the server list, selection, navigation, and context menu. Include edge cases such as empty server lists or invalid server IDs. Acceptance Criteria: All tests should pass, covering edge cases, server selection, dashboard navigation, and context menu rendering.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Integrate API to fetch server list",
+          "acceptance": "Use Golang backend APIs to retrieve a list of servers dynamically associated with the user and display them in the server list UI. Acceptance Criteria: The server list component should make an API call to fetch user-associated servers. Validate that the fetched server data is rendered dynamically in the list with names and icons.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add feedback for navigation loading states",
+          "acceptance": "Implement loading indicators for the server navigation functionality during dashboard transitions. Acceptance Criteria: A loading indicator must appear during the transition from one server dashboard to another. Ensure that the indicator disappears once the dashboard has successfully loaded.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Role Management and Permissions Control",
+      "description": "Ability to manage user roles and permissions within a server. In order to control access and functionality for members. As a community leader or moderator, I want to define and assign roles to users with specific permissions. Acceptance Criteria: A 'Roles and Permissions' section must be available in server settings. Users can create roles by providing a name (must be unique), selecting a color, and defining specific permissions (e.g., access to channels, moderation privileges). Users can assign roles to members using a searchable dropdown. Changes should apply in real-time, enforcing updated permissions immediately. Errors, such as duplicate role names, must display actionable feedback.",
+      "tasks": [
+        {
+          "list": "Create API endpoint to fetch existing roles and permissions",
+          "acceptance": "Develop a Golang API endpoint in the backend to provide a list of existing roles with their names, colors, and defined permissions. Acceptance Criteria: The endpoint should respond with a JSON array of all roles and their associated attributes. If no roles exist, return an empty array. Implement error handling for internal server errors (HTTP 500).",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create API endpoint to add a new role",
+          "acceptance": "Develop a Golang API endpoint to accept a POST request with role details (name, color, permissions). Validate that the role name is unique; return an error message and HTTP 400 on duplicates. If successful, persist the role in the database and return success status (HTTP 201) with the created role object in the response. Acceptance Criteria: Role attributes (name, color, permissions) must be stored in the database. Return a validation error (HTTP 400) if 'name' is missing or duplicate. If successful, return the role ID and created details in JSON format.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create API endpoint to delete an existing role",
+          "acceptance": "Develop a Golang API endpoint to accept a DELETE request with the role ID. Remove the role from the database if it exists. Return HTTP 204 upon successful deletion. If the role does not exist, return HTTP 404 with an appropriate error message. Acceptance Criteria: Role is deleted from the database. Return error response if the role does not exist.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create API endpoint to update a role",
+          "acceptance": "Develop a Golang API endpoint to accept a PUT request with the role ID and updated attributes (name, color, permissions). Validate that updated name is unique if it has changed. Return success status (HTTP 200) with the updated role on success or validation error (HTTP 400) if rules are violated. Acceptance Criteria: Updates must persist in the database. Ensure role name uniqueness on update. Return relevant error messages for invalid input or non-existent role.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create API endpoint to assign a role to a user",
+          "acceptance": "Develop a Golang API endpoint to accept a POST request with user ID and role ID. Persist the user-role mapping in the database. Validate the existence of the user and role; return HTTP 400 for invalid IDs. Respond with HTTP 201 on success. Acceptance Criteria: User-role mapping is persisted in the database. Return error response for invalid user or role IDs.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Create searchable dropdown functionality in UI for role assignment",
+          "acceptance": "Implement a React component to render a dropdown that fetches the list of roles from the backend API and allows searching by role name. Acceptance Criteria: Dropdown should display the list of roles fetched from the API. Search functionality filters roles in real time as the user types. User selection should trigger a callback to update role assignment data.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement 'Roles and Permissions' settings section in UI",
+          "acceptance": "Develop a React component under server settings to display the existing list of roles with their attributes and actions to edit or delete each role. Add a button to create new roles, which opens a modal/form. Acceptance Criteria: The component must fetch and display roles using the API. Actions for editing and deleting roles should be tied to their respective API endpoints. Include a button opening a form to create a new role.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Develop 'Create Role' form in UI",
+          "acceptance": "Implement a form in React to accept input for role name, color, and permissions. Ensure validation for the role name's uniqueness by checking via the API before submission. Submit the form to the backend API to create the role. Acceptance Criteria: Form must include inputs for name, color, and permissions. Ensure client-side validation of required fields before submission. Display API validation errors (e.g., duplicate name) inline. On successful submission, refresh roles list.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Develop real-time permissions enforcement logic",
+          "acceptance": "Implement server-side logic in Golang that recalculates and enforces updated role permissions immediately after an API action affecting roles or user-role mappings. Acceptance Criteria: Changes to permissions or role assignments must take effect immediately without requiring a server restart. Existing users with updated roles should have access dynamically adjusted in real-time.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Display actionable feedback for errors in the UI",
+          "acceptance": "Implement error handling in React to display actionable feedback for common errors such as duplicate role names or invalid data inputs. Fetch error messages from API responses and display these in appropriate UI components. Acceptance Criteria: Error messages from API (e.g., 'Role name must be unique') must be displayed inline in forms or notifications. Generic errors show a fallback toast notification.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Communication Features in Channels",
+      "description": "Ability to use text, voice, and video communication within configured channels. In order to enable seamless interaction among community members. As a community member, I want to interact with others through different media types. Acceptance Criteria: Text channels must allow members to send and receive rich-text messages. Users can format messages with options such as bold or italics. Voice channels must display a participant list and allow users to join and speak. Video channels must support basic video streaming or screen sharing functionalities with constraints on resolution. Permissions should control access and interaction in all channels. Notifications must inform media events such as 'user joined voice' or 'stream started'. Errors like connection issues must display helpful messages.",
+      "tasks": [
+        {
+          "list": "Implement rich-text message formatting in text channels",
+          "acceptance": "Develop functionality to allow users to send and display rich-text messages in text channels using React components. Include message formatting options such as bold and italics. Ensure sanitized input to prevent XSS vulnerabilities. Acceptance Criteria: Users can send messages with bolded and italicized text. Messages are displayed with applied formatting in the text channel. Input is sanitized to prevent malicious scripts.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Build API endpoint for sending and receiving messages in text channels",
+          "acceptance": "Create a Go-based API endpoint to handle POST requests for sending text messages and GET requests for retrieving messages in a specified channel. Ensure the API supports the structured data format for sending (e.g., message content with metadata). Acceptance Criteria: POST and GET API endpoints handle text messages correctly. Response format matches the structured data specification. Includes validation to prevent empty messages and handle invalid channel IDs.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement participant list for voice channels",
+          "acceptance": "Develop a React component to display the current list of participants in a voice channel. Fetch participant data from the backend using a Go API. Ensure the participant list updates in real-time (e.g., using WebSocket or Polling). Acceptance Criteria: Participant list is displayed with correct data. Updates occur in real-time when users join or leave the voice channel.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create API for joining and leaving voice channels",
+          "acceptance": "Develop Go-based API endpoints to handle requests for joining and leaving voice channels. Include validations for channel access permissions and active session management. Acceptance Criteria: User can successfully join or leave a voice channel via API calls. Proper permission checks are enforced. Includes error handling for invalid actions, such as attempting to join a full channel.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement voice broadcasting functionality in voice channels",
+          "acceptance": "Use WebRTC to enable voice communication for participants within a voice channel. Stream audio data only to users currently in the channel. Handle errors for user disconnection and reconnection. Acceptance Criteria: Users can communicate with voice in real-time within the channel. Audio streams are limited to users in the channel. Notification is triggered if a user disconnects or reconnects.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Create basic video streaming for video channels",
+          "acceptance": "Integrate WebRTC to support video streaming functionality in video channels. Apply constraints to resolution and bandwidth as specified. Acceptance Criteria: Users can start, stop, and view video streams in real-time. Video resolution is limited based on configured constraints. Errors such as failed connections are handled gracefully.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement screen sharing functionality in video channels",
+          "acceptance": "Extend WebRTC video channel implementation to include screen sharing functionality. Allow users to toggle between video and screen sharing streams. Acceptance Criteria: Users can successfully share their screen in a video channel. Other participants in the channel can view the screen in real-time. Handle errors, such as user permission denial for screen sharing.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Add permissions-based access control for channels",
+          "acceptance": "Implement access control checks in API endpoints (e.g., text, voice, video) to verify user permissions for channel access and interactions. Use Go to add middleware for permission validation. Acceptance Criteria: Users can only access channels and perform actions based on their permissions. Unauthorized attempts are rejected with appropriate error messages.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement event notifications for media actions",
+          "acceptance": "Add functionality to send notifications to channel members for media events, such as 'user joined voice' or 'stream started'. Use WebSocket for real-time notification delivery. Acceptance Criteria: Notifications are sent whenever relevant events occur in text, voice, or video channels. Real-time notifications are received by users in the target channel.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Display helpful connection-related error messages",
+          "acceptance": "Implement error handling in React components and Go APIs for connection issues. Display clear and actionable error messages to users when a connection problem occurs. Acceptance Criteria: Users see descriptive error messages for connection failures. Errors are logged to assist in debugging and monitoring.",
+          "id": "TASK10"
+        }
+      ]
+    }
+  ]
+}

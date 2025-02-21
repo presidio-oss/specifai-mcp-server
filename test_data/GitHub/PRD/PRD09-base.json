@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must enable users to upload, download, and view code files with syntax highlighting directly on the platform. Screens: Code file explorer and file-specific view/editor pages. Personas: Developers browsing and editing project files.",
+  "title": "Code Hosting and Viewing"
+}

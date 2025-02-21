@@ -1,0 +1,4 @@
+{
+  "requirement": "The platform must support scaling to handle millions of concurrent users and thousands of servers globally without degradation in performance.",
+  "title": "Scalable Infrastructure"
+}

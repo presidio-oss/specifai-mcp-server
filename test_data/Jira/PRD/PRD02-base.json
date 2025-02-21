@@ -1,0 +1,4 @@
+{
+  "requirement": "Enable users to create and assign tasks to team members with options for setting due dates and priorities. Screens: Task Management Screen allowing task creation with fields for title, description, priority, and assigned user. Personas: Product owners assigning tasks and team members tracking their responsibilities.",
+  "title": "Task Creation and Assignment"
+}

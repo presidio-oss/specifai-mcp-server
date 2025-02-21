@@ -1,0 +1,4 @@
+{
+  "requirement": "Develop a scalable backend infrastructure to support high activity levels on servers with thousands of simultaneous users. This includes load balancing, disaster recovery mechanisms, and optimized resource allocation.",
+  "title": "Scalable Server Infrastructure"
+}

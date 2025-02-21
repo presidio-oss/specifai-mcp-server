@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must send real-time notifications for activities like new comments, pull requests, or CI/CD failures. Screens: A notifications center with filters and a tooltip/pop-up for new updates. Personas: Developers staying informed on the latest project changes.",
+  "title": "Notifications System"
+}

@@ -1,0 +1,4 @@
+{
+  "requirement": "The interface should be compatible with modern screen readers by incorporating descriptive alt text, ARIA labels, and role attributes to support visually impaired users.",
+  "title": "Screen Reader Compatibility"
+}

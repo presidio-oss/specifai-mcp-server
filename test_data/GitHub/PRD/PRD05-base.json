@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must include a global search bar to allow users to search repositories, code files, pull requests, and issues. Screens: A search results page categorized by repositories, issues, and pull requests. Personas: Developers quickly locating files or issues and administrators managing multiple repositories.",
+  "title": "Search Functionality"
+}

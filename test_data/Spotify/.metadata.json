@@ -1,0 +1,9 @@
+{
+  "name": "Spotify",
+  "description": "Spotify is a music streaming service that offers on-demand access to millions of songs, podcasts, and playlists with personalized recommendations and offline listening.",
+  "technicalDetails": "Java, GCP",
+  "createReqt": true,
+  "id": "6b82f1f5-5933-4908-bca5-79ee11cbb755",
+  "createdAt": "2025-02-20T07:37:02.573Z",
+  "cleanSolution": false
+}

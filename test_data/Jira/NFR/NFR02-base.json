@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must scale to support up to 10,000 concurrent users without degradation in performance.",
+  "title": "Scalability for Concurrent Users"
+}

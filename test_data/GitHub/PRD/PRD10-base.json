@@ -1,0 +1,4 @@
+{
+  "requirement": "The app should support team creation, collaboration, and permissions management, allowing admins to set roles like maintainer or contributor. Screens: Team management dashboard and role configuration modal. Personas: Team leads managing collaboration and permissions for team projects.",
+  "title": "Team Collaboration"
+}

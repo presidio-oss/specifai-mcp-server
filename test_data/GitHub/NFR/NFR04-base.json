@@ -1,0 +1,4 @@
+{
+  "requirement": "The platform must encrypt all data in transit using TLS 1.2 or higher and data at rest using AES-256 encryption.",
+  "title": "Data Security Standards"
+}

@@ -1,0 +1,4 @@
+{
+  "requirement": "The system must scale horizontally to handle up to 10 million active users and 500,000 concurrent connections.",
+  "title": "Scalability Support"
+}

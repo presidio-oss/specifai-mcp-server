@@ -1,0 +1,279 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Provide in-app notifications for mentions and direct messages",
+      "description": "Ability to display in-app notifications for mentions and direct messages. In order to stay updated on critical events and direct communication. As a user, I want to be notified within the app when I am mentioned or receive direct messages so that I can respond promptly. Acceptance Criteria: Notifications must appear as a clickable dropdown or overlay accessible from a notification icon on the main UI. Each notification should display details such as sender, message snippet, timestamp, and type (mention or direct message). Notifications should be categorized as unread until viewed and allow users to manually mark them as read. Users must be able to dismiss or clear notifications manually. An unread count badge must be displayed on the notification icon until all notifications are marked read.",
+      "tasks": [
+        {
+          "list": "Create backend API endpoint to fetch notifications",
+          "acceptance": "Implement a Golang API endpoint to fetch a list of notifications for the logged-in user. The API should return notifications containing: sender, message snippet, timestamp, and type (mention or direct message). Notifications should be marked as 'unread' if they haven't been viewed by the user. Acceptance Criteria: The API must return notifications in JSON format with fields: 'sender', 'message_snippet', 'timestamp', 'type', and 'unread'. Include an error handling mechanism to return appropriate HTTP errors for edge cases such as invalid user sessions.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create backend logic to mark notifications as read",
+          "acceptance": "Add backend functionality to update notifications to a 'read' state. Acceptance Criteria: Implement an API endpoint in Golang that takes notification IDs and marks them as read in the database. Provide validation to ensure the notification ID belongs to the requesting user. Error handling should return an HTTP 404 if the notification does not exist or is owned by another user. Validate successful updates by querying the notification's state after the request.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Add backend support to delete (clear) notifications",
+          "acceptance": "Implement a Golang API endpoint to allow users to manually delete notifications. Acceptance Criteria: The API must accept notification IDs for deletion and ensure the notification belongs to the user. Handle errors such as attempting deletion of non-existent or unauthorized notifications. Return an appropriate success message along with the count of deleted notifications.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement Notifications UI component in React",
+          "acceptance": "Create a React dropdown or overlay component that displays fetched notifications. The component should integrate with the backend API to retrieve notifications. Display sender, message snippet, timestamp, and type (mention or direct message) for each notification. Acceptance Criteria: The dropdown or overlay should render properly on the main UI accessible via a notification icon. Ensure that styling matches the application theme. Validate content visibility and responsiveness on various screen sizes.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add unread count badge to notification icon",
+          "acceptance": "Integrate an unread count badge on the notification icon in React. Acceptance Criteria: Implement a dynamic badge in the notification icon that fetches unread counts from the backend API and updates in real time. The badge should disappear when all notifications are marked as read. Test to ensure that the count calculation is accurate and updates appropriately.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Enable marking notifications as read via the UI",
+          "acceptance": "Allow users to click on individual notifications in the React component to mark them as read. Acceptance Criteria: Clicking on a notification should trigger a backend API request to mark it as read. Visual changes must occur instantly to indicate the update (e.g., removal of the 'unread' indicator). Properly handle backend errors and ensure notifications remain marked as unread if an error occurs.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Allow users to manually clear notifications from the UI",
+          "acceptance": "Add a clear button on the React notification dropdown/overlay to allow users to dismiss notifications. Acceptance Criteria: Clicking the clear button must trigger a backend API call to delete the corresponding notifications. Validate that the UI updates instantly to remove the cleared notifications from the display.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement state management for notifications in the React frontend",
+          "acceptance": "Integrate state management for notifications in React to handle fetched notifications and updates (e.g., marking as read, deletion). Acceptance Criteria: Use a state management library or React context (if applicable) to store notification data fetched from the backend. Ensure consistent state updates for actions like marking as read, clearing items, or fetching new notifications. Validate application state correctness through unit testing.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add notification type indicators and filters in the UI",
+          "acceptance": "Enhance the React notification dropdown to visually differentiate notification types (mention or direct message) and allow filtering by type. Acceptance Criteria: Use distinct icons or color schemes to indicate notification types. Add a filter option in the dropdown to switch between mentions and direct messages. Ensure filtering does not interfere with fetch/update actions on notifications.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Develop automated tests for notification feature endpoints",
+          "acceptance": "Write automated tests for all API endpoints related to notifications in the backend. Acceptance Criteria: Use Go testing tools to validate API behavior, including fetching notifications, marking as read, deleting notifications, and handling errors. Tests must include edge cases, such as unauthorized actions and nonexistent notifications.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Provide customizable notification preferences for mentions and server activity",
+      "description": "Ability to configure preferences for receiving notifications for mentions, direct messages, and general server activity. In order to control the flow of notifications. As a user, I want to customize what notifications I receive to focus on what’s most important. Acceptance Criteria: A Notification Settings screen must be accessible through the user profile or settings menu. Users should toggle preferences for mentions, direct messages, and server activity alerts globally or by server. Changes to settings must persist immediately. Include a test button to verify notification settings. Preferences must apply across all devices and sessions.",
+      "tasks": [
+        {
+          "list": "Create Notification Settings UI component",
+          "acceptance": "Implement a React component for the Notification Settings screen, accessible through the user profile or settings menu. Include toggle options for mentions, direct messages, and server activity alerts. Render the toggles globally and by server. Acceptance Criteria: The Notification Settings screen is accessible from the settings menu or profile. The toggles are functional, responsive, and UI elements match the specified requirements.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Develop API endpoint for fetching notification preferences",
+          "acceptance": "Create a Golang-based backend API endpoint `/notifications/preferences` to fetch the current notification preferences for a user. Validate the user's identity using session tokens. Acceptance Criteria: The endpoint returns the correct preferences structure in JSON format, including global and per-server settings. Error handling for unauthorized access is implemented. Documentation for the API endpoint is provided.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Develop API endpoint for updating notification preferences",
+          "acceptance": "Create a Golang-based backend API endpoint `/notifications/preferences/update` to update user notification preferences. Accepts a JSON payload with the updated preferences. Validate input and ensure changes persist immediately. Acceptance Criteria: The endpoint updates notification preferences in the database and returns a success response. Input validation errors, authorization errors, and database errors are handled gracefully with appropriate error codes.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Update database schema for notification preferences",
+          "acceptance": "Modify the database to include a table for notification preferences with fields for user ID, global preferences (mentions, direct messages, server activity), and server-specific preferences. Acceptance Criteria: Notification preferences table is created or updated with the specified fields. Data model updates are documented and available for backend use.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement functionality to persist notification preferences across devices and sessions",
+          "acceptance": "Ensure that notification preferences stored in the database are applied globally for the user and fetched across devices and sessions. Acceptance Criteria: Updates to preferences are reflected consistently across all sessions and devices for the user. Conflicting local caches are invalidated to ensure consistency.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add functionality for a test notification button",
+          "acceptance": "Implement a button in the notification settings UI to trigger a test notification for the current preferences. Create a Golang API endpoint `/notifications/test` that sends a test notification to the user. Acceptance Criteria: Clicking the button sends a test notification based on the user's current preferences. The button is responsive, and the test notification is successfully delivered.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Integrate UI with fetch and update notification preferences API endpoints",
+          "acceptance": "Connect the React Notification Settings UI with the backend API endpoints for fetching and updating notification preferences. Ensure the UI toggles reflect the current backend state and update the backend on user interaction. Acceptance Criteria: The toggles reflect the correct preferences on initial load. User interaction updates the backend in real-time, and the changes persist.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement data validation for notification preferences input",
+          "acceptance": "Add server-side validation logic for notification preferences input in the update API. Validate data types, ensure all required fields are present, and reject invalid payloads. Acceptance Criteria: Malformed or incomplete JSON payloads return a `400` error with a descriptive message. Only valid preference updates are applied to the database.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit tests for notification API endpoints",
+          "acceptance": "Create unit tests for the fetch and update notification preferences API endpoints, ensuring all success and error cases are covered. Acceptance Criteria: Tests confirm that `/notifications/preferences` and `/notifications/preferences/update` return the correct responses for valid inputs. Units tests cover error handling scenarios for unauthorized access, validation errors, and database errors.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write integration tests for preferences persistence",
+          "acceptance": "Write integration tests to ensure notification preference updates persist across devices and sessions. Acceptance Criteria: Update preferences in one session and confirm they are fetched correctly in a new session or on a different device. All tests pass for valid inputs and edge cases.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Add end-to-end tests for the Notification Settings feature",
+          "acceptance": "Write end-to-end tests covering the entire workflow from updating preferences in the UI to verifying persistence in the database and testing the notification delivery via the test button. Acceptance Criteria: End-to-end tests verify that the user can toggle preferences, confirm updates persist globally, and the test button delivers notifications accurately.",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Enable push notifications for mentions and key server activities across devices",
+      "description": "Ability to send push notifications for mentions, direct messages, and key subscribed server activity to user devices. In order to notify users of important updates when not actively using the app. As a user, I want to receive push alerts for critical notifications while offline. Acceptance Criteria: Push notifications must be sent immediately for mentions and direct messages. Server activity updates should be batched periodically when multiple events occur in a short timeframe. Notifications must include sender, activity type, and brief details (e.g., message snippet or alert preview). Users must be able to toggle push notification settings in the Notification Settings screen. Push notification settings must adhere to platform standards (e.g., iOS, Android, Web). If a notification cannot be delivered, retries should occur with fallback gracefully.",
+      "tasks": [
+        {
+          "list": "Implement backend logic to send push notifications for mentions and direct messages",
+          "acceptance": "Write a function in Golang that listens for mention and direct message events. Ensure the function formats notification payloads to include sender details, activity type, and a message snippet. Immediately send the notification payload to the push notification service. Acceptance Criteria: Notifications must be sent immediately. Payload must include sender, activity type, and a brief message snippet. Errors must be logged, and failed deliveries handled with retries as specified.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement backend logic to batch and send notifications for server activity updates",
+          "acceptance": "Write a function in Golang that listens for key server activity events. Batch events occurring within a short timeframe into a single notification. Format the payload to include activity types and brief details. Send the notification to the push notification service after batching. Acceptance Criteria: Server activity notifications must be batched if multiple events occur within the same timeframe. Payload must include a list of activity types with brief details. Errors must be logged, and failed deliveries retried.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create notification toggling options in the Notification Settings screen",
+          "acceptance": "Implement a React-based UI component in the Notification Settings screen for users to toggle push notifications for mentions, direct messages, and server activity. Update the toggled states in the backend via an API call. Adhere to platform standards for iOS, Android, and Web UIs. Acceptance Criteria: Users must be able to enable/disable push notifications for each type (mentions, direct messages, server activity) independently. Changes must save successfully to the backend. UI must comply with platform-specific standards.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Design and implement API for updating push notification preferences",
+          "acceptance": "Create a Golang-based API endpoint for updating user notification preferences. Ensure the API accepts valid input for enabling/disabling notification types. Update the user preferences in the database. Return success status or appropriate error messages. Acceptance Criteria: API must accept valid input for toggling notifications. Return proper success or error responses (e.g., 200 OK, 400 Bad Request). Changes must persist in the database.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Integrate retry logic for undelivered push notifications",
+          "acceptance": "Enhance the push notification sending logic in Golang to include retry mechanisms for failed deliveries. Define a maximum number of retries and implement fallback gracefully if retries fail. Ensure logs capture failed attempts for debugging. Acceptance Criteria: Retry mechanism must attempt delivery up to a maximum number of retries. Final fallback must execute gracefully if retries fail. Errors and failed attempts must be logged.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement platform-specific payload structures for push notifications",
+          "acceptance": "Write functions in Golang to format notification payloads adhering to iOS, Android, and Web platform standards. Ensure payloads include sender, activity type, and details while meeting technical requirements for each platform. Acceptance Criteria: Notification payloads must be correctly formatted for iOS, Android, and Web. Payload must include sender, activity type, and brief details. Only valid payloads should be sent to the push notification service.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Unit test notification sending functions",
+          "acceptance": "Write unit tests for functions handling notification payload formatting and sending logic in Golang. Cover scenarios for mentions, direct messages, and batched server activities. Validate sender details, activity type, and brief message snippet in each test. Acceptance Criteria: All tests must pass. Validate payload formatting and sending logic. Cover retry mechanism and fallback path scenarios. Include error handling and edge case testing.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Unit test API for updating notification preferences",
+          "acceptance": "Write unit tests for the Golang API responsible for updating notification preferences. Ensure test cases cover valid input, invalid payloads, and error responses. Acceptance Criteria: All tests must pass. Validate successful persistence for valid inputs. API must return correct error codes and messages for invalid requests.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Unit test batched server activity notifications",
+          "acceptance": "Write unit tests for batching logic in Golang for server activities. Validate that events occurring within specified timeframes are batched together. Validate the structure and accuracy of batched payloads. Acceptance Criteria: All tests must pass. Validate correct batching behavior. Test must confirm proper structure and consistency of batched notifications.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Create a notifications feed for consolidated updates",
+      "description": "Ability to view a consolidated feed of all past notifications in one place for better overview. In order to easily catch up on missed updates. As a user, I want access to a central notifications view with organized details. Acceptance Criteria: The notifications feed must be accessible through the main navigation menu. Notifications should be displayed in reverse chronological order and grouped by date sections (e.g., Today, Yesterday). Each notification entry must include sender, timestamp, preview content, and type. Users must be able to filter notifications by category (mentions, direct messages, or server activity). Clicking a notification should redirect users to the relevant area of the app (e.g., message thread, server section). The ability to mark notifications as read or delete them individually must be provided.",
+      "tasks": [
+        {
+          "list": "Create backend API endpoint to retrieve notifications",
+          "acceptance": "Develop a GET endpoint, e.g., `/notifications`, in Golang that retrieves all notifications for a user. Acceptance Criteria: The notifications are retrieved from the database and returned in reverse chronological order. Notifications are grouped by date (e.g., Today, Yesterday) and include sender, timestamp, preview content, and type. Validation for user authentication and an error response for unauthorized access must be implemented.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create frontend component to display notifications feed",
+          "acceptance": "In React, create a `NotificationsFeed` component to display the list of notifications as group-by-date sections. Acceptance Criteria: Notifications are displayed in reverse chronological order grouped by dates. Each entry contains sender, timestamp, preview content, and type. Errors from missing or malformed data should be logged to the console.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement filtering logic on backend API",
+          "acceptance": "Modify the `/notifications` endpoint to accept a query parameter for category (e.g., ?category=mentions). Acceptance Criteria: Implement logic to filter notifications based on category (mentions, direct messages, or server activity). Invalid categories should result in a 400 Bad Request response, and appropriate error responses should be returned for invalid queries.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create frontend filtering controls",
+          "acceptance": "Develop dropdown or radio button controls in the `NotificationsFeed` React component that allow users to filter notifications by category. Acceptance Criteria: Selecting a filter sends a new request to the backend API with the appropriate category query parameter. Notifications should update dynamically based on the selected filter. Error states for invalid or empty results are displayed as appropriate messages in the UI.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Enable redirection upon notification click",
+          "acceptance": "Add logic in the `NotificationsFeed` component to redirect users to the corresponding area of the app when a notification is clicked. Acceptance Criteria: Implement click handlers for each notification that read its type and redirect the user using appropriate React routes (e.g., to message thread or server section). Error states for invalid or missing routes should render a fallback error page.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement mark-as-read functionality in backend",
+          "acceptance": "Create a PUT endpoint, e.g., `/notifications/:id/mark-read`, in Golang to mark a specific notification as read. Acceptance Criteria: Update the notification’s read status in the database. Errors due to invalid or non-existent notification IDs should return a 404 Not Found response.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add mark-as-read functionality to frontend",
+          "acceptance": "Develop a function in the `NotificationsFeed` component to call the `mark-read` API endpoint when a notification is marked as read. Acceptance Criteria: Frontend should visually update the notification's style to indicate it is read. Errors during API calls should result in an error message display.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement delete notification functionality in backend",
+          "acceptance": "Create a DELETE endpoint, e.g., `/notifications/:id`, in Golang to delete a specific notification. Acceptance Criteria: Successfully delete the notification from the database. Errors for invalid or non-existent notification IDs should return a 404 Not Found response, and unauthorized attempts should return a 403 Forbidden response.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add delete notification functionality on frontend",
+          "acceptance": "Integrate a delete button for each notification in the `NotificationsFeed` component to call the delete API endpoint. Acceptance Criteria: Notifications should be removed from view upon successful deletion. Errors during deletion should result in an error message display to the user.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Setup notifications route in main navigation menu",
+          "acceptance": "Add the ‘Notifications’ route to the main navigation menu in the React app. Acceptance Criteria: Clicking the menu item should navigate to the `NotificationsFeed` component route.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Synchronize notification actions and preferences across devices",
+      "description": "Ability to ensure notification states and preferences remain consistent across devices and sessions. In order to provide a seamless and personalized experience. As a user, I want notification changes to sync across devices so that I don’t see duplicate or incorrect alerts. Acceptance Criteria: Notifications marked as read, dismissed, or cleared on one device must synchronize across all logged-in devices in real-time. Preferences updated in the Notification Settings screen should apply globally across all devices. Push notifications already addressed (viewed) on one device should not trigger again on another. Synchronization must resolve conflicts, prioritizing the most recent user action. Backend synchronization services must enforce data consistency and reliability.",
+      "tasks": [
+        {
+          "list": "Create backend API for updating notification read/dismissed/cleared states",
+          "acceptance": "A Golang-based API should be created to accept POST requests at `/notifications/update-state`. It should take input parameters `notification_id`, `state` (`read`, `dismissed`, `cleared`), and `timestamp` to denote when the action occurred. The API must update the notification state in the database and add a timestamp for conflict resolution. It should handle errors such as invalid `notification_id`, unsupported `state` values, or database write failures. On success, it responds with HTTP 200 and a confirmation message.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement real-time notification state synchronization using AWS",
+          "acceptance": "Using AWS services, implement a mechanism to synchronize notification state changes in real-time. Whenever the `/notifications/update-state` API updates the notification state, publish the change to an AWS SNS topic. Ensure the message includes `notification_id`, `state`, `timestamp`, and the user ID. Implement error handling for failed SNS publishing attempts and retry logic in case of transient errors. Successfully published changes should trigger notifications to all logged-in devices for the user.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Enhance front-end React component to listen for notification state updates",
+          "acceptance": "Modify the React component responsible for displaying notifications to subscribe to AWS SNS update events via a WebSocket or similar real-time stream. Upon receiving a state change for a given `notification_id`, update the notification UI to reflect the new state (`read`, `dismissed`, `cleared`). Ensure the UI reacts without requiring a refresh and validates incoming data for correctness. Successfully processed state updates should not produce duplicate UI actions.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create backend API for updating global notification preferences",
+          "acceptance": "A Golang-based API should be created to accept POST requests at `/notifications/update-preferences`. The API expects fields like `preferences` (a JSON object containing settings such as `emailNotifications`, `pushNotifications`, etc.), `timestamp`, and user authentication details. The API must validate the input, update the global preferences in the database, and propagate the changes by publishing a message to an AWS SNS topic to notify all sessions about the update. Return HTTP 200 on success and appropriate error codes for validation failures or database write issues.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Update the front-end React Notification Settings screen to send preference updates",
+          "acceptance": "Update the React-based Notification Settings screen to integrate with the `/notifications/update-preferences` API. When a user modifies and saves preferences, the component must send a POST request containing the updated data in the expected format. The screen must handle responses, show success/failure messages, and apply client-side validation to ensure required fields are filled. Ensure that once saved, any changes are immediately reflected in the UI.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Resolve conflicts during synchronization on the backend API",
+          "acceptance": "Enhance the `/notifications/update-state` API to resolve conflicts by prioritizing the most recent `timestamp`. If a newer state exists for a given `notification_id`, ignore the incoming update. Otherwise, apply the update and propagate the changes to other devices via AWS SNS. Add test cases to ensure conflicts are resolved as per the rule and no data inconsistencies are introduced.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Prevent duplicate push notifications across devices",
+          "acceptance": "Add logic to the push notification dispatch service in the backend to ensure notifications already marked as `read` or `dismissed` are not sent to other devices. This check should occur before sending each push notification. Validate the notification state in the database to determine eligibility and log any skipped notifications for audit purposes. Ensure the service handles this efficiently to maintain performance at scale.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Test backend synchronization for data consistency",
+          "acceptance": "Implement a set of automated tests to verify synchronization functionality. Tests should include scenarios such as: simultaneous state changes on multiple devices, delayed updates due to network issues, and edge cases like invalid inputs or missing timestamps. Ensure that the database maintains consistent and correct states in all cases. Validate that state updates are properly propagated via AWS SNS to all logged-in devices.",
+          "id": "TASK8"
+        }
+      ]
+    }
+  ]
+}

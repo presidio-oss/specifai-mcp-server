@@ -1,0 +1,4 @@
+{
+  "requirement": "The app should allow users to download videos for offline viewing on mobile devices. Screens: A download manager screen for users to manage offline content. Personas: Users with limited internet access who want to watch content offline.",
+  "title": "Offline Viewing Support"
+}

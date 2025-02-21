@@ -1,0 +1,254 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Create and Configure Roles",
+      "description": "Ability to create and configure roles for server members. In order to assign appropriate capabilities to users. As a server administrator, I want to define and customize roles with specific permissions for my server ecosystem. Acceptance Criteria: The system must provide a 'Create Role' button visible in the 'Roles Management Interface.' Clicking the button should open a form requiring input for the role name, description, and a list of selectable permissions (e.g., view channels, send messages). Duplicate role names and missing key details must trigger error prompts. Successful role creation must generate a confirmation message and dynamically update the list of created roles displayed in the interface.",
+      "tasks": [
+        {
+          "list": "Implement 'Create Role' button in the 'Roles Management Interface'",
+          "acceptance": "Add a 'Create Role' button to the 'Roles Management Interface' React component. Ensure the button is styled to be visually distinct and properly positioned. When clicked, the button should trigger an event to open the 'Create Role' form modal. Acceptance Criteria: The button is visible in the interface and functional. Clicking it opens the 'Create Role' form modal.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Design and implement the 'Create Role' form modal component",
+          "acceptance": "Create a React component for the 'Create Role' form modal. The modal must contain input fields for 'Role Name', 'Description', and a permissions selector. Include basic field validations such as required fields. The permissions selector must allow multi-select from predefined options. Acceptance Criteria: The form modal displays correctly with all fields and validation logic. Loading predefined permission options works as expected.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement client-side validation for form inputs",
+          "acceptance": "Validate that the 'Role Name' is unique and 'Role Name' and 'Description' fields are not empty. Display appropriate error messages for invalid or missing input. Acceptance Criteria: Invalid input triggers appropriate error messages, and users cannot submit the form with invalid data.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create API endpoint for role creation in Golang",
+          "acceptance": "Develop an API endpoint in Golang that accepts HTTP POST requests to create a new role. Input fields should include 'Role Name', 'Description', and a list of permissions. Validate that the 'Role Name' is unique and required fields are not empty. Include appropriate error responses for missing or duplicate data. Acceptance Criteria: The API endpoint is accessible and properly configured to validate inputs and return success/error responses as required.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Connect the form modal to the API endpoint",
+          "acceptance": "Configure the React 'Create Role' form modal to send form data to the Golang API when submitted. Handle success and error responses appropriately. Display a confirmation message upon successful role creation and refresh the displayed list of roles. Acceptance Criteria: Form submission triggers an API call. Success feedback updates UI dynamically. Error responses are displayed to the user.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement backend logic for listing all created roles",
+          "acceptance": "Modify the Golang backend to include an API endpoint that fetches all existing roles. Each role should return 'Role Name', 'Description', and its associated permissions. Acceptance Criteria: The API endpoint returns a list of all roles and is correctly formatted according to predefined data structure requirements.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Modify the 'Roles Management Interface' to display roles dynamically",
+          "acceptance": "Update the React 'Roles Management Interface' to fetch and display a list of roles using the 'list roles' API endpoint. Ensure that the list updates dynamically when a new role is successfully created. Include fallback handling for empty state and error responses. Acceptance Criteria: Roles are fetched and displayed in the UI. New roles appear dynamically upon creation. Proper handling is implemented for empty and error states.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement unit tests for backend API endpoints",
+          "acceptance": "Create unit tests for the 'create role' and 'list roles' API endpoints using a Golang testing framework. Tests should validate success cases, error cases including duplicate role names, and invalid inputs. Acceptance Criteria: Unit tests achieve 100% code coverage for the described API endpoints and pass for all edge cases.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add client-side unit tests for form validation and submission logic",
+          "acceptance": "Write unit tests for the React 'Create Role' form modal. Tests should cover client-side validation logic, form submission behavior, API integration, and error feedback rendering. Acceptance Criteria: Tests are created for all described form functionality, with 100% coverage. All edge cases and valid inputs pass successfully.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Add integration tests for the complete role creation flow",
+          "acceptance": "Develop integration tests to validate the end-to-end role creation process. This includes submitting the form, triggering API calls, validating database updates, and verifying that the UI dynamically reflects changes. Acceptance Criteria: The complete flow is simulated and passes all integration tests. Newly created roles appear in the UI, and edge cases trigger appropriate error messages.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Edit Roles and Adjust Permissions",
+      "description": "Ability to modify existing role configurations. In order to update or adjust permissions as server needs evolve. As a server administrator, I want to edit roles and their associated permissions. Acceptance Criteria: Each role listed in the 'Roles Management Interface' must have an 'Edit' option. Selecting this should open an editable form displaying the role name, description, and a modifiable list of associated permissions. Changes should trigger real-time validation (e.g., avoid conflicting permissions) and display error messages for invalid data. Upon saving, the system should provide a success notification, ensuring the updates are dynamically reflected in the list of roles.",
+      "tasks": [
+        {
+          "list": "Create API endpoint for fetching individual role details",
+          "acceptance": "Develop a Golang API endpoint to fetch details of a specific role by ID. Acceptance Criteria: The endpoint should accept a role ID as input and return a JSON response containing the role name, description, and associated permissions. If the role ID is invalid or does not exist, return a 404 error with an appropriate error message.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement the editable form for role configuration in React",
+          "acceptance": "Develop a React component to display an editable form containing fields for 'role name', 'description', and a list of associated permissions. Acceptance Criteria: The form should populate with data passed via props and allow modifications to each field. Each modification should trigger real-time validation. The component should display error messages for invalid or conflicting permissions while editing.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement real-time field validation for permissions in the form",
+          "acceptance": "Add functionality to the React component to validate role data in real-time. Acceptance Criteria: Validate for conflicts in permissions (e.g., mutually exclusive permissions). Display validation errors dynamically in the UI if any field is invalid. Form submission should be disabled until all validation errors are resolved.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create API endpoint for updating role details",
+          "acceptance": "Develop a Golang API endpoint to update role configurations. Acceptance Criteria: The endpoint should accept the role ID and updated data (role name, description, and permissions) as input. Validate the input data at the backend. If the update is successful, return a 200 status with a success message. If there are validation errors, return a 400 status with detailed error messages. If the role ID is invalid, return a 404 status.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement form submission and API integration in React",
+          "acceptance": "Connect the React form to the 'update role details' API endpoint. Acceptance Criteria: On form submission, send the updated role data to the backend. Display a loading state while awaiting the response. If the update is successful, display a success notification and dynamically update the roles list to reflect the changes. If the API response includes validation or server errors, display the corresponding error messages in the UI.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement success notification for role updates",
+          "acceptance": "Add a success notification component in React triggered after a successful role update. Acceptance Criteria: The notification should display success text and disappear after a set timeout or when dismissed by the user.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Update roles list dynamically after role edit",
+          "acceptance": "Ensure that the roles list in the Roles Management Interface updates dynamically after an edit. Acceptance Criteria: Changes made to a role should be immediately reflected in the roles list after a successful update without requiring a page refresh or additional user actions.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write tests for API endpoints",
+          "acceptance": "Develop unit tests for the 'fetch role details' and 'update role details' API endpoints using Golang testing tools. Acceptance Criteria: Tests should cover success scenarios, invalid role IDs, and validation errors. Each test should verify the correct status codes and response messages.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit tests for the React form component",
+          "acceptance": "Write unit tests for the React editable form component. Acceptance Criteria: Tests should verify correct data population, handling of user input, display of validation errors, and form submission. Ensure that validation logic and API integration are covered in the tests.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write integration tests for the role editing feature",
+          "acceptance": "Write end-to-end integration tests to test the complete role editing flow from the UI to the backend. Acceptance Criteria: Tests should cover fetching role data, editing role details, validating fields, submitting updates, and reflecting changes in the roles list. Ensure all edge cases and error scenarios are included.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Assign Roles to Server Members",
+      "description": "Ability to assign roles to individual server members. In order to control access and actions of each member within the server. As a server administrator, I want to allocate roles to members efficiently. Acceptance Criteria: A 'Members Management' section must display a list of all server members, each with an 'Assign Role' dropdown beside their name. Selecting this dropdown should allow assigning one or multiple predefined roles. Assignments must trigger validation for conflicting roles or invalid combinations and display relevant error prompts. Successful changes must dynamically update the member's role list and provide a confirmation message.",
+      "tasks": [
+        {
+          "list": "Create API endpoint to fetch list of server members",
+          "acceptance": "Develop a backend API endpoint in Golang that retrieves the list of all server members. The API must return server member details including unique identifiers required to display them in the 'Members Management' section in JSON format. Acceptance Criteria: The endpoint must fetch the list of members from the existing backend data source, return the details in the expected format, and handle errors gracefully, such as empty or inaccessible data.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create React component for 'Members Management' section",
+          "acceptance": "Develop a React component to render the 'Members Management' section. It must consume the API endpoint from TASK1 to display all server members in a list format. Each member must have their name and an 'Assign Role' dropdown beside them. Acceptance Criteria: Component must render correctly with test data, handle API loading states, and display meaningful error messages if the API call fails.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Develop 'Assign Role' dropdown functionality in React",
+          "acceptance": "Implement the 'Assign Role' dropdown for each server member in the React component. The dropdown must list all predefined roles available for selection. The dropdown should allow for single or multiple role selections. Acceptance Criteria: The dropdown must correctly display predefined roles, allow single or multiple selections, and store selected roles in the component's state.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create API endpoint to validate and save role assignments",
+          "acceptance": "Develop a Golang backend API endpoint to validate and persist role assignments for a given server member. The endpoint must accept a member ID and the selected roles as input, validate for conflicting or invalid role combinations, and trigger proper error responses in cases of conflicts. Acceptance Criteria: The endpoint must validate and save data to the data source, ensure invalid role combinations trigger error prompts, and return a success response upon saving successfully.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Integrate role assignment functionality between React and backend",
+          "acceptance": "Connect the React 'Assign Role' dropdown to the Golang API endpoint created in TASK4. Allow the updated roles to be sent to the backend when a role assignment is submitted. Handle API responses to display confirmation messages or validation errors dynamically in the UI. Acceptance Criteria: Role assignments must persist correctly when submitted, error messages for invalid input must be displayed dynamically, and a confirmation message must appear for successful updates.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add dynamic role list updates in React component",
+          "acceptance": "Ensure the React component's 'Members Management' section dynamically displays updated roles for each server member after assignments are successfully saved to the backend. Acceptance Criteria: The role list for each member must update without a full page reload after submitting a role assignment.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Test conflicting role validation across backend and frontend",
+          "acceptance": "Implement and verify tests for role conflict validation in both the Golang API and React frontend. Ensure conflicting role combinations trigger validation errors both on the backend (server-side) and dynamically in the React component (client-side). Acceptance Criteria: Tests must ensure that invalid combinations are caught on submission, error messages are displayed to the user, and valid combinations are saved successfully.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Display server-side validation errors dynamically",
+          "acceptance": "Enhance the React component to dynamically display error messages provided by the backend API for validation failures during role assignments. Acceptance Criteria: Error messages from the backend must be displayed inline next to the respective member or role dropdown, clearly indicating the issue with the assignments.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement success confirmation feedback",
+          "acceptance": "Add logic in the React component to display a success confirmation message upon successfully saving role assignments. Acceptance Criteria: A visually distinct success message must appear after a successful API response and disappear after a short timeout or user dismissal.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "View Role Permissions Summary",
+      "description": "Ability to review the current permissions associated with roles. In order to verify settings and compliance within the server. As a server administrator, I want a detailed summary of permissions linked to each role. Acceptance Criteria: Each role in the 'Roles Management Interface' must have a 'View Details' button, which opens a read-only view displaying the role's name, description, and its associated permissions. The system must include an option to export the role summary as a file. Discrepancies in role definitions must trigger an alert notification to the administrator for review.",
+      "tasks": [
+        {
+          "list": "Create API endpoint to fetch role details",
+          "acceptance": "Develop a Golang backend API endpoint (e.g., /api/roles/{roleId}/details) to retrieve role details including ‘name’, ‘description’, and its associated permissions. Validate that the roleId is valid. Return data in JSON format. Handle errors if the roleId does not exist or if there is a fetch failure. Acceptance Criteria: API must respond with 200 and the role details data on successful fetch. Invalid roleId should result in a 404 response with appropriate error message. Any server-side error must respond with a 500 and include an error message.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Integrate 'View Details' button in Roles Management Interface",
+          "acceptance": "Add a 'View Details' button for each role in the Roles Management Interface using React. Bind the button to trigger a fetch request to the /api/roles/{roleId}/details endpoint for the specific roleId. Pass the roleId dynamically based on the selected role. Acceptance Criteria: Each role's 'View Details' button should correctly call the API endpoint with the appropriate roleId when clicked. Button must be disabled or show a spinner during API call to prevent duplicate requests.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement Role Details read-only UI in frontend",
+          "acceptance": "Design and implement a React component to display role details in a read-only view. Dynamically populate fields for the role's name, description, and permissions using the fetched JSON response. Style UI according to the existing theme. Acceptance Criteria: Role details view must display ‘name’, ‘description’, and all associated `permissions`. If no permissions exist, the UI must clearly indicate this.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add 'Export Role Summary' functionality to Role Details view",
+          "acceptance": "Implement an 'Export Role Summary' button in the Role Details view using React. When clicked, the button must generate and prompt download of a JSON file containing role details (name, description, permissions). Acceptance Criteria: Clicking 'Export Role Summary' must generate a downloadable JSON file. File must include the exact role details displayed on the UI.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement backend logic to identify and flag discrepancies in role definitions",
+          "acceptance": "Develop a backend service in Golang to validate role definitions against expected data patterns. Log and trigger an alert for administrators via a predefined notification mechanism (e.g., AWS SNS). Define a discrepancy as any mismatch between stored role data and its expected format or missing critical permissions. Acceptance Criteria: The backend service must accurately identify discrepancies and log them. Administrators must receive an alert through the notification mechanism for all flagged role discrepancies.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Display error notification on Role Details UI for discrepancies",
+          "acceptance": "Update the Role Details frontend component to display a notification banner if a fetched role has discrepancies. Fetch alert information from the backend as part of the /api/roles/{roleId}/details response if discrepancies exist. Acceptance Criteria: Role Details UI must display a clear and visible notification banner indicating discrepancies when such data is present. Banner should disappear or update when discretionally resolved.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Write unit tests for API endpoint to fetch role details",
+          "acceptance": "Write unit tests for the /api/roles/{roleId}/details Golang endpoint. Validate correct JSON responses, error handling for invalid roleId, and internal server errors. Acceptance Criteria: All test scenarios must pass. Coverage must include successful API calls, invalid roleId (404), and server errors (500).",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write unit tests for the React Role Details component",
+          "acceptance": "Develop unit tests for the Role Details React component covering rendering, API call handling, and UI updates based on different fetch states (loading, success, failure). Acceptance Criteria: Unit tests must verify the UI accurately reflects loading spinner, role details data, and error notifications. Fully mock the backend API response for tests.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write integration tests for exporting role summary",
+          "acceptance": "Develop integration tests in React to validate the 'Export Role Summary' button functionality. Ensure the downloaded JSON matches the role data displayed. Acceptance Criteria: Tests must confirm that the file downloaded contains the correct role details. Coverage must include cases with and without permissions.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Simulate and Enforce Role-Based Access",
+      "description": "Ability to simulate and validate role-based access controls. In order to ensure security and proper permission enforcement. As a server administrator, I want the system to enforce permissions consistently and test user access scenarios. Acceptance Criteria: The system must block any unauthorized actions attempted by members, displaying an error message indicating insufficient permissions. These incidents must be logged for audit purposes. A feature should allow administrators to simulate a member's permissions by selecting their roles and viewing corresponding access rights for troubleshooting.",
+      "tasks": [
+        {
+          "list": "Create endpoint to validate and enforce role-based access controls in Golang",
+          "acceptance": "Create a REST API endpoint in Golang that accepts a user ID and requested action as inputs. Implement a function to validate if the user's associated roles allow the requested action. If unauthorized, return an HTTP 403 error with the message 'Insufficient permissions.' If authorized, return an HTTP 200 response. Ensure this function adheres to the user story's requirement of enforcing permissions consistently and rejecting unauthorized actions.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Log incidents of unauthorized actions",
+          "acceptance": "Implement functionality in Golang to log every unauthorized action attempt with the following details: user ID, attempted action, timestamp, and error description 'Insufficient permissions.' Logs must be structured for audit purposes in JSON format and stored in AWS CloudWatch. This satisfies the user story's requirement for auditing denied actions.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create UI component in React for role-based access simulation",
+          "acceptance": "Develop a React component that allows administrators to select one or more roles from a dropdown. On selection, display all accessible actions corresponding to the selected roles in a tabular format. The component must fetch roles and access rights using a specific API endpoint and provide seamless interaction. This fulfills the requirement for simulating and viewing role-based permissions.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement API to retrieve role-based permissions in Golang",
+          "acceptance": "Develop a Golang service method and REST API endpoint to retrieve all actions accessible to a provided list of roles. The API must accept a list of role IDs as input and return an array of permissible actions in JSON format. Ensure it is optimized for performance and integrates with the permission storage backend. This is required for supporting the React UI component in simulating permissions.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Handle error scenarios and edge cases in the React simulation UI",
+          "acceptance": "Ensure that the React UI gracefully handles scenarios where the roles API is unavailable or fails. Display a user-friendly error message 'Unable to retrieve permissions. Please try again later.' Handle edge cases like empty role selection with a message prompting the administrator to select roles. This satisfies the user story's requirement for troubleshooting scenarios.",
+          "id": "TASK5"
+        }
+      ]
+    }
+  ]
+}

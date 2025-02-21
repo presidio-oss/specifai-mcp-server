@@ -1,0 +1,304 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Member Activity Monitoring Dashboard",
+      "description": "Ability to view and monitor member activity within the server. In order to track and manage member behavior, as a moderator, I want a centralized dashboard to display and analyze key member activities. Acceptance Criteria: The dashboard must display an interactive summary of recent member activities, such as messages sent, edits, deletions, and participation frequency, with a search and filter feature to narrow data by name, type, or time range. Clicking on a member's name redirects moderators to their detailed activity logs. Alerts should highlight suspicious behaviors like flagged keywords or excessive deletions. Controls must allow switching between server-wide and specific-channel views.",
+      "tasks": [
+        {
+          "list": "Create backend API endpoint to fetch recent member activities",
+          "acceptance": "Implement a Golang-based REST API endpoint `/api/member-activities` that returns JSON data for recent member activities. Include parameters to filter by member name, activity type, and time range. Implement error handling for invalid parameters and return a 400 error with a clear message. Fetch data from a predefined data source and include activities such as messages sent, edits, deletions, and participation frequency. Validate the output matches the required structure.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement filtering and search logic in backend",
+          "acceptance": "Add filtering logic to the backend `/api/member-activities` endpoint to handle search by name, type, and time range. Ensure that results are accurate and filters are applied cumulatively. Validate that queries with no results return an empty JSON array with a 200 status code.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement suspicious activities flagging in backend",
+          "acceptance": "Enhance the `/api/member-activities` endpoint to flag activities containing predefined suspicious behaviors, such as flagged keywords or excessive deletions. Include an additional field `isSuspicious: true/false` in the JSON response for flagged entries. Ensure keyword lists and thresholds for excessive deletions are configurable in the backend.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create React component to display the member activity summary",
+          "acceptance": "Develop a React component `MemberActivitySummary` to display an interactive table of recent member activities. Integrate with the `/api/member-activities` API. Ensure the table supports pagination, sorting, and highlighting flagged suspicious activities. Test the component for responsiveness and compatibility across modern browsers.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add search and filter UI for the member activities",
+          "acceptance": "Enhance the `MemberActivitySummary` component by adding a search bar and filters for member name, activity type, and time range. Ensure the UI updates dynamically based on filter and search inputs. Validate that filters trigger updated requests to the backend and reflect the filtered data in the table.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Integrate member click functionality in the UI",
+          "acceptance": "Modify the `MemberActivitySummary` component to allow clicking on a member's name in the activity table. On click, redirect the user to a detailed activity log view using React routing.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Create API endpoint for fetching detailed member activity logs",
+          "acceptance": "Develop a Golang-based REST endpoint `/api/member-activities/:memberId` to provide detailed activity logs for a specific member. Use the `memberId` passed in the URL path to fetch records. Return detailed activity data, including timestamps, message contents, edits, and deletions. Implement error handling for invalid `memberId` values with a 404 status code and proper error response.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Develop React component for detailed member activity logs view",
+          "acceptance": "Create a React component `MemberActivityDetails` that fetches data from the `/api/member-activities/:memberId` endpoint. Display the detailed activity logs in a readable format. Include a 'back to summary' button to navigate back to the `MemberActivitySummary` component.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement channel-specific and server-wide toggle in UI",
+          "acceptance": "Update the `MemberActivitySummary` component to include a toggle feature for switching between server-wide and channel-specific views. Ensure the selected toggle option dynamically requests data from the backend with the respective scope applied and updates the UI accordingly.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Extend backend API to support channel-specific filtering",
+          "acceptance": "Enhance the `/api/member-activities` endpoint to include an optional parameter `channelId`. When provided, return only activities scoped to the specified channel. Validate that invalid `channelId` values return a 400 status with an appropriate error message, and empty results for valid but unpopulated channels return a 200 status with an empty JSON array.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Add alert mechanism for flagged activities in UI",
+          "acceptance": "Highlight rows in the `MemberActivitySummary` table for activities flagged as suspicious (e.g., `isSuspicious` field set to true). Use UI indicators like icons or colored highlights for better visibility. Ensure alerts persist across pages and filters.",
+          "id": "TASK11"
+        },
+        {
+          "list": "Write unit tests for backend endpoints",
+          "acceptance": "Develop unit tests for the `/api/member-activities` and `/api/member-activities/:memberId` endpoints in Golang. Include test cases for valid parameters, invalid parameters, empty results, and flagged activities logic. Validate that error messages are returned correctly for invalid requests.",
+          "id": "TASK12"
+        },
+        {
+          "list": "Write unit tests for React components",
+          "acceptance": "Write unit tests for the `MemberActivitySummary` and `MemberActivityDetails` components. Include test cases for rendering, user interactions (click and filter actions), and API integration. Ensure tests cover scenarios of empty data, suspicious activity highlighting, and navigation between views.",
+          "id": "TASK13"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Moderation Actions and Ban List Management",
+      "description": "Ability to take moderation actions and manage banned users. In order to enforce guidelines effectively, as a moderator, I want tools to warn, mute, and ban members and a searchable ban list for management. Acceptance Criteria: Moderation tools must enable warnings, mutes (with configurable durations), and bans directly from logs or the dashboard, with confirmation modals to prevent accidental actions. Bans require reasons and optional expiration durations for temporary bans. A searchable ban list must show all banned users with reasons and durations, including unban options. Notifications must inform targeted members and moderators about actions. Failed moderation actions should show error feedback.",
+      "tasks": [
+        {
+          "list": "Create Golang API endpoint for moderation actions (warn, mute, ban)",
+          "acceptance": "Implement a REST API endpoint in Golang to handle warnings, mutes, and bans for users. Ensure the API accepts user ID, action type ('warn', 'mute', 'ban'), reason, and optional duration for mutes and bans. Validate input fields to match expected data structure. Return success response upon successful actions and error response for invalid inputs or failed actions. Acceptance Criteria: The API must enforce validations: action type must be one of 'warn', 'mute', 'ban'; reason must be required for bans; duration must only be specified for mutes or temporary bans. Failed actions must return appropriate error feedback. Logs must support outputs for debugging.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Add confirmation modal to React UI for moderation actions",
+          "acceptance": "Implement a configurable confirmation modal component in React for warnings, mutes, and bans. Integrate this modal with action triggers on the moderation tools UI to prevent accidental actions. Display all relevant details of the moderation action being performed, such as action type, user, reason, and optional duration. Include 'Confirm' and 'Cancel' buttons with handlers to call the API or cancel the action, respectively. Acceptance Criteria: The modal must display all required action data. The 'Confirm' button must only send appropriately validated requests to the API. The 'Cancel' button must close the modal without taking action.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Store banned user data with reasons and durations in database",
+          "acceptance": "Update the existing database schema to add a 'banned_users' table with fields: user_id (string), reason (string), ban_start (timestamp), ban_end (optional timestamp). Ensure the schema supports querying active and expired bans. Implement Golang functions to insert, update, and retrieve ban data efficiently. Acceptance Criteria: The table must store all successful ban actions with required fields. Queries must return accurate results for both active and expired bans. Ensure data writes and reads have appropriate input validations.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create React component for searchable ban list UI",
+          "acceptance": "Develop a React component that displays a paginated, searchable list of banned users. Populate the list using an API call to fetch banned users and their reasons, start dates, and durations. Include a search bar to filter results based on user ID or reason. Show 'Unban' buttons for moderators to remove bans. Acceptance Criteria: The UI must display all relevant fields for each banned user, support search and pagination, and pass the correct user ID to the 'Unban' API endpoint when an unban action is triggered.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Build Golang API endpoint to fetch the ban list",
+          "acceptance": "Implement a REST API endpoint in Golang to retrieve the list of banned users from the database. Support optional query parameters for filtering (by user ID or reason) and pagination (page size and page number). The response should include user ID, reason, ban start date, and ban end date, if applicable. Acceptance Criteria: The API must correctly handle filter and pagination parameters. The response must return all required fields for banned users. Validate that responses are accurate, efficient, and compliant with the query parameters.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add API endpoint to handle unban actions",
+          "acceptance": "Create a Golang API endpoint to unban users. Accept inputs such as user ID and validate that the user is currently banned. Remove the corresponding entry from the 'banned_users' table for successful cases. Return success or failure messages accordingly. Acceptance Criteria: The API must correctly validate inputs against the database and only allow unban actions on active bans. Ensure proper error handling for invalid or already unbanned users.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Send notifications for moderation actions (warn, mute, ban, unban)",
+          "acceptance": "Implement functionality in Golang to send notifications for all moderation actions. For warnings, mutes, and bans, notify the targeted member with action details (type, reason, duration, if applicable). Notify moderators about successful or failed actions with appropriate feedback messages. For unban actions, notify both the user (if applicable) and the moderators. Acceptance Criteria: Notifications must contain accurate details about the moderation actions. Ensure notifications are dispatched upon successful API calls and handle failures gracefully.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Handle error feedback for failed moderation actions",
+          "acceptance": "Enhance API endpoints to return detailed error messages for failed moderation and unban actions, such as 'Invalid input', 'User not found', 'Already banned', or 'Operation not permitted'. Ensure the React UI components display these errors to moderators in a user-friendly manner. Acceptance Criteria: The API must return standardized error responses for every failure scenario. React components must display these errors clearly and non-intrusively on the moderation tools UI.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement configurable mute and ban durations",
+          "acceptance": "Add logic in the Golang API backend to schedule automatic expiration of mutes and temporary bans based on their specified durations. Update any relevant database queries to exclude expired bans or mutes automatically. Acceptance Criteria: The system must allow exact duration configuration for mutes and temporary bans. Expired bans or mutes must be automatically excluded from active states without needing manual intervention.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write unit tests for moderation actions API endpoints",
+          "acceptance": "Develop unit tests for all moderation actions (warn, mute, ban, unban) and ban list APIs in Golang. Include test cases for valid and invalid inputs, success and failure scenarios, and input validations. Acceptance Criteria: Tests must achieve at least 90% code coverage for the API endpoints. All test cases must pass without regressions. Validate that error feedback is returned correctly in failure scenarios.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Write integration tests for moderation UI components",
+          "acceptance": "Write integration tests for React UI components related to moderation actions. Include test cases for confirmation modals, ban list search and pagination, and error dialog displays. Acceptance Criteria: All UI components related to moderation must pass integration tests with mocked API responses. Validate correct data rendering in the ban list, proper modal behavior, and accurate error message displays.",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Keyword-Based Content Filtering",
+      "description": "Ability to configure and activate keyword filters to manage flagged content. In order to minimize inappropriate behavior, as a moderator, I want a keyword filter to flag or hide restricted content and notify moderators. Acceptance Criteria: A configuration panel must let moderators define restricted keywords/phrases, select applicable channels, and determine actions (flagging, hiding). Flagged messages must trigger notifications with sender details and optionally auto-warn or mute users for repeated violations over set periods. Moderators should review flagged messages and either approve or delete them. Notifications must support category-based filtering for severity prioritization.",
+      "tasks": [
+        {
+          "list": "Create backend API to define and manage restricted keywords/phrases",
+          "acceptance": "Develop a Golang HTTP endpoint (`POST /api/filters/keywords`) to accept a list of restricted keywords/phrases. Input validation must ensure non-empty strings and prevent duplicate entries per moderator. Store keywords/phrases in the database. Acceptance Criteria: The endpoint should return a 201 status with a confirmation message upon successful creation. Return a 400 status with error details for invalid input.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Develop frontend component to configure restricted keywords/phrases",
+          "acceptance": "Design a React-based UI component to allow moderators to manage (add/update/delete) restricted keywords/phrases. The component should call the backend API (`POST /api/filters/keywords`) and display success or error messages based on API responses. Acceptance Criteria: Moderators must see a real-time list of stored keywords with input fields to add more or delete existing ones. Handle and display API errors appropriately.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Extend API to associate restricted keywords with applicable channels",
+          "acceptance": "Modify the backend to allow linking sets of restricted keywords to specific communication channels (`PATCH /api/filters/channels`). Input must include channel identifiers and associated keyword IDs. Update data structures to store keyword-channel mappings. Acceptance Criteria: The endpoint should return a 200 status and the updated mapping. Return 400 for invalid input or non-existent channel IDs.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement backend logic to flag or hide restricted content",
+          "acceptance": "Develop middleware in Golang to scan messages for restricted keywords before display. If flagged, add content, sender details, and channel ID to a `flagged_content` table. Also, based on the action (flagging or hiding), suppress the message visibility if set to 'hide'. Acceptance Criteria: The system must flag or hide content containing restricted terms accurately. Verify both database logging and visibility behavior through unit tests.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add notification system for flagged messages",
+          "acceptance": "Implement a notification service in Golang to trigger real-time notifications for moderators upon new flagged messages. Messages should include the flagged content, sender details, and severity category. The notification channel must be extendable for integration with AWS SNS. Acceptance Criteria: Notifications should include all required details and be logged for audit purposes. Handle notification failure by retrying up to 3 times.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Enable auto-warning or muting of users for repeated violations",
+          "acceptance": "Add logic in the backend to track flagged messages per user. If a user exceeds the threshold within a predefined period, apply penalties (e.g., auto-warning or muting) and update the `users` table with violation history. Acceptance Criteria: The system must correctly keep track of violations and impose penalties as defined. Unit tests to cover scenarios of threshold breaches and penalty application.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Provide moderators the ability to review flagged messages",
+          "acceptance": "Develop a backend API (`GET /api/filters/flagged-content`) to fetch flagged messages, including content, sender, and severity details. Add another API (`POST /api/filters/review`) to allow moderators to mark messages as approved or delete flagged entries. Acceptance Criteria: The `GET` endpoint must filter based on severity and return JSON with paginated flagged messages. The `POST` endpoint must update message status and reflect changes in the system (e.g., delete or approve actions). Handle invalid IDs with a 400 status.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Integrate review panel in the UI for moderators",
+          "acceptance": "Create a React component to display flagged messages to moderators with actions for approval or deletion. Call the backend APIs (`GET /api/filters/flagged-content` and `POST /api/filters/review`) for data fetching and actions. Display feedback for each action (e.g., confirmation, errors). Acceptance Criteria: Moderators should see messages with severity filters and take actions without reloads. Ensure state is updated dynamically upon API responses.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add category-based filtering for notifications",
+          "acceptance": "Modify the notification system to categorize flagged messages by severity levels (e.g., low, medium, high). The system must allow moderators to filter notifications by severity. Acceptance Criteria: Notifications must be correctly categorized in backend storage and retrievable by severity levels through API. Verify correctness with integration tests.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Community Guidelines Management",
+      "description": "Ability to display and update community guidelines visible to all members. In order to ensure members understand expectations, as a moderator, I want easily accessible and editable community guidelines. Acceptance Criteria: Moderators must have a section to define or edit guidelines, supporting basic text formatting and markdown previews. Guidelines must be visible via a 'Community Guidelines' button or section for all members. Updates should trigger either server-wide notifications or acknowledgment prompts upon next login. A revision history must track edits, showing timestamps and editor details. Warnings for guideline violations must link to relevant sections.",
+      "tasks": [
+        {
+          "list": "Add API Endpoint for Fetching Community Guidelines",
+          "acceptance": "Create a GET API endpoint in the Golang backend to fetch the community guidelines. The endpoint should return the current version of the guidelines, including text content in markdown format. Acceptance Criteria: The API must return the guidelines data in JSON format with properties such as 'id', 'content' (markdown text), 'lastModified', and 'editor'. Proper error handling should return a 404 if no guidelines exist or a 500 for server errors. Ensure appropriate pagination logic if applicable (though not explicitly stated in the story).",
+          "id": "TASK1"
+        },
+        {
+          "list": "Add API Endpoint for Updating Community Guidelines",
+          "acceptance": "Create a PUT API endpoint in the Golang backend to allow moderators to update community guidelines. The payload must include the updated markdown content and the user ID of the editor. Update operations must save the previous guidelines to the revision history with timestamp and editor details. Acceptance Criteria: API must validate that the requester has moderator privileges (authentication/authorization). On successful update, the response should include the updated content, timestamp, and the editor. Handle validation errors (e.g., invalid payload) with a 400, and other internal errors with a 500.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement Revision History for Guideline Updates",
+          "acceptance": "Extend the backend Golang application to maintain a revision history for all updates to the community guidelines. Store each edit with 'timestamp', 'editor', and 'content' (previous version of the guidelines). Acceptance Criteria: Ensure updates to the guidelines automatically create a new revision record in the history. Revision history must be persisted (e.g., DynamoDB if on AWS). Queries for revision history must include chronological sorting, and API should respond appropriately to empty/non-existent histories.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement Markdown Parser and Preview",
+          "acceptance": "Create a markdown parser module in the React frontend to allow moderators to preview the community guidelines. The preview must render markdown syntax (headings, links, bold, italics, etc.) appropriately. Acceptance Criteria: Moderators should see a real-time rendering of the input content on the same page as they edit guidelines. Validate markdown syntax to prevent parsing errors and render fallback text for unsupported syntax.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create Frontend Section for Community Guidelines Display",
+          "acceptance": "Develop a React component to display community guidelines to general members. The component should fetch data from the 'Fetch Community Guidelines' API and display the content using markdown styling. Acceptance Criteria: All members can access the component via a visible 'Community Guidelines' button or section. Handle errors (e.g., failed API responses) with user-friendly messages and appropriate retry logic. Ensure consistent loading states while fetching data from the API.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Create Frontend Section for Editing Community Guidelines",
+          "acceptance": "Develop a React component for moderators to edit the community guidelines. The component must display a markdown editor with live preview, and upon saving, call the update API with the edited content. Acceptance Criteria: Ensure simple and intuitive UI/UX for editing and preview features. Moderators-only access must be enforced via roles or authentication states. Validate empty or large guideline content before making the API call.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement Server-Wide Notifications for Guidelines Updates",
+          "acceptance": "Update the Golang backend to broadcast updates to all active sessions via notification mechanisms (e.g., WebSocket, push notifications). Alternatively, send an acknowledgment prompt on next login, indicating the change. Acceptance Criteria: Notification must include details such as change timestamp and a link to the updated guidelines. Implement fallback logic to queue messages for users currently offline.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement Warnings Linking to Guideline Violations",
+          "acceptance": "Create a mechanism in the React frontend to attach warning messages directly linked to specific sections of the guidelines. Warning messages must include the section heading or identifier from the markdown content. Acceptance Criteria: Ensure seamless linking between warnings and guideline content. Anchor tags or deep linking must take the user to the relevant sections. Validation must enforce that all warnings reference existing sections in the content.",
+          "id": "TASK8"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Role-Based Moderation Permissions Management",
+      "description": "Ability to manage roles and assign specific moderation permissions. In order to delegate tasks securely and efficiently, as a moderator, I want to configure role-based access controls. Acceptance Criteria: A role management panel must enable creating, editing, and removing roles, with toggleable permissions for tasks like banning, warnings, and viewing flagged content. Current roles and user assignments must be listed with summaries of their permissions. Validation must prevent overlapping or conflicted permissions. Changes to roles or permissions must notify affected users of new access details. A default 'Moderator' role must exist with basic permissions like message deletion.",
+      "tasks": [
+        {
+          "list": "Implement API endpoint to create a new role with initial permissions",
+          "acceptance": "Create a POST endpoint in the Role Management service to add a new role with a name and initial set of permissions. Validate that the role name is unique and permissions do not conflict. Store the role in the database with an associated unique identifier. Acceptance Criteria: The API must return a 201 status code with the created role details on success. It must return appropriate error responses (e.g., 400 for conflicts or validation errors).",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement API endpoint to edit an existing role and update its permissions",
+          "acceptance": "Create a PUT endpoint to allow modification of an existing role by providing its unique ID and a new set of permissions. Validate permissions for conflicts and ensure the role exists. Update the database with the changes. Acceptance Criteria: The API must return a 200 status code with the updated role details on success. It must return appropriate error responses (e.g., 404 if the role does not exist, 400 for validation errors).",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement API endpoint to delete an existing role",
+          "acceptance": "Create a DELETE endpoint to allow removing a role by its unique ID. Ensure validation to prevent deletion of the default 'Moderator' role. Cascading deletion of dependent user assignments is not required per story. Acceptance Criteria: The API must return a 204 status code on successful deletion or a 403 error if attempting to delete the default 'Moderator' role.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement API endpoint to fetch a list of roles with summaries of their permissions",
+          "acceptance": "Create a GET endpoint to retrieve all roles along with a summary of their permissions. Include pagination if the dataset is large. Acceptance Criteria: The endpoint must return a 200 status code with a JSON array of roles, each containing its name, ID, and summary of permissions.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement an API route to assign a role to a user",
+          "acceptance": "Create a POST endpoint for assigning a role to a user by specifying the user ID and role ID. Validate that the role exists and a user cannot have multiple roles assigned. Acceptance Criteria: The API must return a 200 status code confirming the assignment on success or a 400 error for validation failures.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Integrate role management UI panel in React application",
+          "acceptance": "Create a role management panel React component enabling moderators to create, edit, or delete roles using the respective API endpoints. Include a table to display a list of existing roles along with their permissions summary. Use React state to manage form inputs and display API success/error responses. Include validation for inputs (e.g., unique role names, permission toggles). Acceptance Criteria: The UI must allow moderators to perform all required role management actions. Proper error messages or success notifications must be displayed based on API responses.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add role assignment functionality to the user list UI in React",
+          "acceptance": "Enhance the user list UI component to display the assigned role for each user. Add a dropdown or modal to select a role and call the role assignment API endpoint. Display confirmation or error messages based on API responses. Acceptance Criteria: The UI must show existing role assignments and allow moderators to modify them. API responses must be handled appropriately with success/error notifications rendered.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement validation logic to prevent conflicting permissions when creating/editing roles",
+          "acceptance": "Add backend validation logic to the role creation and editing APIs to ensure permissions for tasks like banning, warnings, and viewing flagged content do not overlap or conflict as defined in business rules. Return validation errors when conflicts are found. Acceptance Criteria: The system must validate and reject any requests with conflicting permissions with a 400 status code and an appropriate error message.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Ensure a default 'Moderator' role with basic permissions exists when the system starts",
+          "acceptance": "Preseeding logic must ensure a 'Moderator' role with basic permissions, such as deleting messages, exists in the database. Acceptance Criteria: If the 'Moderator' role is missing at runtime, it must be automatically created with its default permissions.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Implement notification logic to inform users about role or permission changes",
+          "acceptance": "Add backend logic to send notifications to affected users when their assigned role or the permissions of their current role are updated. Use AWS SNS (or similar) for delivering notifications. Acceptance Criteria: Users assigned to updated roles must receive notifications with summary details (e.g., updated role name and permission set). Ensure that notifications are successfully delivered for all affected users, and errors are logged.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Write unit tests for backend API endpoints in Golang",
+          "acceptance": "Create unit tests to cover all APIs (create, edit, delete, list roles, and assign roles) in the Role Management service. Mock the database interactions for isolated testing. Validate both success and failure scenarios. Acceptance Criteria: All APIs must be covered by unit tests with at least 90% code coverage for their respective modules.",
+          "id": "TASK11"
+        },
+        {
+          "list": "Write unit tests for the role management front-end in React",
+          "acceptance": "Write unit tests for the React components related to role management, including the role management panel and user role assignment components. Use a React testing library to simulate user interactions and verify functionality (e.g., form validation, API request handling). Acceptance Criteria: All key interactions must be tested with at least 90% component test coverage.",
+          "id": "TASK12"
+        }
+      ]
+    }
+  ]
+}

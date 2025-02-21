@@ -1,0 +1,4 @@
+{
+  "requirement": "Allow users to plan sprints by selecting tasks, allocating resources, and setting timeframes. Screens: Sprint Planning Screen featuring a drag-and-drop interface for task reordering and sprint timeline visualization. Personas: Scrum masters and team leads managing the sprint backlog.",
+  "title": "Sprint Planning Interface"
+}

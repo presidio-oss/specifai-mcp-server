@@ -1,0 +1,4 @@
+{
+  "requirement": "Integrate with tools like Slack, GitHub, and Google Drive to sync workflows. Screens: Integration Settings Screen displaying a list of supported apps with simple setup instructions and toggles. Personas: Teams working across multiple platforms for interconnected workflows.",
+  "title": "Integration with External Apps"
+}

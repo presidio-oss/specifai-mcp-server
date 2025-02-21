@@ -1,0 +1,284 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Email and Password Authentication",
+      "description": "Ability to authenticate users with email and password. In order to securely access the application. As a user, I want to sign up, log in, and log out using my email and password. Acceptance Criteria: The sign-up page must include fields for email, password, and password confirmation alongside a 'Sign Up' button. The login page must include fields for email, password, and a 'Login' button. Passwords must meet security validation criteria (e.g., minimum length, special characters). On successful login, users should be redirected to their dashboard. On logout, users must be redirected to the login page. Error messages must be displayed for incorrect credentials, empty fields, or password mismatches.",
+      "tasks": [
+        {
+          "list": "Implement sign-up form UI in Angular",
+          "acceptance": "Create a sign-up page in Angular with fields for 'email', 'password', and 'password confirmation'. Add a 'Sign Up' button. Ensure the page structure matches the user story requirements and Angular's standard practice for component creation. Acceptance Criteria: Fields for 'email', 'password', and 'password confirmation' are present. A 'Sign Up' button is functional. Angular components should separately handle input binding and form submission logic.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Add client-side validations for sign-up form",
+          "acceptance": "Integrate validations to enforce password rules (e.g., minimum length, special characters) on the client side. Ensure the form validates the 'password' and 'password confirmation' match. Acceptance Criteria: Users cannot submit the form if any fields are empty, the password is invalid, or the 'password' and 'password confirmation' do not match. Inline error messages are shown near the relevant input fields.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement backend API endpoint for user sign-up in Rust",
+          "acceptance": "Create a REST API endpoint in Rust to handle user sign-up. The endpoint should receive 'email', 'password', and 'password confirmation' as input. Validate all fields, ensure the password meets security criteria, and hash the password for storage. Acceptance Criteria: Input is validated. Password is hashed securely before saving. Appropriate HTTP status codes are returned for success and failure scenarios (e.g., 400 for invalid input, 409 for email conflicts).",
+          "id": "TASK3"
+        },
+        {
+          "list": "Integrate front-end with Rust sign-up API",
+          "acceptance": "Connect the Angular sign-up form to the Rust sign-up API endpoint. Make a POST request with the form data. Display relevant error messages for unsuccessful sign-ups (e.g., email already exists, password invalid). Redirect users to the login page after a successful sign-up. Acceptance Criteria: The sign-up flow is operational and communicates with the backend. Relevant success and error messages are displayed on the UI. Successful sign-up redirects users to the login page.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement login form UI in Angular",
+          "acceptance": "Create a login page in Angular with fields for 'email' and 'password'. Add a 'Login' button. The page structure should follow Angular component conventions. Acceptance Criteria: Fields for 'email' and 'password' are present. A functional 'Login' button exists for form submission.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement backend API endpoint for user login in Rust",
+          "acceptance": "Create a REST API endpoint in Rust to handle user login. The endpoint should authenticate against stored credentials. Return a 200 status and a session token after successful authentication. Return a 401 status for incorrect credentials. Acceptance Criteria: API authenticates user credentials against stored credentials. Returns a session token on success. Returns correct error codes and messages for invalid input or authentication failure.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Integrate front-end with Rust login API",
+          "acceptance": "Connect the Angular login form to the Rust login API endpoint. Handle form submission and send the user credentials. Store the session token securely on successful login. Display relevant error messages for unsuccessful attempts. Redirect authenticated users to the dashboard. Acceptance Criteria: Login form communicates with the backend. Relevant success and error messages are displayed. Successful login stores the session token securely and redirects the user to the dashboard.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement password validation helper function in Rust",
+          "acceptance": "Create a reusable Rust function to validate password criteria (minimum length, special characters). Use this function in both sign-up and login APIs. Acceptance Criteria: Function checks password rules correctly. Returns clear error descriptions for invalid passwords. Passes unit tests with various valid and invalid inputs.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement logout functionality in Angular",
+          "acceptance": "Add a logout mechanism on the front-end to clear the session token and redirect users to the login page. Acceptance Criteria: Session token is cleared on logout. Users are redirected to the login page immediately.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Add error handling for incorrect login credentials",
+          "acceptance": "Display error messages on the Angular login page for incorrect credentials or empty fields. Ensure the UI reflects backend responses accurately. Acceptance Criteria: Incorrect login attempts display error messages on the page. Empty fields show inline form validation errors. Errors align with backend error codes.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Third-Party OAuth Login",
+      "description": "Ability to log in and sign up using third-party OAuth services. In order to simplify the login experience. As a user, I want to authenticate using Google or Facebook accounts. Acceptance Criteria: The authentication page must display 'Login with Google' and 'Login with Facebook' buttons. Clicking the buttons must redirect users to the respective OAuth login pages. After successful login, new accounts must be created if they do not exist, and users must be redirected to the dashboard. Failed OAuth authentication must display error messages. OAuth-based sessions must adhere to provider token validity periods.",
+      "tasks": [
+        {
+          "list": "Add 'Login with Google' and 'Login with Facebook' buttons to the authentication page in Angular",
+          "acceptance": "Develop UI components in Angular for 'Login with Google' and 'Login with Facebook' buttons on the authentication page with proper styling and placement. Acceptance Criteria: Buttons must be visible on the authentication page. Buttons must trigger their respective event handlers when clicked.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement event handlers for 'Login with Google' and 'Login with Facebook' buttons in Angular",
+          "acceptance": "Create Angular event handlers for button clicks that redirect users to Google or Facebook OAuth login pages. Acceptance Criteria: Clicking 'Login with Google' must redirect to Google's OAuth login URL. Clicking 'Login with Facebook' must redirect to Facebook's OAuth login URL. Ensure proper URL encoding for redirection.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create Rust backend endpoint to generate OAuth URLs for Google authentication",
+          "acceptance": "Develop a Rust REST API endpoint that generates and returns the Google OAuth URL with the necessary parameters (client ID, redirect URI, scope, response type, etc.). Acceptance Criteria: Endpoint must return a correctly formatted Google OAuth URL. Endpoint must return a 400 error if any required parameters are missing or invalid. Endpoint must log errors appropriately.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create Rust backend endpoint to generate OAuth URLs for Facebook authentication",
+          "acceptance": "Develop a Rust REST API endpoint that generates and returns the Facebook OAuth URL with the necessary parameters (app ID, redirect URI, scope, response type, etc.). Acceptance Criteria: Endpoint must return a correctly formatted Facebook OAuth URL. Endpoint must return a 400 error if any required parameters are missing or invalid. Endpoint must log errors appropriately.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Handle successful OAuth redirection for Google in Rust",
+          "acceptance": "Implement a Rust REST API endpoint to handle redirection post Google OAuth login. Parse the authorization code and exchange it for an access token using Google's Token API. Validate the received token. Acceptance Criteria: Endpoint must exchange authorization code for a token and validate it. On successful validation, an access token and Google user profile must be extracted. Return a 500 error if token exchange or validation fails. Log all errors appropriately.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Handle successful OAuth redirection for Facebook in Rust",
+          "acceptance": "Implement a Rust REST API endpoint to handle redirection post Facebook OAuth login. Parse the authorization code and exchange it for an access token using Facebook's Token API. Validate the received token. Acceptance Criteria: Endpoint must exchange authorization code for a token and validate it. On successful validation, an access token and Facebook user profile must be extracted. Return a 500 error if token exchange or validation fails. Log all errors appropriately.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Create or update user accounts based on OAuth provider data in Rust",
+          "acceptance": "Develop a Rust function to create a new user account if one does not exist, or update an existing user account with the received Google/Facebook profile information (e.g., email, name). Acceptance Criteria: If a user with the given email exists, update the account with the latest profile data. If no user exists, create a new user record with information from the OAuth profile. Return a 500 error if database operations fail. Ensure email uniqueness validation.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Set up session management in Rust for OAuth-based logins",
+          "acceptance": "Implement session handling in Rust to manage authenticated users using tokens from Google/Facebook. Enforce session expiry based on provider token expiration. Acceptance Criteria: Successfully authenticated users must have a session created. Sessions must expire according to the token validity period from the OAuth providers. Return a 401 error if the session expires or tokens are invalid. Log relevant session events.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement Angular client-side logic to process OAuth redirection response",
+          "acceptance": "Develop Angular logic to handle redirection from Google/Facebook after OAuth login. Extract authorization codes from the URL and send them to the backend for token exchange. Acceptance Criteria: Redirection must correctly parse authorization code from the URL. Authorization code must be sent to the appropriate backend endpoint. Display loader/spinner during processing.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Display error messages for failed OAuth authentication in Angular",
+          "acceptance": "Implement Angular UI logic to display error messages if OAuth authentication fails, based on errors returned by the backend. Acceptance Criteria: Ensure user sees relevant error messages (e.g., 'Login failed, please try again.'). Error messages must adapt to different failure cases (network failure, invalid token, etc.). Test UI behavior for each failure scenario.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Redirect authenticated users to the dashboard post-login",
+          "acceptance": "Implement Angular navigation logic to redirect authenticated users to the dashboard upon successful OAuth login. Acceptance Criteria: Successfully authenticated users must be redirected to the dashboard route. Unauthenticated users must remain on the login page.",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Profile Management",
+      "description": "Ability to update user profile information. In order to manage personalized account details. As a user, I want to update my name, email, and profile picture in account settings. Acceptance Criteria: The account settings screen must include editable fields for name, email, and a profile picture upload option. 'Save' and 'Cancel' buttons must be provided to submit or discard changes. Name and email fields must adhere to mandatory presence and proper format validation (e.g., valid email structure). A success message must appear upon successful saving of data. Errors must display for invalid inputs or backend failures.",
+      "tasks": [
+        {
+          "list": "Create editable fields for name, email, and profile picture in the account settings UI",
+          "acceptance": "Add input fields for 'name' and 'email', and an upload component for 'profile picture' in the account settings Angular component. Ensure fields are visible and properly labeled. Acceptance Criteria: Input fields for name and email must be editable. A file upload option for profile pictures must be present. Form controls must link to Angular form binding for data handling.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement validation for name and email fields",
+          "acceptance": "Add Angular form validators to ensure presence for the 'name' and 'email' fields. Email must conform to a valid email format (e.g., regex validation). Acceptance Criteria: Form must prevent submission if 'name' or 'email' is empty. An error message must display below the field for invalid or empty entries. Email must pass standard regex format validation.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create a service for profile updates integration with backend",
+          "acceptance": "Develop an Angular service to interface with the backend for sending profile update requests. Use the HTTP client and define a method that accepts 'name', 'email', and 'profile picture' as parameters. Acceptance Criteria: The service must make an HTTP PUT/POST request to the backend API with the updated data in a JSON format. The service must include proper error handling for backend failures with descriptive response messages.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Design a UI mechanism for 'Save' and 'Cancel' buttons",
+          "acceptance": "Add 'Save' and 'Cancel' buttons to the account settings UI. Bind the 'Save' button to submit the form changes using the Angular service. Bind the 'Cancel' button to reset changes to the initial state. Acceptance Criteria: 'Save' button must submit the validated form data to the backend. 'Cancel' button must clear changes and restore initial field values.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Display success message for data saved successfully",
+          "acceptance": "Implement a mechanism to show a success message overlay using Angular Material components (e.g., Snackbar/Toast) when the backend confirms data is saved. Acceptance Criteria: A success notification must display upon successful backend response. The message must disappear automatically after a few seconds.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Handle errors for invalid inputs or backend failures",
+          "acceptance": "Develop error-handling logic to display descriptive error messages for form validation failures and backend errors. Use Angular message components to show error notifications. Acceptance Criteria: Validation errors must display inline, adjacent to problematic fields. Backend errors must appear as a global notification. Invalid or incomplete form inputs must prevent data submission.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Integrate profile picture upload functionality",
+          "acceptance": "Implement file upload logic in the Angular component. Accept image files only and integrate them into the form submission payload. Use a preview mechanism to display the uploaded image. Acceptance Criteria: The file input must allow selecting image files only. Preview of the selected image must display before form submission. Upon submission, the image file must send to the backend as part of the payload.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement backend profile update API in Rust",
+          "acceptance": "Develop a REST API endpoint in Rust to handle profile updates. Endpoint must accept 'name', 'email', and a profile picture file as a multipart request. Save the updated data to the database and return appropriate success or error responses. Acceptance Criteria: API must validate presence and format of 'name' and 'email'. Profile picture must handle file type validation and be saved via GCP storage. Return 200 status upon success and appropriate error codes upon failure.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Integrate GCP storage for profile picture uploads",
+          "acceptance": "Use GCP SDK in the Rust backend to upload the profile picture file to cloud storage. Return the file URL as part of the success response. Acceptance Criteria: Profile pictures must be saved to a designated GCP bucket. Bucket paths must follow a consistent naming convention, e.g., '/user-profiles/<user-id>/profile.jpg'. Successful upload must return the file URL in the response.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Unit test and integration test profile management functionality",
+          "acceptance": "Write unit tests for Angular form validation and backend API functions. Perform integration tests to validate end-to-end functionality for saving user profiles. Acceptance Criteria: Test cases must cover valid and invalid inputs for both frontend and backend. Ensure successful data updates and proper error handling through automated tests.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Password Reset and Recovery",
+      "description": "Ability to reset a forgotten password. In order to regain access to the application. As a user, I want to recover my account by resetting my password. Acceptance Criteria: A 'Forgot Password?' link must be present on the login page, navigating users to a password recovery screen. The recovery screen must prompt users to enter their registered email, triggering a password recovery email. Clicking the secure reset link in the email must navigate users to a password reset form. The reset form must prompt users to enter and confirm a new password with validation for security requirements (e.g., minimum length, special characters). Users must see a success notification after successfully resetting passwords. Errors must appear for invalid or expired reset links.",
+      "tasks": [
+        {
+          "list": "Add 'Forgot Password?' link to login screen",
+          "acceptance": "Implement a 'Forgot Password?' link on the login page in the Angular frontend. The link must navigate users to the password recovery screen. Acceptance Criteria: The 'Forgot Password?' link must be viewable on the login page. Clicking the link must navigate the user to the recovery screen.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create password recovery screen with email input",
+          "acceptance": "Develop a password recovery screen in the Angular frontend that includes an input field for users to provide their registered email address. Add a button to submit the email. Acceptance Criteria: The recovery screen must display an input field for email and a submit button. Submission of the email triggers the password recovery process as described in subsequent tasks.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement backend API endpoint to handle password recovery requests",
+          "acceptance": "In the Rust backend, create a POST API endpoint (e.g., '/api/password-recovery') that validates the provided email address against the user database (in GCP). If valid, generate a secure one-time-use reset token and store it with an expiration timestamp. Trigger an email containing the reset link with the token. Acceptance Criteria: The endpoint must accept a JSON payload with the user's email. If the email is valid, generate a reset token and associate it with the user account in the database. Trigger a password recovery email containing a secure reset link formatted as '/reset-password?token={tokenValue}'. Return a response indicating success or failure.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Design password recovery email with secure reset link",
+          "acceptance": "Create an email template for the password recovery email in the Rust backend. Include a secure reset link that navigates users to the password reset form. Acceptance Criteria: Email must contain a secure link in the format '/reset-password?token={tokenValue}'. The reset link must include the token generated by the backend and must be unique per request.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add frontend logic to parse the reset token from URL",
+          "acceptance": "On the password reset form, implement Angular logic to parse the 'token' query parameter from the URL. Pass the parsed token to the backend when submitting the new password. Acceptance Criteria: The password reset form must parse the 'token' query parameter and display the input fields to reset the password. Ensure the token is validated against error scenarios.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Create password reset form with validations",
+          "acceptance": "Develop the password reset form in the Angular frontend with fields for 'new password' and 'confirm new password'. Add validation for passwords (minimum length, special characters, and matching values). Acceptance Criteria: The form must require input of 'new password' and 'confirm new password'. Both fields must validate the input based on security requirements, and an error must appear if the fields do not match.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement password reset API endpoint in backend",
+          "acceptance": "Create a POST API endpoint in the Rust backend (e.g., '/api/reset-password') to handle password reset requests. Validate the reset token, ensure it has not expired, and update the user password in the GCP database. Invalidate the token after use. Acceptance Criteria: The endpoint accepts a JSON payload with 'token' and 'newPassword' fields. It must validate the token and update the user's password upon success. Expired or invalid tokens must return an error response with appropriate error codes.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Display success notification after password reset",
+          "acceptance": "Add frontend logic to display a success notification after successfully resetting the password. Acceptance Criteria: On successful response from the reset password API, display a clear success message to the user on the Angular frontend.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add error handling for invalid or expired reset tokens",
+          "acceptance": "Implement frontend error handling to display error messages for invalid or expired tokens when submitting the password reset form. Backend must also validate and return appropriate errors for these scenarios. Acceptance Criteria: Errors for invalid or expired tokens must be handled gracefully in the Angular frontend, displaying user-friendly messages. Rust backend must ensure expired or invalid tokens trigger appropriate error responses.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write unit tests for password reset and recovery components",
+          "acceptance": "Create Angular unit tests for the 'Forgot Password?' link, recovery screen, and password reset form components. Write Rust unit tests for the password recovery and reset API endpoints. Acceptance Criteria: All primary components in both frontend (Angular) and backend (Rust) must have unit tests covering success scenarios, validation failures, and error conditions for expired/invalid tokens.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "User Session Management",
+      "description": "Ability to manage and secure user sessions. In order to maintain account security. As a user, I want to stay logged in during activity and be logged out based on timeout policies or manual logout. Acceptance Criteria: Users must stay logged in for an active session duration but be logged out automatically after a configurable idle timeout. On session timeout, a prompt must notify users before logging them out, requiring re-authentication. Secure cookies must be used to manage sessions with encryption. A 'Logout' button must be available on all pages and must log out users and redirect them to the login page. Users attempting to access restricted pages without authentication must be redirected to the login screen.",
+      "tasks": [
+        {
+          "list": "Implement secure session creation using encrypted secure cookies",
+          "acceptance": "A function must be implemented in Rust to create a new user session upon successful authentication. The session ID must be encrypted and stored in a secure HTTP-only cookie. The cookie must have the Secure and SameSite attributes set. Acceptance Criteria: (1) Only users with valid credentials can receive a session cookie; (2) The cookie must be encrypted and follow secure standards; (3) The cookie must not be accessible via JavaScript.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement session validation mechanism",
+          "acceptance": "A middleware in Rust must validate the session cookie for every incoming request by decrypting the session ID and checking its validity in the session store. If the session is invalid or expired, the user must be redirected to the login page. Acceptance Criteria: (1) Middleware must validate session cookies for all secured API endpoints; (2) Each request with an invalid or absent session token must result in a redirection to the login page.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create configurable idle timeout functionality",
+          "acceptance": "A function must track user activity to reset the idle timer on interaction. If the idle timer exceeds the configured timeout limit, the session must be flagged for timeout and the user notified via a prompt. Acceptance Criteria: (1) Idle timeout duration must be configurable via an environment variable or configuration file; (2) Idle timeout must be accurately reset on user activity; (3) Session timeout prompt must trigger only after exceeding the idle limit and must require user action to either re-authenticate or confirm logout.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement session timeout handling and auto logout mechanism",
+          "acceptance": "When the session timeout prompt appears and the user does not confirm activity within a given timeframe, the session must be invalidated on the server, and the user must be logged out. Acceptance Criteria: (1) User must be logged out automatically after idle timeout is reached and the prompt times out without user interaction; (2) The session must be deleted from the session store upon logout; (3) The user must be redirected to the login page after auto logout.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement 'Logout' button for manual session termination",
+          "acceptance": "A 'Logout' button must be added to the Angular front-end and associated with a backend endpoint in Rust to handle manual session termination. Clicking the button must invalidate the corresponding session and redirect the user to the login page. Acceptance Criteria: (1) 'Logout' button must be present on all pages; (2) Clicking 'Logout' must send a request to the backend to invalidate the session; (3) Upon successful logout, the user must be redirected to the login page.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Restrict access to secured pages for unauthenticated users",
+          "acceptance": "A middleware in Rust must ensure that access to restricted API endpoints is allowed only for authenticated sessions. If a request is unauthenticated, it must return a 401 Unauthorized status and trigger the front-end to redirect to the login page. Acceptance Criteria: (1) All restricted API endpoints must verify session authenticity through middleware; (2) Unauthenticated users requesting restricted resources must receive a 401 response; (3) The front-end must redirect unauthenticated users to the login page when a 401 error occurs.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add session timeout notification on the Angular front-end",
+          "acceptance": "Implement a UI component to display a session timeout warning prompt in Angular. The prompt must notify the user before automatic logout, offering an option to extend the session by re-authenticating. Acceptance Criteria: (1) The UI prompt must appear when session timeout is imminent; (2) The prompt must provide options to either extend the session or log out; (3) If no action is taken within the specified timeframe, the user must be logged out automatically.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Create integration tests for session management features",
+          "acceptance": "Automated integration tests must be created for all session management features to verify functionalities such as login, session validation, idle timeout, auto logout, manual logout, and secure page access. Acceptance Criteria: (1) Integration tests must verify secure cookie creation and validation; (2) Tests must validate configurable idle timeout settings; (3) Auto logout and manual logout behaviors must be tested; (4) Restricted page access for unauthenticated users must be verified.",
+          "id": "TASK8"
+        }
+      ]
+    }
+  ]
+}

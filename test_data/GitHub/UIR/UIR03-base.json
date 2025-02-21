@@ -1,0 +1,4 @@
+{
+  "requirement": "The interface should support pull request workflows, providing users with options to create, review, merge, and close pull requests with associated metadata such as comments, reviews, and statuses.",
+  "title": "Pull Request Workflow"
+}

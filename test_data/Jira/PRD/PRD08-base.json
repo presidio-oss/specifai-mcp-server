@@ -1,0 +1,4 @@
+{
+  "requirement": "Provide an agile board to visualize tasks in categories like 'To Do,' 'In Progress,' and 'Done.' Screens: Agile Board Screen with drag-and-drop functionality to move tasks between columns. Personas: Agile teams managing their workflows in an iterative manner.",
+  "title": "Agile Board View"
+}

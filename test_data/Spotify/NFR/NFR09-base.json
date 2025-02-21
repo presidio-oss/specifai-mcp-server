@@ -1,0 +1,4 @@
+{
+  "requirement": "The app should have a minimal maintenance window with updates deployed using rolling or zero-downtime deployment strategies.",
+  "title": "Low Maintenance Downtime"
+}

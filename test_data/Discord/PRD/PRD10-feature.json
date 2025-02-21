@@ -1,0 +1,284 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Unified Search with Keyword and Filter Functionality",
+      "description": "Ability to search across servers, members, and content with keyword inputs and integrated filters. In order to discover communities, users, or specific messages. As an individual exploring or locating information, I want a unified interface to input keywords and apply filters for tailored search results. Acceptance Criteria: The search screen must provide a single input field for entering keywords, along with filter options such as 'By Server', 'By Member', and 'By Content'. Users should be able to toggle and combine multiple filters dynamically. Search results should display relevant matches with keywords highlighted. Error alerts must appear for invalid or conflicting filters, guiding users to adjust input.",
+      "tasks": [
+        {
+          "list": "Create unified search input field component in React",
+          "acceptance": "Implement a React Component that renders a single input field for keyword search. Acceptance Criteria: The input field should accept text input for keywords and emit an event on change. The input field must support React state management for tracking user input.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Design and implement filter options in the search component",
+          "acceptance": "Add 'By Server', 'By Member', and 'By Content' filter options as toggleable checkboxes in the React Component. Acceptance Criteria: Filters should use React state to store the combination of selected options dynamically. Filters must update state correctly when toggled independently.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement search API endpoint in Golang to process keyword and filter combinations",
+          "acceptance": "Create a REST API endpoint in Golang that accepts a keyword and filter criteria as query parameters. Acceptance Criteria: The endpoint must accept validated query parameters for 'keyword' as a string and 'filters' as an array. Return appropriate search results based on matches for servers, members, or content. If filters are invalid or conflicting, return a 400 error response with an appropriate error message.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Integrate highlighting of matched keywords in the search results",
+          "acceptance": "Modify the Golang API response to include matched content with specific keywords wrapped in <mark> tags. Acceptance Criteria: Search results in the API response must contain keyword matches enclosed in highlight markers, ensuring proper escape handling for HTML.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Build a React component to display search results dynamically",
+          "acceptance": "Create a new React Component to display search results returned from the API. Acceptance Criteria: The component should dynamically render a list of results with highlighted keywords. It must handle empty or error responses by displaying appropriate feedback messages.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement front-end input validation for keyword and filter combinations",
+          "acceptance": "Add input validation logic in the React search component to prevent invalid or conflicting filter combinations before making the API request. Acceptance Criteria: Display error messages in the UI for invalid input, ensuring conflicts (e.g., all filters deselected with a keyword entered) prevent API calls.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle API integration in React search component",
+          "acceptance": "Connect the React search component to the Golang API endpoint using an HTTP client. Acceptance Criteria: On search submission, the component must send an asynchronous request with the current keyword and filter state. Update the UI dynamically with search results from the response.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement server-side error handling and logging for the search API",
+          "acceptance": "Enhance the Golang API to log detailed error messages for invalid or conflicting filter input and server-side issues. Acceptance Criteria: The API must return structured error responses for error conditions. Error messages must be accompanied by relevant HTTP status codes and server-side logs with contextual error details for debugging.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Test the unified search functionality (unit tests)",
+          "acceptance": "Write unit tests for the React component to verify the correct behavior of the input field, filter toggles, and UI state updates. Acceptance Criteria: Tests must validate that UI behavior matches the expected outcomes for valid or invalid inputs, and mock API responses must serve as test cases for verifying data rendering.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Test search API endpoint functionality in Golang (unit and integration tests)",
+          "acceptance": "Design and execute unit and integration tests for the search API endpoint in Golang. Acceptance Criteria: Tests must validate the correct handling of valid keywords and filters, appropriate error responses for invalid input, and correct highlighting of matched keywords in the response.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Server Discovery and Navigation",
+      "description": "Ability to search for specific servers based on name, tags, or descriptions. In order to locate and explore relevant communities. As a user seeking new servers, I want to input queries and utilize filters to narrow my options. Acceptance Criteria: The interface must include a 'Search by Server' filter with sub-filters for server type (e.g., public/private) and activity level. Results must display server names, descriptions, and tags, and be clickable to navigate to detailed server pages. If no servers match, a 'No results found' message must prompt users to refine input or filters.",
+      "tasks": [
+        {
+          "list": "Implement API endpoint to search servers",
+          "acceptance": "Create a new API endpoint in Golang to handle search requests for servers by name, tags, or descriptions. The endpoint should accept query parameters for 'name', 'tags', and 'description', and respond with a JSON payload containing matching servers (name, tags, description, and activity level). Acceptance Criteria: Endpoint must validate input parameters, handle scenarios with no results by returning a 'No results found' message, and respond within 300ms for up to 1000 results.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Update backend to support filtering by server type and activity level",
+          "acceptance": "Enhance API to accept query parameters for 'server_type' (public/private) and 'activity_level'. Ensure these filters are correctly applied to search queries. Acceptance Criteria: Filtering must return only matching results, validate acceptable filter values (e.g., 'public' and 'private'), and respond with an error for invalid inputs.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement interface in React for server search input and filter controls",
+          "acceptance": "Implement a React component for accepting search input and defining filters (server type and activity level). Acceptance Criteria: The component must include fields for search input, dropdowns for filters, and validation for user inputs (e.g., prevent empty searches), and must trigger API calls when users click 'Search'.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Display search results in the React frontend",
+          "acceptance": "Implement a React component to display server search results, including server names, descriptions, and tags in a list format. Each result must be clickable to open a detailed page. Acceptance Criteria: The results must correctly map to the API response, display a 'No results found' message on no matches, and support proper navigation to the detailed server page.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create navigation from search results to server detail pages",
+          "acceptance": "Implement logic in React to navigate users to individual server detail pages when they click on a server in the search results. Acceptance Criteria: Ensure click events pass the specific server identifier in the route, and validate successful navigation through React routing.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement error handling in search functionality",
+          "acceptance": "Enhance both the Golang API and React frontend to handle error scenarios, such as invalid inputs and server-side failures. Acceptance Criteria: On invalid input, a user-friendly error message must be displayed. On server-side failures, retry logic should execute up to three times, and subsequently display an appropriate error notification.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Optimize backend for performance with search and filtering",
+          "acceptance": "Ensure the Golang backend queries are optimized for efficient filtering, indexing, and pagination on large datasets. Acceptance Criteria: Implement indexing strategy for name, tags, and description fields. Validate API response times are under 300ms for up to 1000 results as per requirements.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write unit tests for search API in Golang",
+          "acceptance": "Write unit tests covering valid and invalid search requests for name, tags, descriptions, server types, and activity level. Acceptance Criteria: Tests must pass for all criteria, including 'No results found' scenarios and handling of invalid inputs.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write integration tests for end-to-end server search functionality",
+          "acceptance": "Create integration tests to validate end-to-end interactions between the React frontend and Golang backend for server search, filtering, and navigation to server detail pages. Acceptance Criteria: Ensure all user story requirements are tested—valid and invalid inputs, 'No results found' handling, proper filtering, and navigation mechanics.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Member Search and Profile Access",
+      "description": "Ability to locate specific members within or across servers using user-related attributes. In order to connect or gather profile information. As a user searching for members, I want to input usernames or nicknames and view member results. Acceptance Criteria: The system must allow filtering by 'Search by Member' and display query-matched names, associated servers, and online/offline status. A 'View Profile' button on each result must navigate to the member's profile. Invalid input should trigger an error message. Exact matches should appear first, followed by partial matches.",
+      "tasks": [
+        {
+          "list": "Create endpoint for 'Search by Member'",
+          "acceptance": "Develop a Golang API endpoint to handle 'Search by Member' requests. The endpoint should accept the 'username' or 'nickname' attributes as query parameters and return a list of matched results based on query criteria. Exact matches must appear first, followed by partial matches. Acceptance Criteria: The endpoint should return results containing the member's name, associated servers, and online/offline status. Validate inputs to ensure they are not empty or invalid. Return an appropriate error message for invalid input.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement backend logic to query member data",
+          "acceptance": "Write a function in Golang that queries the member database or backend service, filtering results based on the 'username' or 'nickname' attributes. The function must return sorted results where exact matches appear first, followed by partial matches. Acceptance Criteria: Data should include exact and partial matches, with details such as the member's name, associated servers, and online/offline status fetched and structured as a JSON response. Ensure input validation and error handling for edge cases (e.g., empty or invalid filters).",
+          "id": "TASK2"
+        },
+        {
+          "list": "Build React component for Search Bar",
+          "acceptance": "Create a Search Bar component in React that allows users to input 'username' or 'nickname' and trigger the member search feature. Accept input via form submissions and send requests to the 'Search by Member' endpoint. Acceptance Criteria: The Search Bar should have validation to ensure users cannot submit invalid or empty input. Display appropriate error messages inline for validation failures.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create React component for displaying search results",
+          "acceptance": "Develop a React component to display the list of members returned by the search API. Each result should include the member's name, associated servers, and online/offline status. Include a 'View Profile' button for each result. Acceptance Criteria: Ensure results are displayed in a list or grid format. Data should match the exact sort order received from the API (exact matches first, partial matches second). Ensure the 'View Profile' button is included in each result entry.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement navigation logic for 'View Profile' button",
+          "acceptance": "Develop functionality in the React application to navigate to the member's profile page when the 'View Profile' button is clicked. Integrate with the existing routing structure to handle navigation. Acceptance Criteria: Navigation triggered by clicking the 'View Profile' button should correctly display the selected member's profile page. The profile page should display all relevant user information.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Handle error messages in search workflow",
+          "acceptance": "Implement error handling in both the React UI and Golang backend for invalid search input. Display error messages in the UI if the API returns errors or if input is invalid. Acceptance Criteria: Ensure the Golang backend returns appropriate error codes and structured messages for invalid input. On the React side, display error messages inline near the Search Bar when a problem occurs. Test edge cases such as empty strings and special characters.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Write unit tests for 'Search by Member' API",
+          "acceptance": "Develop unit tests in Golang to validate the functionality of the 'Search by Member' API endpoint. Cover cases for exact matches, partial matches, and invalid inputs. Acceptance Criteria: Ensure all unit tests pass and achieve a high code coverage percentage. Test that the response structure matches the expected output, including the sort order and error messages for edge cases.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write component tests for Search Bar and Result Display",
+          "acceptance": "Develop React component tests to verify the functionality of the Search Bar and Results Display components. Mock the API calls for testing. Acceptance Criteria: Ensure the Search Bar validates user input and triggers API calls. Ensure the Results Display component correctly renders results based on API responses, in the expected order and format.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write integration tests for Search and Profile Navigation",
+          "acceptance": "Develop integration tests to cover the end-to-end workflow of searching members and navigating to their profile. Test both successful and error scenarios. Acceptance Criteria: Ensure the search workflow functions correctly, including data fetching, result display, navigation via 'View Profile', and error handling. Validate navigation triggers correct routing to profiles without errors.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Conversation Search with Contextual Content Preview",
+      "description": "Ability to locate specific messages or chat content within servers and channels. In order to find past discussions or details quickly. As a user searching for content, I want to see highlighted excerpts and navigate to the message in context. Acceptance Criteria: Filters must allow narrowing by channel name, time range, and message type (e.g., text, media). Search results must display excerpt previews with highlighted query terms and a clickable option to jump directly to the message in conversation view. If there are no results, a 'No messages found' message must guide users to refine filters or input.",
+      "tasks": [
+        {
+          "list": "Implement API endpoint for conversation search with filters",
+          "acceptance": "Develop a Golang API endpoint to perform conversation search. Endpoint must accept query parameters for 'channel_name', 'time_range', 'message_type', and a 'search_query' string. Validate input parameters for type correctness and completeness. Response must return a list of matching messages with highlighted query terms in excerpts. If no results are found, return a response with a status message 'No messages found'. Acceptance Criteria: API must return correctly filtered and highlighted results or appropriate error messages if input is invalid or no results are found.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Design and implement backend filtering logic",
+          "acceptance": "Implement Golang logic to filter messages in the database by channel name, time range, and message type. Ensure the filtering logic correctly matches these criteria against stored data. Create unit tests to validate filtering correctness under various input scenarios. Acceptance Criteria: Filtering must match specified filters exactly and handle edge cases (e.g., empty channels, overlapping time ranges) as per user story requirements.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Highlight query terms in search results",
+          "acceptance": "Enhance the search response to include message excerpts with query terms highlighted. Use lightweight text processing logic for query term matching. Ensure highlighted terms are shown in lowercase/uppercase as per original message case. Acceptance Criteria: Excerpts in API responses must highlight query terms consistently and match the user’s original search query.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement 'No messages found' response for empty results",
+          "acceptance": "Modify the search API to return a 'No messages found' message with a guidance note if no matching results are found after applying filters. The API must maintain a valid JSON structure and provide clear user guidance to refine filters or update search input. Acceptance Criteria: API must return a structured and clear 'No messages found' message when no results exist for the search query.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Develop a React UI component for search input and result display",
+          "acceptance": "Create a React component with fields to input 'channel_name', 'time_range', 'message_type', and 'search_query'. Display results in a dynamic list, with highlighted query excerpts and a clickable link to navigate to the message in context. Acceptance Criteria: UI component must render real-time search results from the API, include highlighted excerpts, and include clickable navigation links to the respective message.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add filter dropdowns and date picker for search in React UI",
+          "acceptance": "Enhance the search UI with dropdowns for 'channel_name' and 'message_type' and a date-range picker for 'time_range'. Ensure these inputs map correctly to the API query parameters. Validate onChange behavior to send correct data to the API. Acceptance Criteria: Dropdowns and date picker must work dynamically, populate correctly, and pass data accurately as query parameters to the API.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Integrate 'No results found' UI state",
+          "acceptance": "Implement a 'No results found' state in the React UI that matches the API response. Display a user-friendly message to guide users on how to refine filters or update their search query. Acceptance Criteria: UI must display a clear and comprehensive message for empty results, consistent with API response.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement clickable navigation to message in conversation view",
+          "acceptance": "Enable clickable results in the React UI that takes users to the full conversation view of the selected message. Ensure the conversation view highlights the selected message for quick identification. Acceptance Criteria: Clicking a search result must display the corresponding message in context and place visual emphasis on the matched message in the conversation view.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit tests for Golang search API functionality",
+          "acceptance": "Develop unit tests for the search API in Golang to validate filter logic, query term highlighting, and response formatting. Test edge cases such as empty inputs, invalid parameters, and no results. Acceptance Criteria: Tests must cover all API functionalities, ensuring correct results, highlights, and response structure for valid and invalid inputs.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Create end-to-end tests for React search UI",
+          "acceptance": "Develop end-to-end tests for the search UI using a testing library (e.g., Jest, React Testing Library). Validate form inputs, dropdown behavior, API integration, result rendering, highlighting, and navigation. Acceptance Criteria: Tests must ensure the UI properly handles valid inputs, edge cases, no-result states, and clickable navigation functionality.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Organized and Sortable Search Results",
+      "description": "Ability to view search results grouped logically and sorted for enhanced usability. In order to efficiently access relevant information. As a user viewing search results, I want my findings grouped and sorted by relevant criteria. Acceptance Criteria: Results must be categorized into collapsible groups such as 'Servers', 'Members', and 'Messages'. Sorting options must include relevance, timestamp (newest to oldest), and alphabetical order. Pagination or lazy loading is required for performance on long lists. An option must exist for users to report incorrect or irrelevant results. Sorting preferences should persist during the session or until manually changed.",
+      "tasks": [
+        {
+          "list": "Create API endpoint to fetch grouped search results",
+          "acceptance": "Define a GET `/api/search` endpoint in the Golang backend to fetch search results. Implement logic to categorize results into 'Servers', 'Members', and 'Messages' based on the data structure. Ensure response includes grouped results in collapsible format. Acceptance Criteria: Verify endpoint returns categorized results structured as collapsible groups with status 200. Verify error 500 is returned if backend processing fails.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement sorting logic for search results",
+          "acceptance": "Add query parameters `sort=relevance`, `sort=timestamp`, and `sort=alphabetical` to the `/api/search` endpoint. Implement server-side logic for sorting the grouped results based on the specified criteria. Acceptance Criteria: Verify sorting works as intended for relevance, timestamp (newest to oldest), and alphabetical options. Ensure sorting is case-insensitive for alphabetical order. Validate response consistency with sort parameters.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement pagination/lazy loading support in API",
+          "acceptance": "Extend `/api/search` endpoint to accept `page` and `limit` query parameters. Implement server-side logic to handle pagination of search results. Verify performance optimization for large datasets. Acceptance Criteria: Verify API correctly returns only the requested data slice based on `page` and `limit`. Confirm inclusion of total result count and current page metadata in the response. Ensure proper error handling when invalid page or limit values are provided.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Develop React component to display grouped search results",
+          "acceptance": "Create a React component to render search results grouped into collapsible sections ('Servers', 'Members', 'Messages'). Consume the `/api/search` API data and dynamically render the collapsible UI structure. Use React state to manage open/close status of groups. Acceptance Criteria: Verify collapse/expand functionality works as expected. Confirm results render under correct groups and match API response data.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add sorting controls to React component",
+          "acceptance": "Add dropdown or buttons to the search results UI for selecting sorting criteria (relevance, timestamp, alphabetical). Trigger API calls with the selected sort option and update the results displayed in the UI. Acceptance Criteria: Verify sorting selection correctly fetches and displays sorted data. Validate consistency with response from server-side `/api/search` endpoint. Verify UI updates dynamically on sort option change.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement pagination/lazy loading in React component",
+          "acceptance": "Add UI controls (pagination buttons or infinite scroll) to handle paginated results. Trigger subsequent API calls as the user navigates between pages or loads more data. Acceptance Criteria: Verify current page results update correctly without reloading the entire page or overwriting existing results. Validate pagination metadata like total pages and current page are displayed. Validate lazy loading triggers additional data fetch seamlessly.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Create 'Report Issue' functionality in React component",
+          "acceptance": "Add a 'Report Issue' button to each result in the React search results component. Trigger backend API to report the selected result. Mock or define a `/api/reportIssue` endpoint for reporting. Acceptance Criteria: Verify button opens a modal/input for users to submit their issue description and confirms submission. Confirm mock API triggers correctly with the required parameters (result ID). Validate graceful error handling on API failures.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Persist sorting preferences for session in React",
+          "acceptance": "Store the user's selected sorting preference in the React session state or a temporary store. Apply the preference when re-fetching search results after state changes or UI refresh. Acceptance Criteria: Verify last selected sorting preference auto-applies without user re-selection during the session. Validate proper re-fetch of results using the persisted preference.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add error handling and validation for API responses in React",
+          "acceptance": "Implement error handling logic in React for failed API calls in the grouped search results component. Render appropriate user notifications for errors like 500 (Server error) and invalid API responses. Acceptance Criteria: Verify errors are displayed properly in the UI when API returns 500 status. Validate loading states during API calls and user-friendly error messages for timeouts or valid response failures.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write unit tests for React components",
+          "acceptance": "Create unit tests using testing libraries (e.g., Jest/React Testing Library) for React components rendering grouped results, sorting controls, and pagination. Include mock API calls to verify behavior. Acceptance Criteria: Verify React components properly render from mock API response data. Validate UI behavior for all actions like sorting, pagination, and reporting an issue.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Write integration tests for backend API",
+          "acceptance": "Create integration tests for the `/api/search` endpoint using Go testing frameworks (e.g., Go's built-in testing library). Validate grouped results, sorting logic, and pagination functionality. Acceptance Criteria: Verify API integrates correctly with the database and returns valid grouped/categorized results based on query parameters. Validate edge cases like empty result sets, invalid query parameters, and server errors.",
+          "id": "TASK11"
+        }
+      ]
+    }
+  ]
+}

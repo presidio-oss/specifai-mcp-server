@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must notify users of mentions, direct messages, and activity in their subscribed servers via in-app notifications and push alerts. Screens: A notifications feed screen for a consolidated view of all notifications. Personas: Users staying updated on key activities and when they are addressed directly.",
+  "title": "Notification System"
+}

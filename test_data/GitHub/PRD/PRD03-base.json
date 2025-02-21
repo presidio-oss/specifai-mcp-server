@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must support pull requests with features for reviewing, commenting, and approving proposed changes. Screens: Pull request list and detail pages with code diff visualizations and commenting interfaces. Personas: Developers working collaboratively on a shared codebase and team leads overseeing contributions.",
+  "title": "Code Collaboration"
+}

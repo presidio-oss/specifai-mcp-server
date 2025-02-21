@@ -1,0 +1,4 @@
+{
+  "requirement": "Offer workflow automation to trigger actions based on events (e.g., move tasks automatically when status changes). Screens: Workflow Configuration Screen for defining automation triggers and actions. Personas: Project managers setting up custom workflows for team efficiency.",
+  "title": "Workflow Automation Rules"
+}

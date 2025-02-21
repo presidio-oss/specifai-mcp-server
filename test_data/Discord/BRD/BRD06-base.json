@@ -1,0 +1,4 @@
+{
+  "requirement": "Implement role-based access controls within servers to manage user permissions. This system should allow administrators to assign roles with specific privileges, such as the ability to create channels, moderate discussions, or invite members.",
+  "title": "Role-Based Access Controls"
+}

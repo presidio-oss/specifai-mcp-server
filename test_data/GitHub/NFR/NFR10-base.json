@@ -1,0 +1,4 @@
+{
+  "requirement": "The platform should support cloud deployment on AWS, Azure, and GCP while being containerized for flexibility using Docker or Kubernetes.",
+  "title": "Deployment Constraints"
+}

@@ -1,0 +1,4 @@
+{
+  "requirement": "Fallback designs must ensure core functionalities like task viewing and editing remain accessible when experiencing low-performance environments or limited network bandwidth.",
+  "title": "Low-Performance Fallback"
+}

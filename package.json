@@ -1,0 +1,95 @@
+{
+  "name": "@vj-presidio/specif-ai-mcp-server",
+  "version": "0.0.0",
+  "description": "Specif-ai MCP Server that runs over stdio",
+  "type": "module",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vj-presidio/specif-ai-mcp-server.git"
+  },
+  "keywords": [
+    "specif-ai",
+    "mcp",
+    "model-context-protocol",
+    "cli",
+    "stdio",
+    "server"
+  ],
+  "author": "Specif-ai",
+  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "bin": {
+    "specif-ai-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "bun": ">=1.0.0"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "build": "./build.sh",
+    "build:npm": "./build-npm.sh",
+    "prepublishOnly": "bun run build:npm",
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "release": "release-it",
+    "release:dry-run": "release-it --dry-run",
+    "release:ci": "release-it --ci"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
+    "@jest/globals": "^29.7.0",
+    "@release-it/conventional-changelog": "^10.0.0",
+    "@types/bun": "latest",
+    "@types/jest": "^29.5.14",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "prettier": "^3.5.1",
+    "release-it": "^18.1.2",
+    "ts-jest": "^29.2.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.5.0",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "zod": "^3.24.2"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transform": {
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "useESM": true,
+          "tsconfig": "tsconfig.jest.json"
+        }
+      ]
+    },
+    "collectCoverageFrom": [
+      "src/services/**/*.ts",
+      "!src/services/**/*.test.ts",
+      "!src/services/**/*test-utils.ts"
+    ]
+  }
+}

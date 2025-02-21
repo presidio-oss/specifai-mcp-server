@@ -1,0 +1,284 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Real-Time Chat Message Display and History",
+      "description": "Ability to view real-time messages and the channel chat history. In order to follow the conversation in a channel. As a community member, I want to see a dynamic, scrollable interface that displays messages instantly as they are sent. Acceptance Criteria: The interface must display all messages in a chronological feed, sorted by timestamp, with smooth scrolling functionality. New incoming messages should auto-scroll into view unless manually overridden by the user. The system must manage proper rendering of concurrent messages from multiple users dynamically and instantaneously.",
+      "tasks": [
+        {
+          "list": "Create API endpoint to fetch complete chat history for a channel",
+          "acceptance": "Implement a GET endpoint in Golang to return all messages for a specific channel, ordered by timestamp in ascending order. Input: Channel identifier. Output: JSON array of messages with fields (id, sender, content, timestamp). Ensure the query retrieves messages in chronological order. Return a 404 error if the channel does not exist and 500 for server-side errors. Acceptance Criteria: API returns chat history for a given channel with valid formatting and error handling.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create WebSocket server for real-time message streaming",
+          "acceptance": "Implement a WebSocket server in Golang to broadcast new messages for a specific channel. Input: Channel identifier and message details (id, sender, content, timestamp). Output: Real-time broadcast of message to all connected clients in the channel. Handle concurrent messages to ensure message order is preserved. Acceptance Criteria: When a new message is sent, all connected WebSocket clients receive it instantly in the proper order.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Update React component to render chat history in a scrollable feed",
+          "acceptance": "Create a React component to fetch and display chat history using the GET API. The feed must be scrollable and render messages in chronological order. Input: API response (array of messages). Output: Rendered UI with message sender, content, and timestamp in order. Acceptance Criteria: The React component correctly renders existing chat history in a scrollable interface upon page load.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Integrate WebSocket client in React to receive real-time messages",
+          "acceptance": "Implement WebSocket client in React to connect to the server for a specific channel and handle incoming messages dynamically. Input: WebSocket server events (new message details). Output: Append new messages to the feed in real time. Ensure that incoming messages are displayed in the UI immediately. Acceptance Criteria: Messages sent by other users appear dynamically in the UI without a page refresh.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement auto-scroll behavior for new messages in React",
+          "acceptance": "Update the React component to auto-scroll to the bottom of the feed when a new message arrives unless the user has manually scrolled up. Input: New message event from the WebSocket. Output: The interface scrolls to the latest message if the user has not overridden scrolling. Acceptance Criteria: The UI auto-scrolls for new messages, but the behavior is disabled if the user is manually scrolling.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Handle concurrent message rendering in React",
+          "acceptance": "Ensure the React feed component handles simultaneous incoming messages by maintaining proper order and avoiding rendering issues. Input: Stream of concurrent WebSocket message events. Output: Messages are displayed in the correct order without duplication or render errors. Acceptance Criteria: Concurrent incoming messages are rendered accurately and seamlessly in the UI.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Error handling for WebSocket connection failures in React",
+          "acceptance": "Add error handling logic to the React WebSocket client to detect and surface connection issues. Input: WebSocket connection failure/disconnection. Output: Display error message in the UI and attempt reconnection. Acceptance Criteria: If the WebSocket connection fails, an appropriate error message is displayed, and the system attempts to reconnect automatically.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Add test for API endpoint to fetch chat history",
+          "acceptance": "Write unit tests for the Golang GET API endpoint to validate correct data ordering, error handling, and edge cases (e.g., empty channel, invalid identifier). Acceptance Criteria: Tests verify that the API meets all specified requirements, including valid responses and error cases.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add test for WebSocket server broadcasting functionality",
+          "acceptance": "Write integration tests in Golang to verify that the WebSocket server correctly broadcasts new messages to all connected clients. Acceptance Criteria: Tests confirm the proper handling of message order, concurrent messages, and broadcast reliability.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Add unit tests for React chat feed component",
+          "acceptance": "Write unit tests for the React component to validate chat history rendering, real-time updates, and auto-scroll behavior. Acceptance Criteria: Tests verify proper message rendering, scroll behavior, and UI updates for new messages.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Send and Compose Real-Time Messages",
+      "description": "Ability to compose and send real-time messages in a channel. In order to communicate with others instantly. As a community member, I want to type a message and send it to the channel for all participants to see. Acceptance Criteria: The interface must include a visible input area for composing messages and a clearly labeled 'Send' button. Pressing 'Enter' or the 'Send' button should instantly deliver the message and append it to the chat feed. Invalid or empty messages must display appropriate error feedback. Sent messages should dynamically appear in the feed, along with other users' messages when participating in real time.",
+      "tasks": [
+        {
+          "list": "Create message input area and Send button in the React UI",
+          "acceptance": "Implement a visible input field for composing messages and a clearly labeled 'Send' button in the React component. Acceptance Criteria: The input field and 'Send' button should be present within the UI. The 'Send' button should be distinct and clearly labeled.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Add functionality in React UI to capture message input and handle button click",
+          "acceptance": "Develop logic to capture the input from the message field and trigger an action on clicking the 'Send' button. Acceptance Criteria: The input content should be retrievable as a string and the 'Send' button click event should invoke a defined functionality.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement 'Enter' keypress functionality to send messages in React UI",
+          "acceptance": "Enable 'Enter' key to trigger sending the message just like the 'Send' button click. Acceptance Criteria: Pressing the 'Enter' key in the input field should invoke the same functionality as the 'Send' button.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add validation logic for empty or invalid messages in React UI",
+          "acceptance": "Implement client-side validation to prevent sending empty or invalid messages. Display appropriate error feedback in the UI if the message is invalid. Acceptance Criteria: An error message should appear when attempting to send an empty or invalid message.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create a Golang API endpoint to handle sending messages to the channel",
+          "acceptance": "Develop a Golang API endpoint to accept valid messages from the client and send them to the intended channel. Acceptance Criteria: The endpoint should accept only non-empty, valid messages and return a 200 HTTP response upon success. Invalid messages should return a 400 HTTP response with an appropriate error message.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Integrate the Golang API with the React UI for message sending",
+          "acceptance": "Connect the React frontend to the Golang backend API endpoint for sending messages. Acceptance Criteria: The UI should call the API with the composed message upon a successful input validation and receive a confirmation (or error response).",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement real-time message broadcast functionality in Golang",
+          "acceptance": "Implement a real-time mechanism in Golang to broadcast sent messages to all participants in the channel using WebSockets or an equivalent mechanism. Acceptance Criteria: Messages sent to the channel should appear for all connected participants in real time.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Update React UI to handle real-time message updates",
+          "acceptance": "Develop React logic to subscribe to real-time message updates and dynamically display incoming messages in the chat feed. Acceptance Criteria: The UI should append new messages dynamically to the chat feed as they are received in real time.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement client error handling for failed message delivery",
+          "acceptance": "Add appropriate error-handling logic to the UI for scenarios such as failed API calls or network errors while sending messages. Acceptance Criteria: An error notification should appear in the UI if the message cannot be sent successfully due to backend or network issues.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Add unit tests for React input field validation and UI logic",
+          "acceptance": "Write unit tests to validate message input handling, 'Send' button functionality, and error display logic in the React UI. Acceptance Criteria: All implemented input validations and actions should be covered, with tests passing under valid and invalid scenarios.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Add unit tests for the message sending Golang API endpoint",
+          "acceptance": "Write unit tests for the Golang message API to ensure it handles valid and invalid messages correctly. Acceptance Criteria: The API must handle edge cases like empty and invalid inputs appropriately, and unit tests must pass successfully.",
+          "id": "TASK11"
+        },
+        {
+          "list": "Implement integration tests for message sending end-to-end functionality",
+          "acceptance": "Write end-to-end integration tests to validate communication between the React UI and Golang backend for sending and displaying messages in real time. Acceptance Criteria: Tests should verify that messages are sent, received in real time, and dynamically displayed in the UI.",
+          "id": "TASK12"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Rich Text and Emoji Message Formatting",
+      "description": "Ability to format messages with rich text and emoji options. In order to enhance expressions and add clarity to conversations. As a community member, I want to include emojis and apply text styles like bold or italics in my messages. Acceptance Criteria: The input area must support text formatting options such as bold (**), italics (*), and underline (_), either through shortcuts or an editor menu. An interactive emoji picker must be accessible for inserting emojis. Sent messages must accurately render the applied rich text and emoji formatting. The compose area must correctly preview any text formatting in real time without errors.",
+      "tasks": [
+        {
+          "list": "Create functionality to identify and apply bold (**), italics (*), and underline (_) formatting in text input",
+          "acceptance": "Implement a text parser in React to recognize **, *, and _ as markers for text formatting. Modify the Rich Text Editor component to wrap the identified text in appropriate HTML tags (<strong>, <em>, <u>). Acceptance Criteria: The user can type **text**, *text*, and _text_ in the input area, and the system must apply bold, italics, and underline formatting respectively upon rendering.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement real-time preview of rich text formatting in the compose area",
+          "acceptance": "Ensure the Rich Text Editor reflects formatting changes (bold, italics, underline) in real-time as the user types. Use React state updates to trigger re-rendering of the formatted text. Acceptance Criteria: Text formatting applied in the input area must be updated and displayed live without requiring additional user actions or refresh.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Integrate an interactive emoji picker for inserting emojis into the message",
+          "acceptance": "Add an emoji picker component to the React UI and bind it to the input area. Ensure the selected emoji is inserted at the current cursor position in the text. Acceptance Criteria: The user can open the emoji picker by interacting with a button and insert emojis into the compose area seamlessly.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Render emojis within the message display component after submission",
+          "acceptance": "Parse and render emojis as image elements or Unicode in the message display component using React. Ensure all emojis persist and render accurately. Acceptance Criteria: Emojis inserted by the user must appear correctly within the sent message display.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement backend support to handle rich text and emojis in submitted messages",
+          "acceptance": "Update the Golang backend to accept and store formatted text and emojis in the appropriate data fields. Ensure incoming message data preserves formatting markers (**, *, _) and emoji codes. Acceptance Criteria: The backend must process, store, and retrieve messages maintaining proper rich text and emoji formatting.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Validate input data on both client and server for formatting errors",
+          "acceptance": "Implement validation logic in both React (client-side) and the Golang backend (server-side) to detect and handle mismatched or unsupported formatting and emojis. Acceptance Criteria: Incorrect formatting (e.g., unmatched **) or invalid emoji codes must trigger validation errors, preventing submission and displaying informative messages to users.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Conduct comprehensive testing for rich text formatting and emoji handling",
+          "acceptance": "Write unit and integration tests in React and Golang to validate correct behavior for all formatting (bold, italics, underline) and emoji functionalities. Include cases for invalid formatting, empty inputs, and mixed text/emoji inputs. Acceptance Criteria: All new features must pass the test suite with 100% coverage for identified edge cases and business rules.",
+          "id": "TASK7"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "File Attachments in Messages",
+      "description": "Ability to attach files to messages in a channel. In order to share images, documents, or media with community members. As a community member, I want to upload and send file attachments alongside text messages. Acceptance Criteria: The interface must have a clearly visible file attachment button in the compose area. Users should be able to upload files up to a size limit of 10MB, with previews for image files (e.g., JPG/PNG). Invalid formats or excessive file sizes must display a clear error notification without crashing the system. Attachments must be viewable and downloadable by other users directly from the conversation feed.",
+      "tasks": [
+        {
+          "list": "Create a file attachment button in the compose area of the React UI",
+          "acceptance": "Add a file attachment button to the compose area of the message input interface in the React frontend. Acceptance Criteria: Button is clearly visible and styled according to the existing design. Clicking the button opens a file selector dialog.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement file upload functionality in the React frontend",
+          "acceptance": "Implement a function to handle selected file uploads using the file selector dialog. Acceptance Criteria: Files are read from the user's device and dispatched as form-data payloads to the backend endpoint. If the file exceeds 10MB or is of an invalid format, prevent upload and display an error notification.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Add a backend endpoint in Golang to handle file uploads",
+          "acceptance": "Create a new HTTP endpoint in Golang to receive multipart form file uploads. Validate file size (≤10MB) and format (e.g., .jpg, .jpeg, .png, .pdf) before proceeding with storage. Acceptance Criteria: Endpoint accepts valid files, rejects invalid files with appropriate error messages, and does not crash.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Integrate AWS S3 bucket for file storage",
+          "acceptance": "Configure the Golang backend to upload valid files to an AWS S3 bucket. Use unique identifiers for file storage paths. Acceptance Criteria: Files are securely uploaded to S3 with their paths being returned as part of the API response.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Store file metadata in the message data structure",
+          "acceptance": "Update the message data structure to include file metadata (filename, size, type, S3 path). Acceptance Criteria: File metadata is persisted alongside message content in the system's data storage and is tied to the corresponding message data.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add support for image previews in the React UI",
+          "acceptance": "Implement logic in the React frontend to display image previews for attachments in the message feed. Acceptance Criteria: Preview is shown in the message feed for files with image formats (e.g., JPG, PNG) before rendering as a downloadable link.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Display download link for all attachments in the React UI",
+          "acceptance": "Ensure all file attachments (regardless of type) have a downloadable link displayed in the message feed. Acceptance Criteria: Users can click on the file link in the feed to download it directly from the S3 bucket.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement error notifications in the frontend for invalid file uploads",
+          "acceptance": "Display user-friendly error messages in React UI when upload fails due to size limit or unsupported format while ensuring the app does not crash. Acceptance Criteria: Ensure the error messages are displayed near the file attachment button or in the compose area.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add backend logging for file upload errors",
+          "acceptance": "Implement logging in the Golang backend to track errors such as invalid file uploads and S3 failures. Acceptance Criteria: All errors during file handling are logged with sufficient context (e.g., user ID, file name, error type).",
+          "id": "TASK9"
+        },
+        {
+          "list": "Unit test the file upload backend endpoint",
+          "acceptance": "Write unit tests for the file upload endpoint in Golang. Acceptance Criteria: Ensure the endpoint accepts valid files, rejects invalid files, validates size and format, and handles S3 upload/store properly, covering edge cases.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Integration test file upload in the React UI",
+          "acceptance": "Write integration tests for the React frontend to validate the full file upload flow. Acceptance Criteria: Successful uploads result in a visible preview or link in the conversation feed. Invalid file attempts show corresponding error messages without breaking functionality.",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Unread Message Notifications and Indicators",
+      "description": "Ability to receive notifications for unread messages in a channel. In order to stay informed about new conversations. As a community member, I want visible badges or markers to signal when there are new unread messages. Acceptance Criteria: The channel interface must include a notification badge displaying the count of unread messages when the channel is not actively viewed. Clicking the channel must mark all messages as read and clear the indicators. Notifications must be visually prominent in the UI, such as bold channel names or numbered badges. The system must synchronize unread counts correctly across multiple sessions and devices.",
+      "tasks": [
+        {
+          "list": "Add backend API endpoint to fetch unread message count for a channel",
+          "acceptance": "Create an API endpoint in Golang that accepts a channel ID as input and returns the count of unread messages for that channel. Ensure the output is in JSON format. Validate that the channel ID exists; return an error if not. Ensure proper synchronization of read/unread counts across sessions. Add tests to validate accurate unread message counts in various scenarios (e.g., new messages added, mark as read actions).",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement backend logic to mark messages as read upon channel access",
+          "acceptance": "Modify the backend to include functionality that marks all messages in a channel as read when requested. Input should include the channel ID and a user identifier. Ensure the unread count is updated accurately in the database and the system handles requests idempotently. Add tests for marking messages as read under normal and edge conditions (invalid channel ID, concurrent requests).",
+          "id": "TASK2"
+        },
+        {
+          "list": "Update the database schema to store unread message counts",
+          "acceptance": "Modify the existing database schema to support storage of unread message counts for channels, ensuring synchronization across devices and sessions. Implement a mechanism to update counts when new messages arrive or messages are marked as read. Add tests to validate database integrity and correct count updates under various operations.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create React UI component to display notification badges",
+          "acceptance": "Develop a React component to display a numerical badge for unread messages on the channel list. The badge should be visually prominent and dynamically update based on the unread count fetched from the API. Add component-level tests to verify proper rendering and behavior when the unread count changes.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement bold styling for channel names with unread messages",
+          "acceptance": "Modify the channel list UI in React to apply bold styling to channel names with unread messages. Use the unread count from the backend API to determine which channel names should be bolded. Verify through tests that styling updates correctly based on the unread count state.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add frontend logic to mark messages as read when a channel is clicked",
+          "acceptance": "Implement a handler in React that sends a 'mark as read' API request when a user clicks on a channel. Ensure that the channel's unread count is cleared and UI elements are updated accordingly. Add tests to validate the handler’s behavior under normal and edge conditions (e.g., API failure scenarios).",
+          "id": "TASK6"
+        },
+        {
+          "list": "Sync unread message counts across multiple sessions and devices",
+          "acceptance": "Implement backend synchronization logic to ensure unread message counts are consistent across multiple active user sessions on different devices. Add mechanisms to push updates to devices in real time (if applicable). Add tests to validate synchronization accuracy under conditions like log-in from a new device or receiving new messages.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Add frontend polling or WebSocket integration for real-time notifications",
+          "acceptance": "Integrate real-time notifications in the React UI using either polling or WebSocket to dynamically receive updates for unread counts and channel activity. Ensure the UI updates efficiently with minimal performance impact. Add tests to validate consistent UI updates under different real-time scenarios (e.g., receiving a new message, network interruptions).",
+          "id": "TASK8"
+        },
+        {
+          "list": "Test end-to-end unread notifications functionality",
+          "acceptance": "Create end-to-end tests to verify the entire notification workflow, including unread count calculation, badge visibility, and clearing indicators on channel access. Verify proper behavior across multiple sessions and devices. Ensure tests cover all user story acceptance criteria, including synchronization and UI behavior.",
+          "id": "TASK9"
+        }
+      ]
+    }
+  ]
+}

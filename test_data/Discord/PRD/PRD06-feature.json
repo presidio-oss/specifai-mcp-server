@@ -1,0 +1,304 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Enable One-on-One Direct Messaging",
+      "description": "Ability to initiate and manage one-on-one direct messages. In order to have private and sensitive discussions. As a user, I want to seamlessly send and receive messages in a dedicated one-on-one messaging interface. Acceptance Criteria: The interface must display a list of ongoing one-on-one conversations in a sidebar. Users must be able to start a new conversation via a user directory or search function. Messages should support rich-text formatting (e.g., bold, italic, underline). The system must allow sending and receiving file attachments in supported formats (e.g., images, PDFs). Each message must display a timestamp and read receipt notification. Users should receive real-time updates for incoming messages. Failures in sending messages must trigger an error notification with retry options.",
+      "tasks": [
+        {
+          "list": "Create API endpoint to fetch one-on-one conversation list",
+          "acceptance": "Create a GET API endpoint in Golang to retrieve the list of ongoing one-on-one conversations for the logged-in user. Acceptance Criteria: The endpoint must return a JSON array of conversations with conversation ID, participant details, and the latest message preview. Validate user authentication and only return conversations involving the logged-in user.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Develop React sidebar component to display conversation list",
+          "acceptance": "Create a React component to render a sidebar that displays the list of ongoing one-on-one conversations. Acceptance Criteria: The component should call the conversation list API. Display conversations with participant names, avatars, and the latest message preview. Ensure responsive design for the sidebar and implement a loading state while fetching data.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create search API endpoint to find users",
+          "acceptance": "Implement a POST API endpoint in Golang to search for users by name or email in the user directory. Acceptance Criteria: The endpoint must accept a search query in the request body and return a JSON array of matched user profiles with ID, name, and avatar. Validate user authentication and prevent searches without a valid token.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement React search bar and user directory functionality",
+          "acceptance": "Develop a React search bar component that interacts with the search API to allow users to find and select individuals to initiate new conversations. Acceptance Criteria: The search bar must debounce input, call the search API after 300ms of inactivity, and display results as a dropdown. Ensure a 'No results found' message for unmatching queries.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create API endpoint to initiate a new conversation",
+          "acceptance": "Develop a POST API endpoint in Golang to create a new one-on-one conversation. Acceptance Criteria: The endpoint must accept the other user's ID as input, validate user authenticity, and return the newly created conversation ID. Respond with an error if the conversation already exists or the target user is invalid.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Build React UI for one-on-one messaging interface",
+          "acceptance": "Create a React component for the one-on-one messaging interface. Acceptance Criteria: The component must display the conversation participant's name and avatar, as well as a message history fetched through an API. Include an input box for composing new messages and ensure these messages appear in the chat upon submission.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Create API endpoint for sending new messages",
+          "acceptance": "Develop a POST API endpoint in Golang to send a message within a one-on-one conversation. Acceptance Criteria: The API must accept the conversation ID, message content (rich-text formatted), and optional file attachments. Validate input, generate a timestamp, save the message to the database, and return the message ID. Respond with an error if the conversation ID is invalid or unauthorized.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Enhance React messaging interface for real-time updates",
+          "acceptance": "Integrate WebSocket in the React messaging interface to handle real-time updates for new incoming messages. Acceptance Criteria: Display incoming messages immediately in the conversation view. Handle disconnections gracefully and retry WebSocket connection upon failure.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement read receipt API endpoint",
+          "acceptance": "Develop a PATCH API endpoint in Golang to update the read status of messages in a conversation. Acceptance Criteria: The API must accept the conversation ID and update the read receipt timestamp. Validate that the user is a participant in the conversation before updating.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Add read receipt indicators in React messaging interface",
+          "acceptance": "Modify the React messaging component to include a read receipt indicator for each sent message. Acceptance Criteria: Fetch the read receipt statuses via an API and display 'Read' or 'Unread' next to each message based on the receipt status. Update the status dynamically upon user interaction.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Add rich-text formatting to message input box",
+          "acceptance": "Enhance the React input box to support rich-text formatting. Acceptance Criteria: Include options for bold, italic, and underline formatting in the input box toolbar. Ensure the formatting is reflected correctly in composed messages and persists upon submission.",
+          "id": "TASK11"
+        },
+        {
+          "list": "Implement file attachment upload functionality",
+          "acceptance": "Develop support for uploading file attachments (images, PDFs) in the messaging interface. Acceptance Criteria: Extend the message sending API to handle file uploads via multipart requests. Validate file type and size. Store files in an AWS S3 bucket and return the file URL in the message response. Display uploaded files correctly in the chat UI.",
+          "id": "TASK12"
+        },
+        {
+          "list": "Create error notification for failed message sends",
+          "acceptance": "Update the React messaging component to display an error notification when a message fails to send. Acceptance Criteria: Include a retry button in the error notification. Ensure the error persists only for failed messages, and retry upon clicking the button re-sends the message via the API.",
+          "id": "TASK13"
+        },
+        {
+          "list": "Optimize message fetching via pagination or lazy loading",
+          "acceptance": "Modify the API and React messaging component to support loading conversation messages via pagination (e.g., infinite scroll). Acceptance Criteria: Fetch older messages incrementally as the user scrolls up. Ensure minimal impact on performance and prevent duplicate requests for already fetched messages.",
+          "id": "TASK14"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Facilitate Group Messaging with Multiple Users",
+      "description": "Ability to initiate and participate in group conversations. In order to enable collaborative discussions among multiple users. As a user, I want to manage group chats with advanced messaging tools and permissions. Acceptance Criteria: Users must be able to create group chats by inviting participants from the user directory or search. The group chat interface must display participant names and allow assigning a group name and avatar. Messages should support rich-text formatting and file-sharing capabilities. Users should see message history when joining an ongoing group. Notifications should alert users in real-time about new group messages. Users must be able to leave the group, and admins can assign permissions such as restricting messages or removing participants. Errors for failed operations (e.g., file uploads or messages) must notify the user with retry options.",
+      "tasks": [
+        {
+          "list": "Implement API endpoint to create a group chat",
+          "acceptance": "Develop a RESTful API endpoint in Golang to create group chats. The endpoint must accept POST requests with JSON payload including 'groupName', 'groupAvatar', and 'participants' (list of user IDs). Validate that all participants exist in the user directory or can be found via search. Store group metadata and the list of participants in a database. Return the group chat ID upon successful creation. Return error codes and messages (e.g., 400 for invalid input, 500 for internal errors).",
+          "id": "TASK1"
+        },
+        {
+          "list": "Develop API endpoint for retrieving group participant list",
+          "acceptance": "Create a GET API endpoint in Golang to fetch participant details from a given group chat ID. Validate that the group chat exists. Return a list of participant names and their user IDs. If the group doesn’t exist, return an appropriate error message (e.g., 404 Group Not Found).",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create API endpoint to assign group name and avatar",
+          "acceptance": "Develop an API endpoint in Golang to update a group chat's name and avatar. Validate that the group ID exists, and the input data (e.g., name length and avatar file type) complies with business rules. Persist the updates in the database and respond with success or appropriate error codes (e.g., 400 for invalid input).",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement rich-text messaging functionality",
+          "acceptance": "Develop a feature in the backend to support message storage with rich-text formatting. Messages must include text content and metadata (e.g., sender ID, timestamps). Ensure the backend processes and stores formatted text, such as bold and italic styles, in an efficient way. Return success on message saving. Send errors (e.g., 500 for internal storage issues).",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add file-sharing capability to group messages",
+          "acceptance": "Add backend logic to support uploading and sharing of files in group messages. Files must be stored in an AWS S3 bucket, and URLs should be generated for retrieval. Validate file size and type before upload. Respond with the URL on success or error codes for failures (e.g., 413 for file too large, 415 for unsupported type).",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement API endpoint for retrieving group chat history",
+          "acceptance": "Create an API endpoint in Golang to fetch the historical messages of a group chat based on its ID. Paginate results to improve performance. Return the list of messages, including text, file links, sender details, and timestamps. If the group doesn’t exist, respond with an error message (e.g., 404 Group Not Found).",
+          "id": "TASK6"
+        },
+        {
+          "list": "Enable real-time notifications for group messages",
+          "acceptance": "Integrate WebSocket functionality using Golang to send real-time notifications to group participants whenever a new message is sent. Ensure that only online participants receive the notification. Implement reconnection logic to handle network interruptions. Include error handling for failed message dispatch.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Create API endpoint for leaving a group chat",
+          "acceptance": "Build an API endpoint in Golang that allows a participant to leave a group chat. Validate that the user belongs to the group. Update the group database to remove the user from the participant list. Return success or an error (e.g., 404 if the group or user isn’t found).",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add admin permissions for managing participant messages",
+          "acceptance": "Implement functionality to allow group admins to set messaging permissions (e.g., mute participants) and remove participants. Add appropriate methods to the API to update participant permissions and validate admin rights. Respond with success or error messages (e.g., 403 for unauthorized actions).",
+          "id": "TASK9"
+        },
+        {
+          "list": "Handle message and file upload errors with retry capability",
+          "acceptance": "Implement logic to catch errors (e.g., message save failures or file upload failures) in the backend. Include a mechanism to flag these operations for retry. Notify the users of the error, including a retry option, through the response payload. Ensure retries follow the business rules and do not overload the system.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Provide Real-Time Notifications for Messages",
+      "description": "Ability to receive real-time message updates and notifications. In order to stay informed without actively monitoring the app. As a user, I want visible and actionable notifications for incoming messages. Acceptance Criteria: A badge or counter must display unread message counts next to the conversation list. Desktop notifications should appear for new messages when the app is not active. Notifications must display the sender’s name and a short message preview. Clicking on a notification should open the relevant conversation. Users must be able to mute notifications for specific conversations. The notification system should handle message updates efficiently, avoiding duplicates or excessive interruptions. Errors must gracefully notify users if updates are delayed or fail due to network issues.",
+      "tasks": [
+        {
+          "list": "Update conversation list to display unread message badge or counter",
+          "acceptance": "The conversation list component in React is modified to include a badge or counter next to each conversation that displays the count of unread messages. A Golang-backed API endpoint supplies the unread counts. Acceptance Criteria: Each conversation shows the number of unread messages. Ensure consistency with the API response. Validate that the badge disappears when all messages in a conversation are read.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement API endpoint to fetch unread message counts",
+          "acceptance": "Create a Golang REST endpoint `/api/conversations/unread-count` that returns the unread message count for all conversations for the authenticated user. The endpoint queries the database for unread messages and aggregates them by conversation. Acceptance Criteria: Returns accurate counts for each conversation in JSON format. Returns an error message if the database query fails.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Enable desktop notifications for new messages",
+          "acceptance": "Implement a browser-based notification system using the Notification Web API in React. Create a React utility for requesting notification access and sending desktop notifications. Acceptance Criteria: Notifications are sent when a new message arrives, showing the sender’s name, a preview of the message, and a timestamp. Validate that no duplicate notifications are created for the same message.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Configure WebSocket connection for real-time message updates",
+          "acceptance": "In the React app, establish a WebSocket connection to a Golang service that sends updates on incoming messages. Ensure the WebSocket delivers message data including sender info, preview text, and conversation ID. Acceptance Criteria: Updates are received in real time via WebSocket. Validate the WebSocket sends data only when a new message arrives for the authenticated user. Provide error handling for connection failures.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Integrate WebSocket data with desktop notifications and UI updates",
+          "acceptance": "Map WebSocket messages to trigger UI updates (mark conversations as unread/update counters) and desktop notifications. The sender's name and preview are displayed in the notification. Clicking the notification opens the conversation. Acceptance Criteria: UI is updated without page refresh upon receiving WebSocket data. Clicking a notification navigates to the correct conversation seamlessly.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add option to allow users to mute notifications for specific conversations",
+          "acceptance": "Add a React-based UI control to allow users to toggle notifications on/off for specific conversations. Persist notification preferences via a `/api/conversations/notification-preferences` Golang endpoint to store muted conversation IDs. Acceptance Criteria: Muted conversations do not trigger desktop notifications or WebSocket updates. Ensure users can toggle preferences without needing a page refresh.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement backend logic for storing and retrieving muted notification preferences",
+          "acceptance": "Create a Golang API endpoint `/api/conversations/notification-preferences` to save and retrieve notification preferences in the database. Acceptance Criteria: Preferences are persisted per user and conversation. API handles errors gracefully and notifies users of failures.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Prevent duplicate notifications or excessive interruptions",
+          "acceptance": "Implement deduplication logic in React to avoid firing duplicate desktop notifications for the same message. Backend WebSocket data must be idempotent and adhere to a no-duplicate delivery policy. Acceptance Criteria: Each message triggers a single notification or UI update. Backend ensures duplicate WebSocket messages are filtered out or ignored.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Handle network errors gracefully for real-time message updates",
+          "acceptance": "Implement error handling in React and Golang WebSocket services to detect and retry failed connections. Notify users if the WebSocket connection is interrupted. Acceptance Criteria: Users are alerted to connection issues with a retry mechanism for reconnecting. WebSocket service ensures no loss of message data on reconnection.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write unit and integration tests for notification and update functionality",
+          "acceptance": "Write unit tests in Golang for API endpoints, including fetching unread counts and muted conversations. Write React unit tests for UI components and WebSocket utilities. Acceptance Criteria: All tests cover edge cases such as empty unread counts, muted conversation updates, and WebSocket errors without regressions. Achieve 90% or higher code coverage.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Search and Filter Conversations for Easy Access",
+      "description": "Ability to locate and filter message threads for quick access. In order to retrieve specific conversations or content efficiently. As a user, I want intuitive search and filtering options within the messaging interface. Acceptance Criteria: A global search bar must allow searching by user names, group names, or keywords. Search results should update dynamically as the user types. Users must be able to filter conversations by types (e.g., one-on-one vs group) or date range. A thread-level search should allow finding specific messages or attachments. Clicking a search result must navigate users to the matching message or conversation. The system should display a notification if no search results are found.",
+      "tasks": [
+        {
+          "list": "Implement global search API endpoint in Golang",
+          "acceptance": "Create a new API endpoint `/search` in Golang to handle global search requests. The endpoint must accept query parameters for `user_name`, `group_name`, and `keywords`. Query results should dynamically filter as per input. Return matching conversations with metadata for user/group names and message previews. If no match is found, return an appropriate empty response with a 'no results found' status.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Develop React UI for global search bar",
+          "acceptance": "Create a React component for a global search bar visible across the messaging interface. Include an input field with debounce functionality to send queries to the backend API as the user types. Dynamically update the dropdown list of search results by consuming the `/search` API responses. Display a 'No results found' message if the response is empty. Ensure the search bar handles user input validation and API errors gracefully.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Add filtering options to the UI",
+          "acceptance": "Create a dropdown in the React UI for conversation filtering. Add filters for conversation types (`one-on-one`, `group`) and date range selection. On filter change, modify search requests to include filtering criteria in the API call. Ensure seamless integration into the global search bar.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement filtering logic in the search API",
+          "acceptance": "Update the `/search` API in Golang to handle filtering by conversation type (`one-on-one`, `group`) and date range. Fetch and return matching conversations from the data source using the filters as criteria. Ensure efficient querying to handle performance with large data sets. If an invalid filter value is provided, return an appropriate error response.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add thread-level search API endpoint in Golang",
+          "acceptance": "Create a new API endpoint `/search/thread` in Golang to allow search within a specific conversation thread. The endpoint must accept thread ID and query parameters for `keywords` and return matching messages and attachments within that thread. Ensure proper error handling for invalid or non-existent thread IDs.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Develop React UI for thread-level search",
+          "acceptance": "Add a thread-level search bar to the messaging interface on conversation views. On user input, send queries to the `/search/thread` API with the thread ID and update the conversation view with matching messages or attachments. Display a 'No results found' message if the response is empty. Handle API errors gracefully in the UI.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Enable navigation to a search result in the React UI",
+          "acceptance": "Implement click functionality for global and thread-level search results in the React UI. Clicking a result should navigate the user to the relevant conversation or message. Highlight the specific message or attachment (if applicable) in the conversation view. Ensure smooth scrolling and error handling for non-navigable results.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Optimize search API for dynamic updates",
+          "acceptance": "Ensure the `/search` and `/search/thread` endpoints are optimized for dynamic updates as the user types. Implement debouncing on the Golang side to reduce unnecessary database hits for repeated queries. Ensure consistent low latency for search results.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Handle 'no results found' notifications at the API level",
+          "acceptance": "Add logic in both `/search` and `/search/thread` APIs to detect empty query results. Return a specific response with a 'No results found' message for empty results. This response should differentiate between errors and valid empty results for better UI handling.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Manage File Attachments in Conversations",
+      "description": "Ability to upload, preview, and manage file attachments in messages. In order to enhance collaboration with shared resources. As a user, I want to send and access files within my conversations. Acceptance Criteria: Users must be able to upload files directly into ongoing conversations. The system should support previews for certain file types (e.g., images, PDFs). A dedicated 'File Attachment' section must display all shared files in each conversation. Users should be able to download or delete files they’ve uploaded. File uploads should enforce restrictions, such as maximum size (10 MB) and supported types (e.g., JPG, PNG, PDF, DOCX). Upload progress indicators must appear, and errors must notify users with a retry option upon failure.",
+      "tasks": [
+        {
+          "list": "Create API endpoint for file upload",
+          "acceptance": "Implement a Golang API endpoint `/api/conversations/{conversationId}/attachments/upload` to accept file uploads. Validate the uploaded files adhere to the restrictions: supported types (JPG, PNG, PDF, DOCX) and maximum size (10MB). Return appropriate error codes/messages for unsupported types or exceeded size limits. Acceptance Criteria: API endpoint saves valid files to the storage system, responds with a success message containing file metadata (e.g., file URL, name, size, type). Validation errors must return specific error messages with HTTP status codes (e.g., 400 for invalid types/size). Ensure the endpoint is covered with unit tests for both success and error responses.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement backend file storage integration",
+          "acceptance": "Set up file saving logic using AWS S3 in the Golang backend. Use appropriate S3 buckets, paths, and configurations. Files must be stored with unique identifiers to avoid collisions. Include error handling for storage failures and ensure the API responds correctly. Acceptance Criteria: Files are uploaded to S3 and can be accessed via the URLs returned by the API. Errors (e.g., timeouts, permissions) are logged and reported to the user with retry options in place. S3 paths follow naming convention: `conversations/{conversationId}/{fileId}`.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Add file upload progress indicator on frontend",
+          "acceptance": "Implement a React component for file upload progress. After the file is selected, the frontend must show percentage progress until the upload completes/fails. Use a polling or event-based mechanism to fetch upload progress from the backend if necessary. Acceptance Criteria: The progress bar correctly reflects the upload percentage, disappears on success, and provides retry options on failure. Ensure frontend validation (size/type restrictions) is performed before upload initiation and error messages match backend responses.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create API endpoint for file listing in conversations",
+          "acceptance": "Implement a Golang API endpoint `/api/conversations/{conversationId}/attachments` to fetch metadata for all uploaded files within a conversation. The endpoint must query the relevant datastore for file metadata (e.g., name, type, size, URL, uploader, upload timestamp). Acceptance Criteria: The endpoint returns a JSON array containing metadata for all files shared in the specified conversation. Include pagination support and appropriate HTTP status codes for error scenarios (e.g., 404 if no attachments are found for a conversation). Unit tests must cover success cases, empty responses, and error handling.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Design 'File Attachment' section frontend component",
+          "acceptance": "Implement a React UI component to display the 'File Attachment' section within a conversation. Fetch attachment metadata via the `GET /api/conversations/{conversationId}/attachments` endpoint. Display file details (name, type, size) with options for preview, download, and delete. Acceptance Criteria: The section must display all attachments as fetched from the backend, include buttons for supported actions, and handle errors gracefully (e.g., show a retry message on fetch failures). Ensure the UI is covered with React testing utilities to verify rendering and interaction.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement support for file preview feature",
+          "acceptance": "Enable in-line preview functionality for certain file types (JPG, PNG, PDF) within the 'File Attachment' section. Use thumbnails for images and embedded viewers for PDFs. The file preview must load using file URLs returned by the backend. Acceptance Criteria: Clicking on supported file types opens an inline preview or modal for images and PDFs. Unsupported file types do not display a preview button. Ensure smooth rendering on the frontend and validate functionality through component testing.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Create API endpoint for file delete functionality",
+          "acceptance": "Implement a Golang API endpoint `/api/conversations/{conversationId}/attachments/{fileId}` to delete uploaded files. Validate the request against the file's ownership before deletion. Delete files both from the datastore and the S3 storage. Return appropriate status codes for success or failure. Acceptance Criteria: Files are successfully deleted from S3 and datastore upon request by the uploader. Return success messages for valid requests and correct error messages for invalid (e.g., file not found, unauthorized delete request). Ensure unit tests cover successful deletion and error conditions.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement file download in the frontend",
+          "acceptance": "Add a download action to the React 'File Attachment' section. Generate direct download links for files using their S3 URLs. Ensure the frontend properly handles download initiation and errors. Acceptance Criteria: Clicking the download button for an attachment initiates the download for valid files. Error notifications are displayed for failed downloads (e.g., file not found, network issues). Ensure download is validated through React testing utilities.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add backend upload retry logic",
+          "acceptance": "Implement retry mechanisms for upload failures in the backend. Allow users to attempt re-upload of files that fail due to transient errors (e.g., network issues, S3 timeouts). The Golang API must support retry behavior, ensuring idempotency for failed attempts. Acceptance Criteria: Upload failures are tracked and can be retried without creating duplicates in the datastore or S3. Errors are logged, and retry logic is covered with backend integration tests for robustness.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Validate maximum file size in the frontend",
+          "acceptance": "Add a client-side size restriction validation in the file upload functionality. Prevent upload initiation for files larger than 10MB and display an appropriate error message to the user. Acceptance Criteria: The validation must block unsupported files with clear error messages, ensuring users do not reach the backend with invalid uploads. Covered with React unit tests to verify validation logic.",
+          "id": "TASK10"
+        }
+      ]
+    }
+  ]
+}

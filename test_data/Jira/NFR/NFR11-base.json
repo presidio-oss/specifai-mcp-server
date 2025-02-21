@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must allow for rolling updates to minimize downtime during maintenance to less than 10 minutes per instance.",
+  "title": "Maintenance with Low Downtime"
+}

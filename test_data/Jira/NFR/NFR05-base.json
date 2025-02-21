@@ -1,0 +1,4 @@
+{
+  "requirement": "The app must implement multi-factor authentication (MFA) and role-based access control to secure user accounts.",
+  "title": "User Authentication Security"
+}

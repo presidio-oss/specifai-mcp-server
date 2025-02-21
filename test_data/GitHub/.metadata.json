@@ -1,0 +1,9 @@
+{
+  "name": "GitHub",
+  "description": "GitHub is a cloud-based platform for version control and collaboration, enabling developers to host, manage, and review code using Git. It offers repositories, pull requests, CI/CD, and integrations.",
+  "technicalDetails": "Ruby, HTML, Azure",
+  "createReqt": true,
+  "id": "7a44016c-9ba3-4989-aa10-07aecd593396",
+  "createdAt": "2025-02-20T07:34:34.573Z",
+  "cleanSolution": false
+}

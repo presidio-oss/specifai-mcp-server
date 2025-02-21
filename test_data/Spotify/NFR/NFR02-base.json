@@ -1,0 +1,4 @@
+{
+  "requirement": "The system should scale seamlessly to accommodate millions of concurrent users without degradation in performance.",
+  "title": "Scalability for Growth"
+}

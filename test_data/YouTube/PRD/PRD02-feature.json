@@ -1,0 +1,294 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Video Upload and Metadata Submission",
+      "description": "Ability to upload video files along with associated metadata. In order to enable content creation and categorization. As a content creator, I want to upload my videos with descriptions, tags, and thumbnails, and configure privacy settings. Acceptance Criteria: The upload screen must contain an input field for video file selection. There should be fields to input a description, tags, and upload a thumbnail image. Tags should allow multiple entries with clear delimiters. Thumbnail upload should allow image files only in specific formats (e.g., PNG, JPEG). The system should display a validation message if any field is incorrectly filled (e.g., unsupported video format). Users should be able to set privacy settings such as 'Public,' 'Private,' and 'Unlisted' and visually confirm their selection. The system must display a progress bar while the video uploads and show a percentage of completion. Upon success, a confirmation message must appear. If the upload fails, an error message with retry options must be displayed.",
+      "tasks": [
+        {
+          "list": "Create video upload input field in upload screen UI",
+          "acceptance": "Add a video file input field to the upload screen in the Angular frontend. Ensure it supports video file selection. Acceptance Criteria: The input field must accept only video formats (e.g., MP4, AVI). If an unsupported format is selected, show a validation message per the user story requirement.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Add fields for description, tags, and thumbnail upload",
+          "acceptance": "Enhance the Angular frontend upload screen to include text fields for description and tags, and an input for thumbnail image selection. Acceptance Criteria: The description must accept textual input. Tags must allow multiple entries with clear delimiters (e.g., commas). The thumbnail input must accept PNG and JPEG image formats only; unsupported formats display a validation message as required in the user story.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement privacy settings dropdown in UI",
+          "acceptance": "Add a dropdown in the Angular frontend for selecting privacy settings ('Public,' 'Private,' 'Unlisted'). Acceptance Criteria: Users must be able to select and visually confirm their choice. The default selection must be clear, and the dropdown options must match those mentioned in the user story.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement video upload progress bar",
+          "acceptance": "Add a progress bar in the Angular frontend to display upload progress. Implement code to dynamically update the progress percentage during file upload. Acceptance Criteria: The progress bar must display the current percentage of completion. The progress should dynamically update, and upon reaching 100%, indicate completion.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Display confirmation message on successful upload",
+          "acceptance": "Update the Angular frontend to display a confirmation message when the file upload is successful. Acceptance Criteria: A confirmation message should appear after the upload finishes, indicating upload success, as per the user story.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Handle errors and retry options for failed upload",
+          "acceptance": "Implement error handling logic in the Angular frontend to show an error message when the upload fails. Provide an option to retry the upload. Acceptance Criteria: If the upload fails, an appropriate error message should be displayed. A retry button should be provided to attempt the upload again.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Create backend endpoint for video upload",
+          "acceptance": "Develop a Rust-based backend endpoint to handle video file uploads. Acceptance Criteria: The endpoint must accept video files, validate their formats (e.g., MP4, AVI), and return a success or error response. The endpoint must also process metadata fields passed in the request (description, tags, privacy settings, thumbnail).",
+          "id": "TASK7"
+        },
+        {
+          "list": "Validate video file format in the backend",
+          "acceptance": "Implement logic in the Rust backend to validate that only supported video formats (e.g., MP4, AVI) are uploaded. Acceptance Criteria: If an unsupported video format is detected, return an appropriate error response to the frontend.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Validate thumbnail file format in the backend",
+          "acceptance": "Implement logic in the Rust backend to validate thumbnail uploads and ensure they are in PNG or JPEG format. Acceptance Criteria: If an unsupported thumbnail format is detected, return an appropriate error response to the frontend.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Implement storage logic for uploaded videos",
+          "acceptance": "Add functionality in the Rust backend to upload video files to GCP storage. Include logic to associate the video with its metadata. Acceptance Criteria: Uploaded video files must be successfully stored in GCP. Metadata, including description, tags, privacy settings, and thumbnail file paths, should be stored alongside video file references.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Implement storage logic for thumbnail images",
+          "acceptance": "Add functionality in the Rust backend to upload thumbnail images to GCP storage. Generate and store a reference alongside video metadata. Acceptance Criteria: Uploaded thumbnail images must be successfully stored in GCP, with references saved in the associated metadata entry.",
+          "id": "TASK11"
+        },
+        {
+          "list": "Integrate metadata submission with backend",
+          "acceptance": "Ensure metadata submission from the Angular frontend (description, tags, privacy settings, thumbnail reference) is sent to the Rust backend and properly processed. Acceptance Criteria: The backend must correctly parse and store the metadata with the associated video and thumbnail references in GCP.",
+          "id": "TASK12"
+        },
+        {
+          "list": "Test validation and error handling for all fields",
+          "acceptance": "Write unit and integration tests for both the Angular frontend and Rust backend to validate inputs and error scenarios (e.g., unsupported formats, missing fields). Acceptance Criteria: Automated tests must verify that all validation and error-handling behaviors match the user story requirements. Tests must cover all possible input error scenarios.",
+          "id": "TASK13"
+        },
+        {
+          "list": "Test successful end-to-end video upload flow",
+          "acceptance": "Write integration tests to verify end-to-end functionality for successful video uploads. Tests should include metadata submission, video file upload, thumbnail upload, and handling of privacy settings. Acceptance Criteria: The system must pass all tests confirming that all components (frontend, backend, GCP storage) function correctly for successful uploads.",
+          "id": "TASK14"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Thumbnail Preview and Dynamic Updates",
+      "description": "Ability to preview thumbnails before finalizing the video upload. In order to ensure the correct thumbnail represents my video. As a content creator, I want to visually confirm the uploaded thumbnail and replace it dynamically if needed. Acceptance Criteria: Users must see a real-time preview of the selected thumbnail image after upload. The system should reject files that are not images or exceed a specific size limit, displaying an error message when these validations fail. The uploaded preview must update dynamically if the user changes the thumbnail. The preview area must adjust to various screen sizes without distortion. Confirmation messages must ensure the successful loading of thumbnails.",
+      "tasks": [
+        {
+          "list": "Implement file upload API endpoint to handle thumbnail uploads",
+          "acceptance": "Create a REST API endpoint in Rust to handle thumbnail uploads. The endpoint must validate that the uploaded file is an image and not exceed the specified size limit. If the validation fails, the endpoint must return a JSON error response with the appropriate error message (e.g., 'Invalid file type' or 'File size exceeds limit'). On successful validation, the API must prepare the uploaded file for preview handling and return the file metadata in JSON format for further processing.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create Rust service for image file validation",
+          "acceptance": "Develop a Rust module to validate uploaded files. The module must check the file type (only image formats like JPG, PNG, etc.) and the file size (≤ specific size limit defined in the user story). The service must handle incorrect formats by raising an error with a message ('Invalid file type'). If the size exceeds the limit, it must raise an error with a message ('File size exceeds limit'). Testing must include cases where the file is invalid, exceeds size limits, or passes all validations.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement Angular component for thumbnail preview display",
+          "acceptance": "Create a dedicated Angular component to display a real-time preview of the thumbnail image. The component must update dynamically whenever a new thumbnail is uploaded, using the file metadata provided by the Rust API. Ensure the preview area adjusts its dimensions based on the screen size while maintaining aspect ratio to prevent distortion.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Bind thumbnail API response to Angular component",
+          "acceptance": "Integrate the Angular frontend with the Rust thumbnail upload API. Use an HTTP client within Angular to send thumbnail upload requests, handle validation errors (e.g., invalid file type, file size), and display appropriate error messages on the UI. On successful validation, update the dynamic thumbnail preview area with the uploaded image URL returned by the API.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Enable dynamic thumbnail replacement in the Angular component",
+          "acceptance": "Enhance the Angular thumbnail component to allow users to replace the thumbnail by uploading a new image. Ensure the preview updates in real-time. The component must handle multiple upload attempts while maintaining validation logic and error handling for each attempt (e.g., invalid file type, size limit exceeded).",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement responsive design for thumbnail preview area",
+          "acceptance": "Update the Angular thumbnail preview component to support responsive design. Use CSS or Angular utilities to ensure the preview area scales properly across various screen sizes and retains image aspect ratios. Test responsiveness on different device viewports (e.g., desktop, tablet, mobile).",
+          "id": "TASK6"
+        },
+        {
+          "list": "Display success confirmation message on thumbnail upload",
+          "acceptance": "Enhance the Angular component to show a confirmation message ('Thumbnail uploaded successfully') when the thumbnail upload and validation process completes successfully. The message must appear temporarily and then fade out. Ensure the message does not interfere with the preview display or other UI elements.",
+          "id": "TASK7"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Video Tag Management",
+      "description": "Ability to add, edit, and remove tags for video categorization. In order to improve discoverability and searchability of videos. As a content creator, I want to manage keywords associated with my videos. Acceptance Criteria: The upload screen must include a tag management field where users can add multiple tags as removable badges. Clicking on a badge must allow users to edit the tag, while a delete icon should remove it. Validation should ensure tags do not exceed a character limit or duplicate existing entries. The system must dynamically update the list of tags as changes are made.",
+      "tasks": [
+        {
+          "list": "Create tag management input field on the video upload screen",
+          "acceptance": "Add a tag management input field to the video upload screen in Angular. The input field must allow users to add tags and display them as removable badges. Acceptance Criteria: The tag management field must be visible on the video upload screen. Users can input a tag, and it is displayed as a badge. Tags must visually appear as badges as specified in the UI. The input clears after a tag is added. There are no duplicate badges displayed for the same tag.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement logic to dynamically add tags to a list",
+          "acceptance": "Write Angular component logic to add tags dynamically to a list when the user submits a tag. Ensure the state updates immediately to reflect the user action. Acceptance Criteria: Users can add tags by typing and pressing either Enter or Tab. A tag is appended to the tag list upon submission. Only non-empty tags are allowed. Adding an empty or space-only string must be ignored.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Enforce tag validation for character limit",
+          "acceptance": "Implement Angular form validation to restrict the maximum length of each tag to prevent exceeding the character limit. Errors should be handled gracefully in the UI. Acceptance Criteria: Display an error message under the tag management input field when a user enters a tag exceeding the character limit. The tag isn't added to the list if it exceeds the limit. Max character length is enforced consistently.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Prevent duplicate tags during tag addition",
+          "acceptance": "Add a check in the Angular component logic to prevent duplicate tags in the list. Acceptance Criteria: Users cannot add a tag that already exists in the list. If a duplicate tag is attempted, show a non-disruptive error or message to the user.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add functionality to edit existing tags",
+          "acceptance": "Allow users to click and edit a tag directly from the badge on the Angular UI. Implement a mechanism to temporarily enable the edit mode, validate the updated tag, and save the changes dynamically. Acceptance Criteria: Clicking on a tag badge switches it to an editable input field pre-filled with the current tag value. Users can modify the tag and submit the changes. The updated value replaces the old tag in the tag list upon submission, respecting all validation rules (character limit and duplicate prevention).",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add delete button to badges for tag removal",
+          "acceptance": "Add a delete icon to each tag badge and implement functionality to remove the tag from the list when clicked. Acceptance Criteria: Each tag badge includes a visible delete icon. Clicking the delete icon removes the corresponding tag from the list immediately.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Persist tag data in Rust backend API",
+          "acceptance": "Write a Rust API endpoint to receive a list of tags associated with a video. Save the tags in the database using the appropriate data model. Ensure idempotency in handling duplicate tags. Acceptance Criteria: Endpoint accepts a video ID and an array of tags as input. Tags are stored in the backend database along with the video ID. Duplicate tags do not result in redundant entries. The database enforces a maximum character length for each tag.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Retrieve and return tag data from Rust backend API",
+          "acceptance": "Write a Rust API endpoint to retrieve all tags associated with a specific video ID. Acceptance Criteria: Endpoint accepts a video ID as input. The API returns all tags associated with the video in a JSON format. If no tags exist, the API returns an empty array without error.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Integrate Angular frontend with Rust backend for tag management",
+          "acceptance": "Connect the Angular frontend with the Rust backend REST API for retrieving, saving, and updating tags. Write HTTP service methods to handle API calls. Acceptance Criteria: Frontend fetches existing tags from the backend upon loading the video upload screen. Adding, editing, and deleting tags triggers the corresponding API call. The frontend reflects the dynamic updates accurately based on the backend responses.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Validate tag list on backend for performance and safety",
+          "acceptance": "Implement backend validation ensuring no duplicate tags or tags exceeding the character limit are persisted. Acceptance Criteria: Backend validation rejects requests with duplicate tags or any tag exceeding the maximum character length. The API returns an error response with appropriate HTTP status codes and error messages. Valid data is processed without issues.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Privacy Settings Configuration",
+      "description": "Ability to configure privacy settings for uploaded videos. In order to control audience access. As a content creator, I want to set privacy preferences for each of my videos. Acceptance Criteria: The upload screen must provide options to configure privacy settings with choices such as 'Public,' 'Private,' and 'Unlisted.' Public sets videos accessible to everyone, Private restricts them to the owner, and Unlisted limits visibility to those with a shared link. Users must visually confirm the selected option before uploading. Any conflicting or invalid options should display an error. Privacy settings must be adjustable prior to confirming the upload.",
+      "tasks": [
+        {
+          "list": "Create PrivacySettings enum in Rust",
+          "acceptance": "Define an enum named `PrivacySettings` in Rust with variants: `Public`, `Private`, and `Unlisted`. Acceptance Criteria: The enum must be defined with the correct variants and be usable in other parts of the application with exact matching values.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Update video upload data structure to include privacy settings",
+          "acceptance": "Modify the existing video upload data structure in Rust to include a new field `privacy_settings` of type `PrivacySettings`. Acceptance Criteria: The data structure must include the `privacy_settings` field and correctly serialize/deserializes the value during upload API requests.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement privacy options dropdown in Angular upload screen",
+          "acceptance": "Create a dropdown UI component on the Angular upload screen with options 'Public', 'Private', and 'Unlisted', binding the selected value to the `privacy_settings` field. Acceptance Criteria: The dropdown must visually display the available privacy settings options and correctly update the model with the selected value.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add visual confirmation for selected privacy setting in Angular before upload",
+          "acceptance": "Implement a section on the upload screen to visually display the currently selected privacy setting from the dropdown. Acceptance Criteria: The selected privacy setting must be displayed on the UI once a value is selected and before the upload is triggered.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Validate privacy settings on the upload API endpoint in Rust",
+          "acceptance": "Add validation logic in the existing upload API endpoint to ensure the provided `privacy_settings` value is valid (one of `Public`, `Private`, `Unlisted`). Reject invalid or conflicting values with an error message. Acceptance Criteria: Invalid or missing values for `privacy_settings` must return an appropriate error message, and valid values must pass the validation.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Enable adjusting privacy settings prior to confirming upload in Angular",
+          "acceptance": "Ensure that the `privacy_settings` dropdown remains editable until the user confirms the upload process. Acceptance Criteria: The `privacy_settings` field must allow modifications up until the user submits the upload process.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Integrate privacy settings into GCP video metadata during upload",
+          "acceptance": "Modify the Rust upload handler to include the privacy settings as part of the metadata when uploading the video file to GCP. Acceptance Criteria: The privacy setting must be successfully included in the GCP metadata for the uploaded video and reflect the selected value.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Handle privacy settings validation errors in Angular UI",
+          "acceptance": "Display an error message on the upload screen in Angular if the privacy settings validation fails on the backend. Acceptance Criteria: Validation errors must be clearly displayed to the user without disrupting the rest of the upload process.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Unit test PrivacySettings enum and upload API validation in Rust",
+          "acceptance": "Write unit tests in Rust to verify the `PrivacySettings` enum serialization/deserialization and the validation logic in the upload API endpoint. Acceptance Criteria: All valid values (Public, Private, Unlisted) must pass, and invalid values must fail with an error. Tests must confirm correct behavior for both scenarios.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Create e2e tests for privacy settings feature in Angular",
+          "acceptance": "Add end-to-end tests in Angular to verify dropdown functionality, visual confirmation, error handling, and ability to modify privacy settings prior to upload. Acceptance Criteria: Tests must ensure users can correctly select privacy settings, see the selected option, adjust settings, and handle errors during the upload process.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Upload Progress and Completion Feedback",
+      "description": "Ability to visualize upload progress and receive completion feedback. In order to track the status of my video uploads. As a content creator, I want clear indicators about the progress and success of my uploads. Acceptance Criteria: The upload screen must showcase a progress bar updating in real time as the upload progresses, with percentage completion displayed. On successful upload, a confirmation message must appear. If the upload fails, the system must display an error message and provide retry options. Progress tracking must update dynamically without requiring a page refresh.",
+      "tasks": [
+        {
+          "list": "Implement backend upload progress tracking in Rust",
+          "acceptance": "Develop a Rust module to track the progress of video uploads. This module should calculate and return the upload progress as a percentage (e.g., 0-100). Acceptance Criteria: Backend API should provide real-time upload progress updates. Ensure percentage completion is calculated in increments of 1%. Handle edge cases such as upload interruptions gracefully.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create Angular UI component for progress bar visualization",
+          "acceptance": "Develop an Angular component named 'ProgressBarComponent' to visually display the upload progress. Render a real-time progress bar and update it dynamically based on the percentage completion received. Acceptance Criteria: Progress bar dynamically updates without requiring a page refresh. Percentage completion should be displayed alongside the bar (e.g., 40%). Design should adhere to responsive UI best practices.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Connect frontend progress bar with backend progress endpoint",
+          "acceptance": "Integrate the 'ProgressBarComponent' with the Rust backend progress tracking API using Angular's HttpClient. Acceptance Criteria: Real-time progress updates are reflected in the progress bar component using data from the backend. Validate smooth, real-time updates.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement Angular confirmation message component for successful upload",
+          "acceptance": "Develop an Angular component named 'UploadSuccessComponent' to display a confirmation message when the upload is successfully completed. This component should be triggered based on the API response from the backend. Acceptance Criteria: The confirmation message appears after the upload completes. Message should disappear after 5 seconds or provide a dismiss button.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement Angular error message component with retry functionality",
+          "acceptance": "Develop an Angular component named 'UploadErrorComponent' to display detailed error messages when an upload fails. Provide a retry button that triggers the upload process again. Ensure the error message is dynamically displayed based on the backend error response. Acceptance Criteria: Error message appears only upon an upload failure. Retry button reinitiates the upload process. Handle backend retry requests properly.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Update Rust backend to handle retry logic for failed uploads",
+          "acceptance": "Enhance the Rust backend to process retry requests for uploads. Ensure file integrity by validating partial uploads and allow resuming uploads from the last completed segment. Acceptance Criteria: Retry functionality works seamlessly with the frontend retry button. Maintain a consistent state to ensure partial and corruption-free uploads. Handle multiple retry attempts properly.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement dynamic progress tracking without page refresh in Angular",
+          "acceptance": "Utilize Angular's Observables to subscribe to real-time progress updates from the Rust backend. Update the UI dynamically without requiring a page reload. Acceptance Criteria: Ensure real-time updates in the progress bar component using Angular's reactive programming. Validate that the UI maintains consistency for varying upload speeds and connection interruptions.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write unit tests for Rust backend upload progress functions",
+          "acceptance": "Develop unit tests for the progress tracking and retry logic in the Rust backend. Test scenarios should include normal uploads, failures, interruptions, and retries. Acceptance Criteria: All unit tests accurately verify the behavior of upload progress and retry functionality. Test coverage for backend modules must exceed 90%.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit tests for Angular components: ProgressBarComponent, UploadSuccessComponent, and UploadErrorComponent",
+          "acceptance": "Develop unit tests for the Angular components implementing the progress bar, success message, and error handling. Mock backend API responses for testing. Acceptance Criteria: Components are tested for rendering, dynamic updates, and user interactions such as dismiss and retry actions. Test coverage exceeds 90% for all three components.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write end-to-end (E2E) tests for upload progress and completion feedback",
+          "acceptance": "Develop E2E tests using Angular's testing framework to validate the complete workflow of video upload, progress tracking, displaying confirmation message, and retrying failed uploads. Acceptance Criteria: E2E tests verify accurate progress bar updates, confirmation messages, error handling, and retry functionality. Replicate real-world scenarios such as sudden connection losses during tests.",
+          "id": "TASK10"
+        }
+      ]
+    }
+  ]
+}

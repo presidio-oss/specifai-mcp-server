@@ -1,0 +1,4 @@
+{
+  "requirement": "The user interface must allow users to create, view, update, and delete tasks with clear buttons and forms supporting task-specific details like priority, status, due date, and assignees.",
+  "title": "Task Management Interface"
+}

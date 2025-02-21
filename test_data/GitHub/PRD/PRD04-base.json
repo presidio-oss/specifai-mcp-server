@@ -1,0 +1,4 @@
+{
+  "requirement": "The app should enable inline code reviews, allowing users to leave comments directly on specific lines of code in a diff view. Screens: Code diff view with options for commenting and tracking discussions. Personas: Developers reviewing code for quality assurance and team leaders verifying contributions.",
+  "title": "Integrated Code Review"
+}

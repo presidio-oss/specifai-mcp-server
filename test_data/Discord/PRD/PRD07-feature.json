@@ -1,0 +1,279 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Create and Set Up User Profile",
+      "description": "Ability to create and set up a user profile. In order to establish my account for personalization and participation in the community. As an individual user, I want to create my profile by adding basic details like a display name, avatar, and bio. Acceptance Criteria: The profile creation page must display fields for 'Display Name', 'Avatar Upload', and 'Bio.' The 'Display Name' field must support 3–50 characters, validate for duplicates, and be a required input. The 'Avatar Upload' must allow JPEG, PNG, or GIF formats and restrict the file size to 5MB. The 'Bio' field must allow a maximum of 300 characters and display a live character counter. Upon submission, the system must save the profile, notify the user of the success, and redirect them to their profile settings. If submission fails, an error message must display without erasing entered data.",
+      "tasks": [
+        {
+          "list": "Create the profile creation form UI in React",
+          "acceptance": "Build a form in React for profile creation. The form should include fields for 'Display Name', 'Avatar Upload', and 'Bio'. Acceptance Criteria: The form should render on the appropriate route. Fields must be styled consistently and clearly labeled. The 'Bio' field must include a live character counter.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Add validation logic for the 'Display Name' field",
+          "acceptance": "Implement validation in React to ensure the 'Display Name' field is required, accepts 3–50 characters, and checks for duplicate names via an API call. Acceptance Criteria: Error messages must display for invalid input. When the name is valid, any error messages must clear, and the form should proceed to validate subsequent fields.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Add client-side validation for 'Avatar Upload' field",
+          "acceptance": "Implement validation for avatar uploads in React. Ensure the file type is restricted to JPEG, PNG, or GIF and the file size does not exceed 5MB. Acceptance Criteria: Display an error message for invalid file uploads (incorrect format or size). Valid uploads should clear any error messages and be ready for form submission.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add validation for the 'Bio' field",
+          "acceptance": "Ensure the 'Bio' input does not exceed 300 characters and updates a character counter with each keystroke. Acceptance Criteria: The character counter must dynamically update as characters are typed or removed. Exceeding 300 characters must trigger an error state that prevents form submission.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement the live character counter for the 'Bio' field",
+          "acceptance": "Display a live character counter below the 'Bio' field. Acceptance Criteria: The counter should decrement with each character typed and reset properly when text is cleared or edited. The counter must reach zero at 300 characters and show appropriate styling when the limit is exceeded.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Create a backend API endpoint in Golang for duplicate 'Display Name' validation",
+          "acceptance": "Implement an API endpoint in Golang to validate duplicate display names. The endpoint should accept a name as input and respond with whether it is available or already in use. Acceptance Criteria: The endpoint must return HTTP status 200 with a JSON response indicating availability. Errors must include appropriate status codes and error messages.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add integration to check duplicate 'Display Name' in the form submission workflow",
+          "acceptance": "Use the duplicate validation API in the profile creation form. Make an asynchronous call to the API when validating the 'Display Name' field. Acceptance Criteria: If the name is a duplicate, an error message must display, preventing submission. If the name is unique, the duplicate validation must pass.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Create a backend API endpoint in Golang to save user profiles",
+          "acceptance": "Develop an API endpoint to accept user profile data (Display Name, Avatar, Bio) and save it to the system. Ensure proper data validation on the server side (e.g., character limits, valid file formats). Acceptance Criteria: The API must persist valid user data and return an HTTP status of 201 for success or appropriate error codes if validation fails.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Integrate profile-saving API with the React form",
+          "acceptance": "On form submission, make an API call to save user profile data. Upon success, redirect the user to their profile settings. On failure, display an error message. Acceptance Criteria: Successfully saving data should trigger a redirect to the user’s profile settings. Failed saves should maintain all entered data and display a clear error message.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Display error handling for form submission failures",
+          "acceptance": "Handle errors occurring during profile submission in React. Acceptance Criteria: Any failure in the API call should result in error messages displayed on the form for the specific failing field, and all previously entered data must remain intact.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Redirect user to profile settings upon successful submission",
+          "acceptance": "Implement a redirection to the user's profile settings page upon successful profile creation. Acceptance Criteria: Once the profile data is successfully saved, the user should be redirected to the appropriate route for profile settings.",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "View Public Profiles",
+      "description": "Ability to view other users' public profiles. In order to engage with and learn more about members of the community. As an individual user, I want to view profiles that display a user's display name, avatar, and bio. Acceptance Criteria: The public profile view must display a user’s 'Display Name', 'Avatar', and 'Bio' if set to public. If no avatar exists, a fallback default avatar icon must be shown. The layout must ensure readability and scalable design with proper alignment. A back or navigation option must enable exiting the profile view. If a profile cannot be loaded, users must be redirected to an appropriate fallback (e.g., home screen).",
+      "tasks": [
+        {
+          "list": "Create API endpoint to fetch a user's public profile data",
+          "acceptance": "Create a GET HTTP endpoint in Golang that retrieves a user’s public profile data (display name, avatar, and bio) from the database. Ensure that the data is only returned if the profile is set to public. If the avatar is null, return a URL for the default fallback avatar icon. The endpoint must handle scenarios where the user ID does not exist by returning an appropriate error response (e.g., 404 Not Found). Acceptance Criteria: API should return correct public profile data. API must return a fallback avatar if no avatar exists. API should return an error response if the user ID does not exist or the profile is private.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement React component to display public profile data",
+          "acceptance": "Design a React UI component that fetches public profile data using the API created in TASK1 and displays the 'Display Name', 'Avatar' (using fallback if needed), and 'Bio'. Ensure that the layout aligns with readability and scalability requirements. Acceptance Criteria: The React component should render based on the API data correctly. The avatar should default to the fallback image if no avatar exists. The component must use proper alignment to be visually readable and responsive.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Apply fallback navigation if profile retrieval fails",
+          "acceptance": "Enhance the React component to handle failures in fetching public profile data (e.g., API errors or no profile found). In such cases, redirect the user to the fallback destination (e.g., home screen). Acceptance Criteria: Users must be redirected to the fallback destination when the profile cannot be loaded. Proper error handling logic must be present in the component to detect API failures.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add navigation option to exit the profile view",
+          "acceptance": "Implement a back or navigation button in the React component that allows users to exit the profile view and return to the previous or designated screen. Acceptance Criteria: A functional back/navigation button should be visible in the UI. Clicking the button must navigate the user out of the profile view.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Write unit tests for the public profile API endpoint",
+          "acceptance": "Write unit tests in Golang to validate the functionality of the public profile retrieval API. Tests must cover scenarios for a valid profile, private profile, non-existent user ID, and fallback avatar behavior. Acceptance Criteria: Unit tests must pass for all valid and invalid scenarios. The tests must accurately verify that the API returns correct data, proper fallback avatar, and appropriate error responses.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Write component tests for the public profile UI",
+          "acceptance": "Write tests for the React component to validate the rendering and behavior of the public profile data. Cover scenarios for valid API responses, error handling, fallback avatar, and navigation button functionality. Acceptance Criteria: Tests must validate that the component properly displays all profile fields based on API data. Tests should verify proper error handling and navigation behavior. The tests must assert alignment and responsiveness of the layout.",
+          "id": "TASK6"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Edit and Update User Profile",
+      "description": "Ability to edit and update a user profile. In order to customize and maintain up-to-date profile information. As an individual user, I want to modify my display name, avatar, and bio. Acceptance Criteria: The profile settings screen must pre-fill fields with the current profile information. Existing 'Display Name', 'Avatar', and 'Bio' should be editable following the same validation criteria as profile creation. An 'Update' CTA must save changes and provide a success notification. The system must warn the user about unsaved changes if they try to navigate away. If the update fails, the most recent unsaved changes must be retained, with an error message displayed.",
+      "tasks": [
+        {
+          "list": "Create API endpoint to fetch current user profile data",
+          "acceptance": "Implement a backend API endpoint in Golang to fetch the current user's Display Name, Avatar, and Bio. The endpoint should follow REST conventions and return pre-filled information from the database in a JSON response. Acceptance Criteria: The API must retrieve the user's profile data accurately from the database. The response must include 'Display Name', 'Avatar', and 'Bio' fields. The endpoint must return a 200 status code upon success. Proper error messages must be returned for failure scenarios (e.g., user not found, server errors).",
+          "id": "TASK1"
+        },
+        {
+          "list": "Build React UI for the profile settings screen",
+          "acceptance": "Develop a profile settings screen in React that fetches data from the API created in TASK1 and displays the user's Display Name, Avatar, and Bio in editable form fields. Acceptance Criteria: The component must render input fields pre-filled with data fetched from the API. The fields must allow editing for 'Display Name', 'Avatar', and 'Bio'. The UI must call the API asynchronously and gracefully handle loading states and errors.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement validation function for profile fields",
+          "acceptance": "Write a validation function in the backend using Golang to ensure new values entered for 'Display Name', 'Avatar', and 'Bio' meet the criteria specified during profile creation. Acceptance Criteria: The function must reject invalid values for 'Display Name', 'Avatar', and 'Bio' based on length, format, or other imposed constraints. A proper error response must be sent for invalid inputs.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create API endpoint to update user profile data",
+          "acceptance": "Develop a backend API endpoint in Golang that accepts modifications to 'Display Name', 'Avatar', and 'Bio' fields and updates the user's profile data in the database. Acceptance Criteria: The API must accept a JSON payload with updated values for 'Display Name', 'Avatar', and 'Bio'. The API must validate the input using the validation function from TASK3. The database must be updated only if the data passes validation. On success, return a 200 status code with a success message. On failure (e.g., validation error, database error), return appropriate error responses.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add success notification for updates",
+          "acceptance": "Implement logic in the React profile settings screen to display a success notification when the user updates their profile successfully. Acceptance Criteria: The React UI must display a clean, non-intrusive success notification upon receiving a response from the API indicating successful profile updates.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement unsaved changes warning modal",
+          "acceptance": "Add logic in the React profile settings screen to display a modal warning if the user attempts to navigate away with unsaved changes. Acceptance Criteria: A React state must track whether form input fields have been modified. An attempt to navigate away while changes are unsaved must trigger a modal with the warning message. The modal must provide options to either discard changes and continue or stay on the page.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Retain unsaved changes on update failure in UI",
+          "acceptance": "Ensure that the React profile settings screen retains the user's input when the API call to update the profile fails. Acceptance Criteria: If the API from TASK4 returns an error, the input fields must retain the user's unsaved changes. An appropriate error message should be displayed near the updated fields, explaining why the update failed.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write error message rendering logic in React",
+          "acceptance": "Develop a React component or logic to display error messages returned by the backend API. Acceptance Criteria: Error messages received from the API must appear dynamically under the relevant profile fields. If the update is unsuccessful for reasons beyond specific fields (e.g., server error), a general error message must appear at the top of the settings page.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Test API endpoints and validations",
+          "acceptance": "Write unit and integration tests for API endpoints created in TASK1 and TASK4 to verify they work according to the requirements. Acceptance Criteria: Validate that the GET endpoint correctly retrieves user data and handles errors gracefully. Validate that the POST/PUT endpoint properly updates user data, including validating input and handling database errors. Ensure test coverage includes success and failure scenarios.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Add unit tests for React profile settings screen",
+          "acceptance": "Develop unit tests for the React profile settings screen to ensure it behaves according to the user story requirements. Acceptance Criteria: Test that changes to input fields are tracked correctly. Test that unsaved changes trigger the warning modal. Test that error messages display correctly under appropriate conditions. Test that successful updates correctly trigger the success notification.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Manage Profile Privacy Settings",
+      "description": "Ability to configure profile privacy settings. In order to protect my personal data when engaging in the community. As an individual user, I want to set the privacy level for my profile as private or public and granularly control visibility for specific fields such as the avatar or bio. Acceptance Criteria: A toggle must allow setting the profile as 'Public' or 'Private.' Individual elements like the bio or avatar should have independent visibility controls. Default visibility for profiles must be 'Private'. A tooltip must explain the implications of visibility settings. For private profiles, minimal information such as the 'Display Name' must be shown to others, with placeholders like 'Not public' for hidden fields. Changes to privacy settings must be applied and saved immediately.",
+      "tasks": [
+        {
+          "list": "Create API endpoint to update profile privacy level ('Public' or 'Private')",
+          "acceptance": "Implement a REST API endpoint in Golang to update the profile privacy level. Input: JSON with the fields 'userId' (string) and 'privacyLevel' ('Public' or 'Private'). Output: HTTP 200 on success or appropriate error codes (e.g., 400 for invalid inputs). Ensure default privacy level is 'Private' if the user has not set any value.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Add independent visibility control API for avatar and bio fields",
+          "acceptance": "Create two REST API endpoints in Golang to independently update the visibility settings of 'avatar' and 'bio' fields. Input: JSON with the fields 'userId' (string), 'field' ('avatar' or 'bio'), and 'visibility' ('Public' or 'Private'). Output: HTTP 200 on success or appropriate error codes. Ensure the API applies changes immediately.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Modify database schema to store visibility settings at the field level",
+          "acceptance": "Update the database schema to include a new table or fields to store the visibility settings for 'avatar' and 'bio', as well as an overall 'privacyLevel' for the profile. Ensure default value for 'privacyLevel', 'avatar', and 'bio' visibility is set to 'Private'. Validate schema changes by performing CRUD operations.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Update profile fetch API to respect visibility settings",
+          "acceptance": "Update the existing API endpoint in Golang that fetches profile data to respect the 'privacyLevel' and field-level visibility settings for 'avatar' and 'bio'. For profiles marked as 'Private', only return 'Display Name' and placeholders (e.g., 'Not public') for hidden fields. Test handling for both 'Public' and 'Private' profiles, ensuring data is correctly masked for 'Private'.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement UI toggle for setting profile visibility level",
+          "acceptance": "Implement a React component that offers a toggle for 'Public' and 'Private' profile visibility. The toggle must send requests to the API to save the changes immediately. Validate the UI against different states: 'Public', 'Private', and on API update success/failure.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Create React components for individual visibility controls of avatar and bio",
+          "acceptance": "Add independent UI switches for 'avatar' and 'bio' visibility within the profile settings page in React. Each switch must send corresponding updates to the respective API endpoints to save changes immediately. Validate UI behavior for state changes and API request/response handling.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add tooltip descriptions to all visibility controls",
+          "acceptance": "Implement tooltips in React that describe the implications of each visibility setting (profile level, avatar, and bio). Tooltip content must explain that 'Private' fields will show placeholders. Test to ensure tooltips display correctly on mouse hover and are appropriately styled.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement immediate save behavior for any privacy setting change",
+          "acceptance": "Ensure all visibility changes (profile, avatar, and bio) in the UI React components trigger immediate API requests and provide feedback on success/failure. Validate UI reflects the most recent state from the backend on success. Highlight errors for failed save attempts.",
+          "id": "TASK8"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Seamless Navigation Across Profile Features",
+      "description": "Ability to conveniently navigate between profile-related features. In order to enhance usability and streamline access to personalization options. As an individual user, I want intuitive transitions between viewing, editing, and managing my profile settings. Acceptance Criteria: A navigation menu must provide persistent options for 'Edit My Profile,' 'View My Profile,' and 'Profile Settings.' Clicking a button must transition to the respective screens while maintaining unsaved changes in other sections. The current active section must be visually highlighted in the interface. If a user is unauthorized, they should be redirected to a login or error screen with appropriate feedback.",
+      "tasks": [
+        {
+          "list": "Create Navigation Menu Component in React",
+          "acceptance": "Develop a persistent navigation menu in React that includes three options: 'Edit My Profile,' 'View My Profile,' and 'Profile Settings.' Acceptance Criteria: The menu should render consistently across all profile screens. The current active section must be visually highlighted. The menu must update when navigating between sections.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement 'View My Profile' Screen Component",
+          "acceptance": "Develop a React component to display user profile data for the 'View My Profile' screen. Acceptance Criteria: Ensure all user profile data is correctly displayed. The navigation menu must remain visible. Validate that the current section is visually highlighted in the menu. Handle scenarios where user data might not be available (e.g., show fallback messaging).",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement 'Edit My Profile' Screen Component",
+          "acceptance": "Develop a React component for the 'Edit My Profile' screen, allowing users to make changes to their profile. Acceptance Criteria: Ensure changes to the profile can be entered and unsaved changes persist during navigation to other sections. The navigation menu must remain visible, and the current section highlighted. Handle error scenarios when entering invalid data (e.g., required fields not filled).",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement 'Profile Settings' Screen Component",
+          "acceptance": "Develop a React component for managing customization options in the 'Profile Settings' screen. Acceptance Criteria: Settings options should be interactive, and changes should persist during navigation between profile sections while unsaved. The navigation menu must remain visible, and the current section highlighted.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement React Router for Profile Feature Navigation",
+          "acceptance": "Configure React Router to handle navigation between 'Edit My Profile,' 'View My Profile,' and 'Profile Settings.' Acceptance Criteria: Ensure proper route mapping for the three screens. Clicking a navigation menu item transitions to the appropriate screen while keeping unsaved changes intact. Verify the correct URL paths (/view-profile, /edit-profile, /profile-settings).",
+          "id": "TASK5"
+        },
+        {
+          "list": "Develop Unauthorized User Redirect Logic in React",
+          "acceptance": "Implement logic to check if a user is unauthorized and redirect them to the login or error screen. Acceptance Criteria: If the user is unauthorized, they should be instantly redirected to the login screen or see a descriptive error message. Ensure appropriate feedback is displayed and unauthorized users cannot access any profile sections.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add Visual Highlight for Active Section in Navigation Menu",
+          "acceptance": "Add logic to visually indicate the currently active section in the navigation menu. Acceptance Criteria: Only the active menu item should be highlighted at a time. The visual style must match the design guidelines. Switching sections updates the highlight accordingly.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement Golang API Endpoint for Fetching Profile Data",
+          "acceptance": "Develop a Golang endpoint to retrieve user profile data. Acceptance Criteria: The endpoint should return user profile data as a JSON response. Validate that the user is authorized before returning data. Handle errors such as unauthorized requests or missing data with appropriate HTTP status codes and messages.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement Golang API Endpoint for Saving Profile Changes",
+          "acceptance": "Develop a Golang endpoint to save profile changes. Acceptance Criteria: The endpoint must validate input data and persist profile updates in the database. Return appropriate success or error messages based on the operation result. Handle scenarios such as missing or invalid data and unauthorized users.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Implement Golang API Endpoint for Managing Profile Settings",
+          "acceptance": "Develop a Golang endpoint to retrieve and update profile settings. Acceptance Criteria: Provide RESTful routes to fetch and update user settings. Validate user authorization. Handle scenarios such as unauthorized access, missing settings data, or invalid update requests.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Integrate React Frontend with Golang APIs",
+          "acceptance": "Connect the React components ('View My Profile,' 'Edit My Profile,' and 'Profile Settings') to the respective Golang endpoints. Acceptance Criteria: Data should be dynamically loaded into the UI based on responses from the backend endpoints. Changes made in the frontend should trigger API calls and persist data correctly. Ensure error states from the API (e.g., unauthorized, missing data) are handled and displayed appropriately in the UI.",
+          "id": "TASK11"
+        },
+        {
+          "list": "Write Unit and Integration Tests for Golang API Endpoints",
+          "acceptance": "Develop unit and integration tests for all Golang API endpoints created for the profile feature. Acceptance Criteria: Each endpoint must have tests covering success and error scenarios, including validation errors and unauthorized access. Tests must verify compliance with the specified acceptance criteria for each endpoint.",
+          "id": "TASK12"
+        },
+        {
+          "list": "Write Unit and Component Tests for React Components",
+          "acceptance": "Develop tests for all React components to ensure proper functionality. Acceptance Criteria: Each component ('Edit My Profile,' 'View My Profile,' 'Profile Settings,' and Navigation Menu) must have unit tests validating rendering, interaction, and edge-case scenarios. Component tests should ensure that unsaved changes are handled as specified and unauthorized access is blocked with appropriate feedback.",
+          "id": "TASK13"
+        }
+      ]
+    }
+  ]
+}

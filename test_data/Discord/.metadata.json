@@ -1,0 +1,9 @@
+{
+  "name": "Discord",
+  "description": "Discord is a communication platform for communities, enabling voice, video, and text chat with features like servers, channels, and integrations for gaming, work, and social groups.",
+  "technicalDetails": "Golang, React, AWS",
+  "createReqt": true,
+  "id": "79153deb-0897-4011-b986-b860cee33276",
+  "createdAt": "2025-02-20T07:31:10.628Z",
+  "cleanSolution": false
+}

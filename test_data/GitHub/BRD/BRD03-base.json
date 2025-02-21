@@ -1,0 +1,4 @@
+{
+  "requirement": "Provide functionality for developers to create and manage pull requests, enabling team members to review, comment on, and approve or reject proposed code changes. This should include version tracking and discussion threads for better collaboration.",
+  "title": "Enable Pull Request Reviews"
+}

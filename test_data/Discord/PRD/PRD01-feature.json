@@ -1,0 +1,294 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "User Registration with Credentials",
+      "description": "Ability to register using email and password. In order to create an account securely. As a community member, I want to provide my email and password with strong validation to set up my account. Acceptance Criteria: The registration page must include fields for email, password, and confirm password with corresponding labels. Email must be validated for proper format, and passwords must meet strong password requirements. An error message must be displayed for invalid input, such as mismatched passwords or bad email format. A confirmation message must be provided upon successful registration, redirecting users to the login page.",
+      "tasks": [
+        {
+          "list": "Create registration page UI with email, password, and confirm password fields",
+          "acceptance": "A registration page is created in React with labeled input fields for email, password, and confirm password. Acceptance Criteria: Input fields have labels matching user story specifications. Fields are properly styled and aligned as per the design. The form submission button is disabled unless all fields are completed.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement email validation logic on registration form",
+          "acceptance": "An email validation function is implemented in the registration form using regex to ensure a valid email address format. Acceptance Criteria: An error message is displayed below the email field if the input does not match a valid email format.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement password strength validation logic",
+          "acceptance": "A password validation function is implemented to ensure the password meets strong criteria (e.g., minimum length, at least one special character, one uppercase letter, and one digit). Acceptance Criteria: An error message is displayed below the password field if the password does not meet the strength criteria.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement confirm password matching logic",
+          "acceptance": "The confirm password input field ensures the entered value matches the initial password field. Acceptance Criteria: An error message is displayed below the confirm password field if the two passwords do not match.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement error message handling UI for invalid form inputs",
+          "acceptance": "Error messages are dynamically displayed below input fields for invalid email format, weak password, or password mismatch. Acceptance Criteria: The UI dynamically highlights input errors with error messages placed below respective fields. Messages are cleared when inputs are corrected.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Create API endpoint in Golang for user registration",
+          "acceptance": "A POST API endpoint is created in Golang to accept registration data (email, password). Inputs are validated for email format and password strength. Acceptance Criteria: The endpoint verifies email format and strong password criteria. If validation fails, a 400 status code with error messages is returned.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Integrate frontend registration form with API",
+          "acceptance": "The registration form is integrated with the Golang API endpoint. Form data (email and password) are sent via a POST request, and responses are handled. Acceptance Criteria: Upon successful submission, the form sends the data to the API and handles success or error responses appropriately.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Display confirmation message and redirect on successful registration",
+          "acceptance": "A success message is displayed on the registration page if the API responds with a 200 status code, and the user is redirected to the login page. Acceptance Criteria: Confirmation message appears upon successful registration, and user is redirected to the login page after a short delay.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit tests for password and email validation functions",
+          "acceptance": "Unit tests for the email and password validation functions ensure they handle valid and invalid inputs. Acceptance Criteria: All test cases pass successfully for valid and invalid email and password scenarios, covering edge cases.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write integration tests for registration API endpoint",
+          "acceptance": "Integration tests are written for the Golang API endpoint to ensure correct responses for valid and invalid registration data. Acceptance Criteria: Tests verify API behavior for valid inputs (200 response) and invalid inputs (400 response with error messages).",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Third-Party Authentication for Registration and Login",
+      "description": "Ability to register and log in using third-party services like Google and Facebook. In order to easily and securely access the platform. As a community member, I want to use my third-party account credentials for seamless authentication. Acceptance Criteria: Both the registration and login pages must display 'Login with Google' and 'Login with Facebook' buttons. Clicking either button redirects users to the respective third-party authentication provider. Upon successful verification, users are either registered (if new) or logged in and redirected to their account dashboard. Errors during third-party authentication must show clear messages instructing users on next steps.",
+      "tasks": [
+        {
+          "list": "Create React UI components for third-party authentication buttons",
+          "acceptance": "Create two buttons labeled 'Login with Google' and 'Login with Facebook' on both Registration and Login pages. Buttons must be visually distinct and placed in line with the design standards of the application. Clicking the buttons must trigger the appropriate redirect functions. Acceptance Criteria: Both registration and login pages display functioning 'Login with Google' and 'Login with Facebook' buttons.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement functionality to redirect users to Google OAuth authentication endpoint",
+          "acceptance": "Create a function in the front-end that triggers a redirect to Google's OAuth authentication URL when the 'Login with Google' button is clicked. Function must include query parameters as required by Google’s OAuth (e.g., client_id, redirect_uri, response_type). Acceptance Criteria: Clicking 'Login with Google' button redirects to the correct Google OAuth authentication page with appropriate query parameters.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement functionality to redirect users to Facebook OAuth authentication endpoint",
+          "acceptance": "Create a function in the front-end that triggers a redirect to Facebook's OAuth authentication URL when the 'Login with Facebook' button is clicked. Function must include query parameters as required by Facebook’s OAuth (e.g., client_id, redirect_uri, response_type). Acceptance Criteria: Clicking 'Login with Facebook' button redirects to the correct Facebook OAuth authentication page with appropriate query parameters.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create a backend endpoint in Golang for handling Google OAuth callback",
+          "acceptance": "Define a new API endpoint (e.g., '/auth/google/callback') in Golang to handle the Google OAuth callback. Endpoint must validate the authentication code received, exchange it for an access token, and retrieve the user's profile information from Google. Acceptance Criteria: The endpoint successfully processes OAuth callback, retrieves access token, and fetches user's profile information from Google.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create a backend endpoint in Golang for handling Facebook OAuth callback",
+          "acceptance": "Define a new API endpoint (e.g., '/auth/facebook/callback') in Golang to handle the Facebook OAuth callback. Endpoint must validate the authentication code received, exchange it for an access token, and retrieve the user's profile information from Facebook. Acceptance Criteria: The endpoint successfully processes OAuth callback, retrieves access token, and fetches user's profile information from Facebook.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement user registration logic in the backend for new third-party users",
+          "acceptance": "Add logic to create a new user in the database when receiving user profile information from Google or Facebook and the user does not exist in the system. Link the user to their third-party account using a unique identifier from the provider (e.g., Google ID or Facebook ID). Acceptance Criteria: If the user does not exist, their third-party account is stored, and they are registered in the system.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Implement login and session creation logic for existing users",
+          "acceptance": "Add logic to verify if the incoming third-party profile information corresponds to an existing user in the database. If the user exists, create or update the user session and redirect to the user dashboard. Acceptance Criteria: Existing third-party users are logged in successfully, and sessions are created or updated appropriately.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Handle error scenarios during third-party authentication in the backend",
+          "acceptance": "Add comprehensive error handling to the OAuth callback endpoints to handle cases such as invalid tokens, expired authentication codes, and missing user profile information. Return clear and actionable error messages for each scenario. Acceptance Criteria: All potential errors in third-party authentication are handled gracefully, and clear error messages are presented to the user.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add redirection logic to navigate users to their dashboard or error page post-authentication",
+          "acceptance": "Implement logic in both the front-end and backend to redirect users to their dashboard upon successful authentication or to an error page/message in case of any failures. Acceptance Criteria: Successful authentication redirects to the user dashboard, and failures redirect to an error page with appropriate messaging.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "User Login with Credentials",
+      "description": "Ability to securely log in using email and password. In order to access the platform. As a community member, I want to authenticate myself using my registered credentials. Acceptance Criteria: The login page must include fields for email and password with corresponding labels. A 'Login' button must validate user input and allow access if credentials are correct. Users must be redirected to their account dashboard after successful login. An error message must be displayed for invalid email or incorrect passwords prompting users to retry. Failed logins must prevent unauthorized access with secure session handling.",
+      "tasks": [
+        {
+          "list": "Create React Login Page UI with Email and Password Fields",
+          "acceptance": "Implement a React component for the login page with labeled input fields for 'email' and 'password' along with a 'Login' button. Acceptance Criteria: The page should display input fields for 'email' and 'password' with accessible labels. Input fields should support text entry. The 'Login' button must be visible on the page.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement Client-Side Validation for Email and Password Fields",
+          "acceptance": "Add validation logic in the React login component to check that the email field contains a valid email format and the password field is not empty. Acceptance Criteria: Proper error messages should be displayed if email is invalid or password is empty. Error messages should disappear when corresponding fields are corrected.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create API Endpoint in Golang for User Login Authentication",
+          "acceptance": "Implement a POST '/login' endpoint in Golang to handle authentication requests. Acceptance Criteria: The endpoint must accept a JSON payload containing 'email' and 'password'. Return a success response with user data upon correct credentials. Return an error response with proper status codes for invalid credentials or other authentication failures.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Integrate Login API in React Component",
+          "acceptance": "Add logic in the React login component to make a POST request to the '/login' API endpoint with the entered email and password. Handle success and failure responses appropriately. Acceptance Criteria: On a successful login response, redirect users to the account dashboard page. On an error response, display the error message received from the API.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement User Session Management in Frontend",
+          "acceptance": "Ensure the user's session is securely stored and managed in the client-side upon successful login. Acceptance Criteria: Implement a secure mechanism (e.g., localStorage or sessionStorage with proper security measures) to store user session data, such as tokens or user IDs. Ensure session is retrievable for future authenticated requests. Clear session data upon logout or session expiry.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Securely Handle Session Management in API with AWS",
+          "acceptance": "Implement secure session management on the API side using AWS services (e.g., Cognito or custom token generation). Acceptance Criteria: On successful authentication, return a secure token (e.g., JWT) to the client. Token should have appropriate expiration and security measures following industry standards. Validate token on further secured endpoints to prevent unauthorized access.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Display Error Messages for Invalid Login Attempts in React",
+          "acceptance": "Handle server-side error responses from the '/login' API and display corresponding error messages to the user in the React login page. Acceptance Criteria: Errors such as 'Invalid email' or 'Incorrect password' should be displayed appropriately without breaking the UI. Retry option should be available to the user without reloading the page.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Redirect User to Dashboard on Successful Login",
+          "acceptance": "Implement redirection logic in the React component to send authenticated users to their account dashboard. Acceptance Criteria: Ensure redirection happens only after successful API response. Verify that the redirection does not expose sensitive data and works seamlessly across modern browsers.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Implement Failed Login Attempt Counter and Lockout Mechanism",
+          "acceptance": "Add logic in the Golang '/login' API to count consecutive failed login attempts for an account and lock it after a configurable number of failures. Acceptance Criteria: API must keep track of invalid login attempts per user (via email) and return a locked response if the limit is reached. Ensure this mechanism prevents brute-force attacks.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write Unit Tests for API Endpoint Logic",
+          "acceptance": "Create unit tests in Golang to validate the '/login' API logic, including success cases, error handling scenarios, and failed login lockout functionality. Acceptance Criteria: Tests must cover valid login, invalid email/password combinations, failed lockout state, and token issuance. Ensure at least 90% code coverage for the endpoint logic.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Write Unit Tests for React Login Component",
+          "acceptance": "Create unit tests for the React login component focusing on input validation, API integration, and error message display. Acceptance Criteria: Tests must ensure email validation, password input validation, correct API calls, and error message rendering in all failure cases.",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Account Management for Credential Updates",
+      "description": "Ability to manage and update user credentials like email and password. In order to maintain account security. As a community member, I want to update my email or reset my password within the platform. Acceptance Criteria: The account management page must display input fields for updating email and password. Password changes must include input for current password, new password, and confirm new password fields with validation. Error messages must appear if updates fail, such as incorrect current password or invalid email format. Confirmation messages must be displayed upon successful updates informing users of changes.",
+      "tasks": [
+        {
+          "list": "Create UI components for Account Management page",
+          "acceptance": "Develop React components to render input fields for updating email and password. Include fields for 'Current Password', 'New Password', and 'Confirm New Password'. Input fields should use React state to manage and validate user input. Acceptance Criteria: Account Management page displays required input fields with proper labels and placeholders as per the user story.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement validation logic for password fields on the client-side",
+          "acceptance": "Develop validation to ensure 'New Password' and 'Confirm New Password' fields match and that 'Current Password' is not empty. Acceptance Criteria: Client-side validation prevents form submission for mismatched passwords or empty fields with appropriate error messages displayed.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement validation logic for email format on the client-side",
+          "acceptance": "Use a regex pattern to validate the email address entered in the email input field. Display an error message if the format is invalid. Acceptance Criteria: The 'Update Email' field allows submission only for correctly formatted email addresses and displays an error message if the format is invalid.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create a REST API endpoint for updating email",
+          "acceptance": "Develop a new API endpoint in Golang to allow authenticated users to submit a request to update their email. Include validation for email format on the backend. Acceptance Criteria: API accepts an email update request with valid data and updates it in the database. Returns error messages for invalid email format or unauthorized users.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create a REST API endpoint for updating the password",
+          "acceptance": "Develop a new API endpoint in Golang to allow authenticated users to submit a request to change their password. Verify that the 'current password' matches the one stored in the database and validate the 'new password' and 'confirm new password'. Acceptance Criteria: API verifies the current password, validates the new password inputs, and updates the password in the database if all checks pass. Returns error messages for incorrect current password or mismatched new passwords.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Display success confirmation messages upon successful updates",
+          "acceptance": "After a successful API call for updating email or password, display a confirmation message on the UI to inform the user that the update was successful. Ensure message disappears after a short timeout or upon user interaction. Acceptance Criteria: The 'Account Management' page displays a confirmation message upon successful email/password updates.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle and display error messages from API responses on the client-side",
+          "acceptance": "Parse error messages from the API responses for failed email or password updates. Display specific error messages to the user when the current password is incorrect, email format is invalid, or passwords do not match. Acceptance Criteria: Failed API responses are rendered as clear error messages on the UI.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Secure password update endpoint with authentication middleware",
+          "acceptance": "Apply authentication middleware to the password update API to ensure only authenticated users can perform updates. Acceptance Criteria: Unauthorized API calls to the password update endpoint are rejected with a 401 Unauthorized response.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Secure email update endpoint with authentication middleware",
+          "acceptance": "Apply authentication middleware to the email update API to ensure only authenticated users can perform updates. Acceptance Criteria: Unauthorized API calls to the email update endpoint are rejected with a 401 Unauthorized response.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write unit tests for the password update API",
+          "acceptance": "Implement unit tests in Golang to cover all edge cases for the password update API. Test cases should include incorrect current password, mismatched new passwords, unauthorized access, and successful password updates. Acceptance Criteria: All unit tests pass successfully, covering the specified scenarios.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Write unit tests for the email update API",
+          "acceptance": "Implement unit tests in Golang to cover all edge cases for the email update API. Test cases should include invalid email format, unauthorized access, and successful email updates. Acceptance Criteria: All unit tests pass successfully, covering the specified scenarios.",
+          "id": "TASK11"
+        },
+        {
+          "list": "Integrate REST API calls with React front-end",
+          "acceptance": "Develop functionality in the React front-end to call the password and email update APIs when the user submits the form. Handle responses to display success or error messages appropriately. Acceptance Criteria: The React front-end successfully integrates with the back-end API for updating email and password, displaying appropriate messages based on API responses.",
+          "id": "TASK12"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Secure Password Reset and Logout Functionality",
+      "description": "Ability to reset passwords and log out securely. In order to regain access to the account and end sessions safely. As a community member, I want to reset my password via email and have an option to log out to protect my account. Acceptance Criteria: A 'Forgot Password?' link on the login page must redirect users to a password recovery form. The form must validate email input and confirm when a reset link is sent. The reset email must contain a secure one-time URL redirecting users to a password reset form. Password updates must meet security standards and notify users of success. The account dashboard must display a 'Logout' button to terminate sessions and clear client-side authentication data, redirecting users to the login page. Expired/restored sessions must prompt re-authentication before further actions are allowed.",
+      "tasks": [
+        {
+          "list": "Implement 'Forgot Password?' link to redirect to password recovery form on the login page",
+          "acceptance": "The 'Forgot Password?' link on the login page must redirect users to a password recovery form. Acceptance Criteria: Clicking on the 'Forgot Password?' link navigates to the password recovery form. The navigation path and link should work seamlessly without any errors.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Develop password recovery form with email input validation",
+          "acceptance": "The password recovery form must validate the email input field and display errors for invalid email addresses. Acceptance Criteria: The form correctly displays errors for incorrectly formatted or empty email addresses and shows a confirmation message when a valid email is submitted.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement functionality to send a secure one-time password reset URL to the user email",
+          "acceptance": "The system must generate a unique, secure one-time URL and send it to the provided email address. Acceptance Criteria: A secure, time-bound password reset URL is sent to the user's email when a valid email address is submitted. The system must handle and log errors appropriately if the email process fails.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Secure the password reset URL with expiration and one-time usage enforcement",
+          "acceptance": "The password reset URL must expire after a set time (e.g., 15 minutes) and invalidate immediately upon usage. Acceptance Criteria: Unauthorized usage or expired links result in appropriate error messages. The one-time password reset link cannot be reused.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Create a password reset form accessible via the secure URL",
+          "acceptance": "The password reset form must allow users to input a new password. Acceptance Criteria: The form should validate the password input according to defined security standards (e.g., minimum length, character types). Errors are displayed for invalid input, and submission updates the password securely.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Send confirmation notification upon successful password reset",
+          "acceptance": "A confirmation notification is sent to the user's email upon successful password reset. Acceptance Criteria: The email includes a message confirming the password reset and logs any email delivery issues.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add 'Logout' button to the account dashboard",
+          "acceptance": "The 'Logout' button properly clears client-side authentication data and initiates a session termination request. Acceptance Criteria: Clicking the button clears all local authentication data and redirects the user to the login page.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement session termination on backend when 'Logout' is triggered",
+          "acceptance": "When the logout functionality is used, the system must terminate the current session on the backend to ensure no further requests are allowed from the client. Acceptance Criteria: Backend invalidates session tokens, and expired tokens are not accepted for authentication.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Prompt re-authentication for expired/restored sessions",
+          "acceptance": "The system must prompt for re-authentication when a session has expired, or a restored session is detected. Acceptance Criteria: All attempts to access secured features with an expired session redirect users to the login page and display appropriate messages for unauthenticated access.",
+          "id": "TASK9"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Personalized Video Recommendations",
+      "description": "Ability to receive personalized video recommendations based on preferences, viewing history, and trending topics. In order to discover relevant content easily. As a user, I want the app to curate a tailored set of video suggestions under categories like 'Trending' and 'For You'. Acceptance Criteria: The homepage must display a dynamically updated list of videos under clearly labeled categories such as 'Trending', 'For You', and other relevant tags. Clicking a video thumbnail should play the video in the app's viewer. The system must analyze user preferences and past viewing history to generate relevant recommendations. Trending videos should refresh based on real-time popularity metrics. Users must be able to toggle between different categories seamlessly on the homepage.",
+      "tasks": [
+        {
+          "list": "Implement API endpoint to fetch personalized recommendations based on user preferences and viewing history",
+          "acceptance": "Create a Rust-based API endpoint (e.g., `/api/recommendations/personalized`) to fetch personalized video recommendations. The API must analyze user preferences and past viewing history to return a dynamically ranked list of videos. Input: User ID. Output: Array of video metadata (title, thumbnail URL, video URL, category). Perform error handling for scenarios like missing or invalid user ID. Validate that recommendations are sorted by relevance for the user.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement API endpoint to fetch trending videos based on real-time popularity metrics",
+          "acceptance": "Create a Rust-based API endpoint (e.g., `/api/recommendations/trending`) to return trending videos. The endpoint must leverage real-time popularity metrics to dynamically update the list of videos. Input: None. Output: Array of video metadata. Ensure the endpoint refreshes data cache periodically to maintain real-time accuracy. Validate that the list adapts to changes in popularity metrics.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Develop Angular service to fetch data from recommendation APIs",
+          "acceptance": "Create an Angular service to fetch data from `/api/recommendations/personalized` and `/api/recommendations/trending` endpoints using HTTP calls. The service should have methods for each category (e.g., `getPersonalizedRecommendations()`, `getTrendingVideos()`). Ensure correct type annotations for input and output. Implement error handling for API failures and validate retry mechanisms for transient errors.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Create Angular component to display video categories on the homepage",
+          "acceptance": "Develop an Angular component to display curated video categories (e.g., 'Trending' and 'For You') on the homepage. Use the service created in TASK3 to fetch data and dynamically bind video lists in the UI. Each category must render a grid of video thumbnails with appropriate labels. Validate that video grids are responsive on varying screen sizes.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement toggle feature to switch between video categories on the homepage",
+          "acceptance": "Add functionality in the homepage component to toggle between video categories (e.g., 'Trending' and 'For You') without refreshing the page. Use Angular state management to dynamically load and display videos for the selected category. Validate that the UI seamlessly updates videos as users toggle between categories.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement functionality to play video on thumbnail click",
+          "acceptance": "Ensure each video thumbnail in the grid is clickable. On click, invoke Angular routing to a video viewer component. Pass the video URL as input to the video viewer, and render the video within the Angular video player. Validate that the video autoplay feature works correctly. Handle errors like invalid or broken video URLs gracefully.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Develop GCP integration to store and retrieve real-time popularity metrics for trending videos",
+          "acceptance": "Leverage a GCP service (e.g., Firestore or BigQuery) to store and fetch real-time popularity metrics. Implement logic in the Rust backend to query the GCP service for trending video data. Validate that the retrieved data is consistent with simulated real-time updates. Ensure the system scales efficiently for a high number of concurrent users.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write unit tests for API endpoints in Rust",
+          "acceptance": "Implement unit tests for `/api/recommendations/personalized` and `/api/recommendations/trending` endpoints. Validate that correct video metadata is returned for valid requests, and appropriate error responses are generated for invalid inputs.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit tests for Angular service and components",
+          "acceptance": "Develop unit tests for the Angular service and homepage component. Ensure tests cover successful API calls, handling of API errors, rendering of video grids, and toggle functionality between categories. Validate component behavior under various screen resolutions and network conditions.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Integrate e2e tests for video recommendation flow",
+          "acceptance": "Write end-to-end tests to validate the complete recommendation flow. Test scenarios include personalized and trending recommendations displaying correctly, toggling between categories, and playing videos successfully. Validate that real-time updates are reflected in the 'Trending' category. Ensure test coverage for edge cases such as empty recommendation lists or invalid video data.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Basic Trending Video Insights",
+      "description": "Ability to view basic insights about each trending video such as popularity metrics. In order to understand the relevance of trending videos. As a user, I want basic data like view counts and upload dates to be visible with each trending video. Acceptance Criteria: Each trending video card must display view counts, upload dates, and a trending rank/indicator. Icons like thumbs-up and share counts must be visible as static metrics. Users must be able to sort trending videos by popularity or upload date. The system must refresh trending metrics every hour to ensure relevance.",
+      "tasks": [
+        {
+          "list": "Create a data structure in Rust to store video metadata (view counts, upload dates, trending rank, share counts, thumbs-up counts).",
+          "acceptance": "Define a struct in Rust that includes fields for view counts, upload dates (as a datetime format), trending rank (integer or string as specified by the business logic), share counts (integer), and thumbs-up counts (integer). Acceptance Criteria: The struct should be appropriately typed and align with the user story requirements. It must be capable of representing all needed metadata accurately.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement a Rust function to sort an array of video metadata by view counts or upload dates.",
+          "acceptance": "Implement a function with input as an array of video metadata structs and a sorting parameter (`popularity` or `upload_date`). The function must return a sorted array based on the selected parameter. Acceptance Criteria: Ensure sorting logic is efficient, and test for edge cases (e.g., empty arrays, duplicate values).",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create a REST API endpoint in Rust to serve trending video data.",
+          "acceptance": "Develop a REST API endpoint in Rust that fetches video metadata from a predefined data source. It should accept optional query parameters for `sort_by` (e.g., 'popularity', 'upload_date'). Acceptance Criteria: The API response must include all required metadata fields (view counts, upload dates, trending rank, thumbs-up counts, share counts) and should support sorting as defined in task 2. Validate inputs and return an error code for invalid sorting parameters.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Fetch and update trending video metrics from GCP every hour.",
+          "acceptance": "Implement a background service or job in Rust that fetches trending video data from the GCP data source every hour and updates the local data store. Acceptance Criteria: Ensure periodicity of one hour, handle connectivity or data-fetch errors gracefully, and ensure the data store is updated atomically without leaving inconsistent states.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Integrate API response into Angular frontend for rendering trending video cards.",
+          "acceptance": "Create a service in Angular to call the Rust API and fetch trending video data. Map the API response to a UI model in Angular. Components must render the video cards showing view counts, upload dates, trending rank, thumbs-up counts, and share counts as static metrics. Acceptance Criteria: Ensure the data is displayed correctly for each video card as per the specifications. Handle API errors gracefully with a loading state and error state on the UI.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Add a sorting feature on the Angular frontend for trending videos.",
+          "acceptance": "Implement a dropdown or UI control in Angular to allow sorting videos by popularity or upload date. Pass the selected sorting parameter to the Rust API and refresh the view. Acceptance Criteria: Ensure the sorting control updates the video list correctly without page reload. Test edge cases such as switching between different sorting options rapidly.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Add UI test cases for rendering and sorting functionality.",
+          "acceptance": "Write unit tests and end-to-end tests in Angular to validate that video cards display all fields correctly, sorting updates the display as intended, and error/loading states are handled correctly. Acceptance Criteria: Test cases must cover normal, boundary, and failing scenarios for UI rendering and sorting behavior.",
+          "id": "TASK7"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "User Preferences and Settings Management",
+      "description": "Ability to customize and manage video preferences for tailored content recommendations. In order to improve the relevance of recommended content. As a user, I want to define interests and block certain topics or channels. Acceptance Criteria: Users must be able to access a dedicated 'Preferences' section in the settings. Preferences must display a list of interests (e.g., 'Music', 'Technology') that users can select using checkboxes. A 'Blocked Content' feature should allow blocking of topics or channels. Changes to preferences must update recommendations in real-time and display a confirmation message upon saving. A 'Reset to Default' button must reset all preferences to default values.",
+      "tasks": [
+        {
+          "list": "Create UI Component for 'Preferences' Section in Angular",
+          "acceptance": "Develop a dedicated Angular component for the 'Preferences' section under user settings. Acceptance Criteria: UI must include checkboxes for a list of interests (e.g., 'Music', 'Technology') fetched from a predefined data structure. The component must include input fields for specifying blocked topics or channels. Implement a 'Reset to Default' button to clear all user-defined preferences and revert back to default values.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Develop GET Endpoint in Rust to Fetch User Preferences",
+          "acceptance": "Create a RESTful endpoint in the backend using Rust to fetch user-defined preferences (interests and blocked topics/channels). Acceptance Criteria: Endpoint must return JSON data matching predefined structures with 'interests' as an array of strings and 'blockedContent' as an array of topics/channels. Must handle errors for missing or unauthorized user requests gracefully.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Build POST Endpoint in Rust to Save/Update User Preferences",
+          "acceptance": "Implement a RESTful POST endpoint in Rust to allow users to save or update their preferences. Acceptance Criteria: API should accept JSON payload matching the structure: { 'interests': [string], 'blockedContent': [string] }. API must validate all inputs and return appropriate error messages if input is malformed. Upon successful save or update, return a success response with a confirmation message.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add Real-Time Update Logic for Recommendations in Rust",
+          "acceptance": "Implement backend logic in Rust to trigger real-time updates to the recommendation engine whenever user preferences are modified. Acceptance Criteria: Ensure the updated preferences are propagated immediately to the recommendation system. Validate that changes visibly reflect in content recommendations presented to the user.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement 'Reset to Default' Backend Endpoint in Rust",
+          "acceptance": "Develop a RESTful endpoint in Rust to reset all user preferences to their default values. Acceptance Criteria: Endpoint must reset the values for 'interests' and 'blockedContent' to empty (or predefined defaults). Must return a success response upon reset. Ensure no partial resets occur; operation should be atomic.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Integrate UI with Backend to Fetch and Display User Preferences",
+          "acceptance": "Connect the Angular 'Preferences' UI component with the GET endpoint to fetch user preferences. Acceptance Criteria: User preferences should populate within the UI on load. Handle cases where preferences are missing or the API returns errors. Show an appropriate fallback message if no preferences are set.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Integrate UI with Backend to Save/Update User Preferences",
+          "acceptance": "Connect the Angular 'Preferences' component with the POST endpoint to save or update user preferences. Acceptance Criteria: User changes in the UI should post to the backend successfully. Confirmations (success or error messages) should display in the UI based on the backend response. UX should highlight any invalid inputs based on backend validations.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Develop a Confirmation Modal for Save Operation in Angular",
+          "acceptance": "Implement a modal within the Angular UI to confirm that preferences were saved successfully. Acceptance Criteria: Modal should show a clear success message upon save. Error messages, if any, need to be displayed in the same modal with clear actionable messaging for users.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Link Reset-to-Default Button in UI with Backend Endpoint",
+          "acceptance": "Connect the 'Reset to Default' button in the Angular UI to the Rust Reset-to-Default endpoint. Acceptance Criteria: Clicking the button should reset all user preferences in real-time to default and update the UI accordingly. Confirm reset action with a notification shown to the user.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Implement Unit Tests for Preferences UI Component",
+          "acceptance": "Create unit tests in Angular for the 'Preferences' component to validate UI functionality and data flow. Acceptance Criteria: Tests should include validation for the render correctness of UI elements, interaction with checkboxes, input fields, and buttons ('Save/Update', 'Reset to Default'). Mock data should test failure scenarios for API integration.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Develop Unit Tests for Backend Endpoints in Rust",
+          "acceptance": "Write unit tests in Rust to test the functionalities of GET, POST, and Reset-to-Default endpoints for user preferences. Acceptance Criteria: Validate all API behavior including correct data retrieval, proper input handling, successful preferences update/reset, and error scenarios (e.g., invalid inputs, unauthorized user access).",
+          "id": "TASK11"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Advanced Trending Video Insights",
+      "description": "Ability to view detailed insights about trending video engagement and sharing metrics. In order to understand why a video is trending. As a user, I want additional insights like hashtags, comments, or shares contributing to the trending status. Acceptance Criteria: Each trending video card must display interactive metrics such as hashtags, comments, and like counts with hover-over explanations. Users must also see engagement trends like '10K new shares this week'. Users must be able to sort videos based on engagement trends in addition to popularity or upload date. All insights must refresh hourly to stay relevant.",
+      "tasks": [
+        {
+          "list": "Create Rust backend API to fetch trending videos with engagement metrics",
+          "acceptance": "Create a REST endpoint in Rust that fetches trending videos from the database, including metadata such as hashtags, comment counts, share counts, and like counts. Acceptance Criteria: The endpoint must return trending video data with engagement trends (e.g., '10K new shares this week'). Input: None. Output: JSON response including video ID, title, hashtags, comment counts, like counts, share counts, and weekly engagement trends.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement logic in Rust backend to calculate engagement trends for trending videos",
+          "acceptance": "Develop backend code to calculate engagement trends for videos based on database-stored metrics (e.g., shares, likes, comments) over the past week. Acceptance Criteria: The trend logic must calculate weekly deltas (e.g., '+10K shares this week') and produce formatted strings. Integrate this logic into the API. Input: Video engagement metrics from the database. Output: Engagement trend string for API response.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Create Angular component for trending video cards",
+          "acceptance": "Develop an Angular component to display video cards with interactive metrics such as hashtags, comments, like counts, and share counts. Acceptance Criteria: Card must include fields for video metadata and metrics. Hovering over each metric must display a tooltip with explanations (e.g., 'Shares: Total number of times this video has been shared'). Input: Video data from the API. Output: Rendered video card with interactive metrics.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Add sorting functionality in Angular for trending videos",
+          "acceptance": "Implement sorting options in the frontend to allow users to sort trending videos by engagement trends, popularity, or upload date. Acceptance Criteria: Sorting must dynamically reorder video cards using Angular's data binding. Sorting options must be selectable via a dropdown menu. Input: Sorting criteria selected by the user. Output: Reordered video cards displayed in the correct order.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement automatic hourly data refresh for trending video insights",
+          "acceptance": "Integrate frontend logic in Angular to refresh trending video insights every hour. Acceptance Criteria: Data for video cards must be re-fetched from the backend API hourly (using Angular's timer-based observable) without requiring manual user action. Input: Hourly trigger from observable. Output: Updated video card data displayed on the UI.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Create backend service in Rust to update trending engagement metrics hourly",
+          "acceptance": "Develop a background Rust job that runs hourly to update engagement metrics and trends for all trending videos in the database. Acceptance Criteria: The service must fetch the latest engagement data (likes, shares, comments) from appropriate sources and store them in the database. Acceptance Criteria: Logs must capture success/failure of the update task. Input: Current database entries and external data source. Output: Updated database rows reflecting new metrics.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Design database schema changes to store trending video engagement data",
+          "acceptance": "Add or update database schema in Rust to include fields for hashtags, comment counts, share counts, like counts, and weekly trends. Acceptance Criteria: Database tables must support querying engagement data efficiently. Table design must handle hourly updates and ensure no duplicate data is stored. Validate schema changes with test migrations. Input: None. Output: Updated database schema reflecting new fields.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Test UI component for trending videos with mock data",
+          "acceptance": "Write automated frontend tests (using Jasmine or equivalent) for the Angular trending video component to ensure proper rendering of interactive metrics, tooltips, and sorting functionality. Acceptance Criteria: Tests must verify video card rendering, tooltip display on hover, and sorting order accuracy. Input: Mock video data. Output: Passing test cases with 100% coverage for the trending video component functionality.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Unit test Rust API for fetching trending videos",
+          "acceptance": "Develop unit tests in Rust for the trending videos API to validate correct output format, engagement trend calculations, and error scenarios (e.g., database connection failure). Acceptance Criteria: Tests must cover all valid inputs/outputs, edge cases, and error handling. Achieve at least 90% code coverage. Input: Mock database records. Output: Passing API unit tests with no logic failures.",
+          "id": "TASK9"
+        },
+        {
+          "list": "End-to-end integration test for trending video insights feature",
+          "acceptance": "Develop end-to-end integration tests to validate the full system flow from API to UI. Acceptance Criteria: Test must cover fetching data from the Rust backend, rendering it in Angular, handling sorting, and implementing hourly refresh. Input: Test dataset in the backend. Output: Passing integration tests that verify complete feature functionality.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Fallback Recommendations for Empty Queue",
+      "description": "Ability to auto-suggest videos from the 'For You' category when a user's video queue is empty. In order to maintain continuous user engagement. As a user, I want fallback content suggestions when I finish or have no videos in my playback queue. Acceptance Criteria: If the queue is empty, the system must automatically suggest videos from the 'For You' category. Suggested videos must appear in a user-friendly panel when the auto-play queue ends. A message confirming that the queue is empty should appear. Video recommendations must be clickable, and selecting a video should add it to the queue for playback.",
+      "tasks": [
+        {
+          "list": "Create API endpoint in Rust to fetch videos from the 'For You' category",
+          "acceptance": "Develop a RESTful API endpoint in Rust to retrieve a list of recommended videos from the 'For You' category. Fetch results from the existing storage/data source in GCP and return them in JSON format. Acceptance Criteria: The API returns a list of videos in the 'For You' category when invoked. The response includes fields for video ID, title, thumbnail URL, and description. It must return an empty list if no videos are available.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement logic in Rust to check if the playback queue is empty",
+          "acceptance": "Add a function in Rust to assess if the user’s current playback queue is empty. This involves querying the queue data structure in GCP (or existing service). Acceptance Criteria: The function correctly checks the state of the playback queue. If the queue is empty, return a boolean flag (true). Any errors during the process should return an appropriate error object.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Integrate fallback suggestions with empty queue check and call API for recommendations",
+          "acceptance": "Extend Rust logic to integrate the empty queue check and API call for video recommendations. When the queue is empty, fetch recommendations from the 'For You' API endpoint and prepare the results for the UI. Acceptance Criteria: Fetching fallback suggestions occurs only when the queue is empty. The fallback data structure must include fields for video ID, title, thumbnail URL, and description. Proper error handling if API fetch fails or data is unavailable.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Update Angular frontend to display a user-friendly panel for fallback videos",
+          "acceptance": "Modify the Angular frontend to render a user-friendly video suggestion panel when the playback queue is empty. Connect this to the API endpoint to retrieve the 'For You' video list. Acceptance Criteria: The panel is displayed when the playback queue ends. Suggestions include video ID, title, thumbnail, and description. Ensure responsive UI design. No display if the queue is not empty.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Add empty queue message to Angular frontend",
+          "acceptance": "Implement a user-facing message in Angular to inform users that their playback queue is empty. This message should only appear when the queue is confirmed to be empty. Acceptance Criteria: Display the message 'Your playback queue is empty' when no videos are in the queue. Hide the message if the queue contains videos or fallback recommendations are active.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Enable click functionality to add fallback suggested videos to the queue",
+          "acceptance": "Implement click event handlers in Angular to allow users to select and add a video from the fallback suggestions panel to their playback queue. Send a request to the backend to update the playback queue in GCP. Acceptance Criteria: Clicking a suggested video adds it to the queue, and the queue visually updates in the UI. Ensure the video plays immediately if the queue is empty. Handle errors if the queue update request fails.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Unit test Rust API endpoint for video recommendations",
+          "acceptance": "Develop unit tests for the Rust API endpoint to ensure it correctly retrieves videos from the 'For You' category. Acceptance Criteria: Test cases cover normal data fetch, empty data response, error scenarios, and performance for large datasets.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Unit test Angular components for empty queue fallback functionality",
+          "acceptance": "Write unit tests for Angular components handling the empty queue fallback, including the message display, suggestions panel, and click-to-add logic. Acceptance Criteria: Ensure components correctly display the empty queue message, render fallback suggestions, and handle user interactions. Test failures and edge cases, such as API unavailability or empty 'For You' responses.",
+          "id": "TASK8"
+        }
+      ]
+    }
+  ]
+}

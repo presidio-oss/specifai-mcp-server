@@ -1,0 +1,9 @@
+{
+  "name": "Jira",
+  "description": "Jira is a project management and issue-tracking tool designed for agile teams, enabling task tracking, sprint planning, and workflow automation.",
+  "technicalDetails": "Java, React, AWS",
+  "createReqt": true,
+  "id": "8b8c9dac-c272-42ff-b5d9-1ccfcf26736b",
+  "createdAt": "2025-02-20T07:35:44.393Z",
+  "cleanSolution": false
+}

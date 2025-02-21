@@ -1,0 +1,4 @@
+{
+  "requirement": "The interface should allow users to view and manage roles and permissions within servers to ensure clarity and prevent access-related confusion.",
+  "title": "Role and Permission Visibility"
+}
