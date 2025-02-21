@@ -1,0 +1,25 @@
+# Build output
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Coverage reports
+coverage/
+
+# Logs
+*.log
+
+# Environment files
+.env*
+
+# OS files
+.DS_Store
+
+# Lock files
+package-lock.json
+yarn.lock
+bun.lockb
+
+CHANGELOG.md
