@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>0.2.1 (2025-02-21)</small>
+
+* chore: add .prettierignore file to exclude build outputs, dependencies, and environment files ([6363be3](https://github.com/vj-presidio/specif-ai-mcp-server/commit/6363be3))
+* chore: update CI/CD workflow to set fetch-depth to 0 for full history ([26d1007](https://github.com/vj-presidio/specif-ai-mcp-server/commit/26d1007))
+
 ## 0.2.0 (2025-02-21)
 
 * chore: add allowSameVersion option to release-it configuration ([1e9d806](https://github.com/vj-presidio/specif-ai-mcp-server/commit/1e9d806))
