@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 import { ServerService } from './src/services/server.service'
 import { logger } from './src/utils/logger'
+import pkg from './package.json'
 
 // Version is injected during build
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      VERSION: string
+      SP_VERSION: string
     }
   }
 }
@@ -15,7 +16,7 @@ declare global {
  * Print version information
  */
 function printVersion() {
-  console.log(process.env.VERSION || 'unknown')
+  console.log(process.env.SP_VERSION || '0.0.0')
 }
 
 /**
@@ -24,18 +25,20 @@ function printVersion() {
 function printHelp() {
   // Keep console.error for help output since it's CLI usage information
   console.error(`
-specif-ai-mcp-server - v${process.env.VERSION}
+${pkg.name} - v${process.env.SP_VERSION}
 
-Usage: specif-ai-mcp-server
+Usage: ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name}
 
 Options:
   -h, --help      Display this help message
   -v, --version   Display version information
 
 Example:
-  specif-ai-mcp-server
-  npx specif-ai-mcp-server
-  bunx specif-ai-mcp-server
+  ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name}
+
+  npx --yes ${pkg.name}
+
+  bunx ${pkg.name}
 `)
 }
 
@@ -44,7 +47,7 @@ Example:
  */
 async function main() {
   try {
-    logger.info({ version: process.env.VERSION }, 'Starting Specif-ai MCP Server')
+    logger.info({ version: process.env.SP_VERSION }, 'Starting Specif-ai MCP Server')
 
     const args = process.argv.slice(2)
 

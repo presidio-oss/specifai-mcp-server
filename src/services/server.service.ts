@@ -46,7 +46,7 @@ export class ServerService {
     this.server = new Server(
       {
         name: 'specif-ai',
-        version: `${process.env.VERSION}`,
+        version: `${process.env.SP_VERSION || '0.0.0'}`,
       },
       {
         capabilities: {

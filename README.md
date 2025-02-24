@@ -1,6 +1,6 @@
 # @vj-presidio/specif-ai-mcp-server
 
-A CLI tool that runs an MCP (Model Context Protocol) server over stdio for Specif-ai.
+A CLI tool that runs an MCP (Model Context Protocol) server over stdio for [Specif-ai](https://github.com/presidio-oss/specif-ai).
 
 ## Installation & Usage Overview
 
@@ -20,8 +20,7 @@ graph TD
     B --> H1[When to Use Binary Installation]
     H1 --> I1[System-wide installation]
     H1 --> I2[No Node.js required]
-    H1 --> I3[Fastest execution]
-    H1 --> I4[Minimal dependencies]
+    H1 --> I3[Minimal dependencies]
 
     C --> H2[When to Use Package Manager]
     H2 --> J1[Already using Node.js/Bun]
@@ -65,18 +64,26 @@ iwr -useb https://raw.githubusercontent.com/vj-presidio/specif-ai-mcp-server/mai
 iwr -useb https://raw.githubusercontent.com/vj-presidio/specif-ai-mcp-server/main/install.ps1 | iex -v 1.2.3
 ```
 
+or manually download the binary for your platform from the [Releases](https://github.com/vj-presidio/specif-ai-mcp-server/releases/latest) page.
+
 ### Package Manager Installation
 
-You can install globally using npm:
+You can install globally using [`npm`](https://docs.npmjs.com/cli/v11/commands/npm):
 
 ```bash
-npm install -g @vj-presidio/specif-ai-mcp-server
+# Latest version
+npm install -g @vj-presidio/specif-ai-mcp-server@latest
+# Specific version
+npm install -g @vj-presidio/specif-ai-mcp-server@1.2.3
 ```
 
-Or using Bun:
+Or using [`bun`](https://bun.sh/docs/cli/install):
 
 ```bash
-bun install -g @vj-presidio/specif-ai-mcp-server
+# Latest version
+bun install -g @vj-presidio/specif-ai-mcp-server@latest
+# Specific version
+bun install -g @vj-presidio/specif-ai-mcp-server@1.2.3
 ```
 
 ## Updates
@@ -111,24 +118,71 @@ curl -fsSL https://raw.githubusercontent.com/vj-presidio/specif-ai-mcp-server/ma
 iwr -useb https://raw.githubusercontent.com/vj-presidio/specif-ai-mcp-server/main/update.ps1 | iex -v 1.2.3
 ```
 
-## Usage
+## Example MCP Client Configuration
 
-You can run the CLI directly if installed:
+with [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) with latest version:
 
-```bash
-specif-ai-mcp-server
+```json
+{
+  "specif-ai": {
+    "command": "npx",
+    "args": ["--yes", "@vj-presidio/specif-ai-mcp-server-test@latest"],
+    "disabled": false,
+    "autoApprove": []
+  }
+}
 ```
 
-Or use it without installation via npx:
+with [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) with specific version:
 
-```bash
-npx specif-ai-mcp-server
+```json
+{
+  "specif-ai": {
+    "command": "npx",
+    "args": ["--yes", "@vj-presidio/specif-ai-mcp-server-test@1.2.3"],
+    "disabled": false,
+    "autoApprove": []
+  }
+}
 ```
 
-Or via bunx:
+with [`bunx`](https://bun.sh/docs/cli/bunx) with latest version:
 
-```bash
-bunx specif-ai-mcp-server
+```json
+{
+  "specif-ai": {
+    "command": "bunx",
+    "args": ["@vj-presidio/specif-ai-mcp-server-test@latest"],
+    "disabled": false,
+    "autoApprove": []
+  }
+}
+```
+
+with [`bunx`](https://bun.sh/docs/cli/bunx) with specific version:
+
+```json
+{
+  "specif-ai": {
+    "command": "bunx",
+    "args": ["@vj-presidio/specif-ai-mcp-server-test@1.2.3"],
+    "disabled": false,
+    "autoApprove": []
+  }
+}
+```
+
+with direct binary or package manager global installation:
+
+```json
+{
+  "specif-ai": {
+    "command": "specif-ai-mcp-server",
+    "args": [],
+    "disabled": false,
+    "autoApprove": []
+  }
+}
 ```
 
 ### Options
