@@ -190,6 +190,13 @@ with direct binary or package manager global installation:
 - `--help`, `-h`: Display help information
 - `--version`: Display version information
 
+## Specifai MCP integration with popular IDE and extension
+
+See the setup instructions for each
+
+1. [Cline](./docs/setup/cline.md)
+2. [Cursor](./docs/setup/cursor.md)
+
 ### Setting Project Path
 
 Once the server is running, you can set the project path using the `set-project-path` tool. This tool accepts a path to the directory containing your specification files. After setting the path, the server will load all documents from that directory.
