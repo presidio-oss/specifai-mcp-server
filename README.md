@@ -126,7 +126,7 @@ with [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) with latest version:
 {
   "specif-ai": {
     "command": "npx",
-    "args": ["--yes", "@vj-presidio/specif-ai-mcp-server-test@latest"],
+    "args": ["--yes", "@vj-presidio/specif-ai-mcp-server@latest"],
     "disabled": false,
     "autoApprove": []
   }
@@ -139,7 +139,7 @@ with [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) with specific version:
 {
   "specif-ai": {
     "command": "npx",
-    "args": ["--yes", "@vj-presidio/specif-ai-mcp-server-test@1.2.3"],
+    "args": ["--yes", "@vj-presidio/specif-ai-mcp-server@1.2.3"],
     "disabled": false,
     "autoApprove": []
   }
@@ -152,7 +152,7 @@ with [`bunx`](https://bun.sh/docs/cli/bunx) with latest version:
 {
   "specif-ai": {
     "command": "bunx",
-    "args": ["@vj-presidio/specif-ai-mcp-server-test@latest"],
+    "args": ["@vj-presidio/specif-ai-mcp-server@latest"],
     "disabled": false,
     "autoApprove": []
   }
@@ -165,7 +165,7 @@ with [`bunx`](https://bun.sh/docs/cli/bunx) with specific version:
 {
   "specif-ai": {
     "command": "bunx",
-    "args": ["@vj-presidio/specif-ai-mcp-server-test@1.2.3"],
+    "args": ["@vj-presidio/specif-ai-mcp-server@1.2.3"],
     "disabled": false,
     "autoApprove": []
   }
