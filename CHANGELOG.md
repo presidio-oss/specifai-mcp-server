@@ -1,5 +1,13 @@
 # Changelog
 
+## <small>0.2.6 (2025-02-24)</small>
+
+* chore: add integration instructions for Specifai MCP with Cline and Cursor ([d2df31e](https://github.com/vj-presidio/specif-ai-mcp-server/commit/d2df31e))
+* chore: bump version to 0.2.5 ([4c0bcdf](https://github.com/vj-presidio/specif-ai-mcp-server/commit/4c0bcdf))
+* chore: update README to reference correct specif-ai-mcp-server package ([8c4fd55](https://github.com/vj-presidio/specif-ai-mcp-server/commit/8c4fd55))
+* docs: add Cline setup documentation and related images ([d420336](https://github.com/vj-presidio/specif-ai-mcp-server/commit/d420336))
+* docs: add cursor setup guide with step-by-step images ([769d0d4](https://github.com/vj-presidio/specif-ai-mcp-server/commit/769d0d4))
+
 ## <small>0.2.2 (2025-02-24)</small>
 
 * chore: update version handling in scripts and documentation ([7256196](https://github.com/vj-presidio/specif-ai-mcp-server/commit/7256196))
