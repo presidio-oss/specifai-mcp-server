@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>0.2.7 (2025-02-24)</small>
+
+* chore: add project overview, development setup, architecture, and deployment guides ([b5c7e13](https://github.com/vj-presidio/specif-ai-mcp-server/commit/b5c7e13))
+
 ## <small>0.2.6 (2025-02-24)</small>
 
 * chore: add integration instructions for Specifai MCP with Cline and Cursor ([d2df31e](https://github.com/vj-presidio/specif-ai-mcp-server/commit/d2df31e))
