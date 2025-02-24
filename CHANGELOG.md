@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>0.2.2 (2025-02-24)</small>
+
+* chore: update version handling in scripts and documentation ([7256196](https://github.com/vj-presidio/specif-ai-mcp-server/commit/7256196))
+
 ## <small>0.2.1 (2025-02-21)</small>
 
 * chore: add .prettierignore file to exclude build outputs, dependencies, and environment files ([6363be3](https://github.com/vj-presidio/specif-ai-mcp-server/commit/6363be3))
