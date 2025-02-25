@@ -8,6 +8,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       SP_VERSION: string
+      PWD?: string
     }
   }
 }
@@ -47,7 +48,10 @@ Example:
  */
 async function main() {
   try {
-    logger.info({ version: process.env.SP_VERSION }, 'Starting Specif-ai MCP Server')
+    logger.info(
+      { version: process.env.SP_VERSION, pwd: process.env.PWD },
+      'Starting Specif-ai MCP Server'
+    )
 
     const args = process.argv.slice(2)
 
@@ -62,7 +66,7 @@ async function main() {
     }
 
     // Initialize and start server
-    const serverService = new ServerService()
+    const serverService = new ServerService(process.env.PWD)
     await serverService.start()
 
     logger.info('Specif-ai MCP Server running on stdio')

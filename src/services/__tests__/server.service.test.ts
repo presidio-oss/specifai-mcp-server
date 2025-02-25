@@ -588,7 +588,7 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath.'
+        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
       )
 
       // Test with get-prds
@@ -600,7 +600,7 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath.'
+        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
       )
 
       // Test with get-nfrs
@@ -612,7 +612,7 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath.'
+        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
       )
 
       // Test with get-uirs
@@ -624,7 +624,7 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath.'
+        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
       )
 
       // Test with get-bps
@@ -636,7 +636,7 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath.'
+        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
       )
 
       // Test with get-user-stories
@@ -651,7 +651,7 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath.'
+        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
       )
 
       // Test with get-tasks
@@ -667,7 +667,7 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath.'
+        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
       )
 
       // Test with get-task
@@ -684,7 +684,7 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath.'
+        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
       )
     })
   })

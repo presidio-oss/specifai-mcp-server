@@ -53,9 +53,9 @@ export class ServerService {
   private solution: Solution | null
   private projectPath: string | null
 
-  constructor() {
+  constructor(projectPath?: string) {
     this.solution = null
-    this.projectPath = null
+    this.projectPath = projectPath || null
     this.documentService = new DocumentService()
     this.fileService = new FileService()
     this.server = new Server(
@@ -89,6 +89,19 @@ export class ServerService {
         ].join('\n')
       )
       .join('\n')
+  }
+
+  /**
+   * Auto-infer project path and load solution
+   * @param projectPath - The project path to load the solution from
+   * */
+  private async loadSolutionByAutoInference(projectPath: string): Promise<void> {
+    const inferredPath = await this.inferProjectPath(projectPath)
+    if (inferredPath) {
+      this.projectPath = inferredPath
+      this.solution = await this.documentService.loadSolution(inferredPath)
+      logger.info({ inferredPath }, 'Project path auto-inferred')
+    }
   }
 
   /**
@@ -154,7 +167,8 @@ export class ServerService {
         tools: [
           {
             name: 'set-project-path',
-            description: 'Set the project path and reload the solution',
+            description:
+              'Set the project path and reload the solution, use this tool only when we not automatically infer the project path or asked by the user or us., we will try to auto infer it from the environment',
             inputSchema: {
               type: 'object',
               required: ['path'],
@@ -176,7 +190,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
                 },
               },
               required: [],
@@ -191,7 +205,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
                 },
               },
               required: [],
@@ -206,7 +220,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
                 },
               },
               required: [],
@@ -221,7 +235,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
                 },
               },
               required: [],
@@ -236,7 +250,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
                 },
               },
               required: [],
@@ -256,7 +270,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
                 },
               },
             },
@@ -279,7 +293,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
                 },
               },
             },
@@ -306,7 +320,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
                 },
               },
             },
@@ -320,6 +334,19 @@ export class ServerService {
    * Setup handler for tool calls
    */
   private setupCallToolHandler(): void {
+    if (this.projectPath) {
+      logger.info({ projectPath: this.projectPath }, 'Project path is found from process.env.PWD')
+      this.inferProjectPath(this.projectPath).then((inferredPath) => {
+        if (inferredPath) {
+          logger.info({ inferredPath }, 'Project path auto-inferred')
+          this.projectPath = inferredPath
+          this.documentService.loadSolution(inferredPath).then((solution) => {
+            this.solution = solution
+            logger.info({ solution }, 'Solution loaded from auto-inferred project path')
+          })
+        }
+      })
+    }
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params
       logger.info({ tool: name, args }, 'Handling tool call')
@@ -338,12 +365,7 @@ export class ServerService {
 
             // Try to infer project path if provided
             if (projectPath) {
-              const inferredPath = await this.inferProjectPath(projectPath)
-              if (inferredPath) {
-                this.projectPath = inferredPath
-                this.solution = await this.documentService.loadSolution(inferredPath)
-                logger.info({ inferredPath }, 'Project path auto-inferred')
-              }
+              await this.loadSolutionByAutoInference(projectPath)
             }
 
             if (!this.solution) {
@@ -352,7 +374,7 @@ export class ServerService {
                 throw new Error('No project path set. Use set-project-path first.')
               }
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath.'
+                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.BRD))
@@ -363,12 +385,7 @@ export class ServerService {
 
             // Try to infer project path if provided
             if (projectPath) {
-              const inferredPath = await this.inferProjectPath(projectPath)
-              if (inferredPath) {
-                this.projectPath = inferredPath
-                this.solution = await this.documentService.loadSolution(inferredPath)
-                logger.info({ inferredPath }, 'Project path auto-inferred')
-              }
+              await this.loadSolutionByAutoInference(projectPath)
             }
 
             if (!this.solution) {
@@ -377,7 +394,7 @@ export class ServerService {
                 throw new Error('No project path set. Use set-project-path first.')
               }
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath.'
+                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.PRD))
@@ -388,12 +405,7 @@ export class ServerService {
 
             // Try to infer project path if provided
             if (projectPath) {
-              const inferredPath = await this.inferProjectPath(projectPath)
-              if (inferredPath) {
-                this.projectPath = inferredPath
-                this.solution = await this.documentService.loadSolution(inferredPath)
-                logger.info({ inferredPath }, 'Project path auto-inferred')
-              }
+              await this.loadSolutionByAutoInference(projectPath)
             }
 
             if (!this.solution) {
@@ -402,7 +414,7 @@ export class ServerService {
                 throw new Error('No project path set. Use set-project-path first.')
               }
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath.'
+                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.NFR))
@@ -413,12 +425,7 @@ export class ServerService {
 
             // Try to infer project path if provided
             if (projectPath) {
-              const inferredPath = await this.inferProjectPath(projectPath)
-              if (inferredPath) {
-                this.projectPath = inferredPath
-                this.solution = await this.documentService.loadSolution(inferredPath)
-                logger.info({ inferredPath }, 'Project path auto-inferred')
-              }
+              await this.loadSolutionByAutoInference(projectPath)
             }
 
             if (!this.solution) {
@@ -427,7 +434,7 @@ export class ServerService {
                 throw new Error('No project path set. Use set-project-path first.')
               }
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath.'
+                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.UIR))
@@ -438,12 +445,7 @@ export class ServerService {
 
             // Try to infer project path if provided
             if (projectPath) {
-              const inferredPath = await this.inferProjectPath(projectPath)
-              if (inferredPath) {
-                this.projectPath = inferredPath
-                this.solution = await this.documentService.loadSolution(inferredPath)
-                logger.info({ inferredPath }, 'Project path auto-inferred')
-              }
+              await this.loadSolutionByAutoInference(projectPath)
             }
 
             if (!this.solution) {
@@ -452,7 +454,7 @@ export class ServerService {
                 throw new Error('No project path set. Use set-project-path first.')
               }
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath.'
+                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.BP))
@@ -463,12 +465,7 @@ export class ServerService {
 
             // Try to infer project path if provided
             if (projectPath) {
-              const inferredPath = await this.inferProjectPath(projectPath)
-              if (inferredPath) {
-                this.projectPath = inferredPath
-                this.solution = await this.documentService.loadSolution(inferredPath)
-                logger.info({ inferredPath }, 'Project path auto-inferred')
-              }
+              await this.loadSolutionByAutoInference(projectPath)
             }
 
             if (!this.solution) {
@@ -477,7 +474,7 @@ export class ServerService {
                 throw new Error('No project path set. Use set-project-path first.')
               }
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath.'
+                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
               )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
@@ -493,12 +490,7 @@ export class ServerService {
 
             // Try to infer project path if provided
             if (projectPath) {
-              const inferredPath = await this.inferProjectPath(projectPath)
-              if (inferredPath) {
-                this.projectPath = inferredPath
-                this.solution = await this.documentService.loadSolution(inferredPath)
-                logger.info({ inferredPath }, 'Project path auto-inferred')
-              }
+              await this.loadSolutionByAutoInference(projectPath)
             }
 
             if (!this.solution) {
@@ -507,7 +499,7 @@ export class ServerService {
                 throw new Error('No project path set. Use set-project-path first.')
               }
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath.'
+                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
               )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
@@ -528,12 +520,7 @@ export class ServerService {
 
             // Try to infer project path if provided
             if (projectPath) {
-              const inferredPath = await this.inferProjectPath(projectPath)
-              if (inferredPath) {
-                this.projectPath = inferredPath
-                this.solution = await this.documentService.loadSolution(inferredPath)
-                logger.info({ inferredPath }, 'Project path auto-inferred')
-              }
+              await this.loadSolutionByAutoInference(projectPath)
             }
 
             if (!this.solution) {
@@ -542,7 +529,7 @@ export class ServerService {
                 throw new Error('No project path set. Use set-project-path first.')
               }
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath.'
+                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
               )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
