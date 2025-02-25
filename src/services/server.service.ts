@@ -14,7 +14,7 @@ import { logger } from '../utils/logger'
  */
 const GetUserStoriesRequestSchema = object({
   prdId: z.string(),
-  projectPath: z.string().optional(),
+  cwd: z.string(),
 })
 
 /**
@@ -23,7 +23,7 @@ const GetUserStoriesRequestSchema = object({
 const GetTasksRequestSchema = object({
   prdId: z.string(),
   userStoryId: z.string(),
-  projectPath: z.string().optional(),
+  cwd: z.string(),
 })
 
 /**
@@ -33,14 +33,14 @@ const GetTaskRequestSchema = object({
   prdId: z.string(),
   userStoryId: z.string(),
   taskId: z.string(),
-  projectPath: z.string().optional(),
+  cwd: z.string(),
 })
 
 /**
  * Schema for tools that only need an optional project path
  */
 const OptionalProjectPathSchema = object({
-  projectPath: z.string().optional(),
+  cwd: z.string(),
 })
 
 /**
@@ -187,13 +187,13 @@ export class ServerService {
             inputSchema: {
               type: 'object',
               properties: {
-                projectPath: {
+                cwd: {
                   type: 'string',
                   description:
                     'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
-              required: [],
+              required: ['cwd'],
             },
           },
           {
@@ -202,13 +202,13 @@ export class ServerService {
             inputSchema: {
               type: 'object',
               properties: {
-                projectPath: {
+                cwd: {
                   type: 'string',
                   description:
                     'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
-              required: [],
+              required: ['cwd'],
             },
           },
           {
@@ -217,13 +217,13 @@ export class ServerService {
             inputSchema: {
               type: 'object',
               properties: {
-                projectPath: {
+                cwd: {
                   type: 'string',
                   description:
                     'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
-              required: [],
+              required: ['cwd'],
             },
           },
           {
@@ -232,13 +232,13 @@ export class ServerService {
             inputSchema: {
               type: 'object',
               properties: {
-                projectPath: {
+                cwd: {
                   type: 'string',
                   description:
                     'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
-              required: [],
+              required: ['cwd'],
             },
           },
           {
@@ -247,13 +247,13 @@ export class ServerService {
             inputSchema: {
               type: 'object',
               properties: {
-                projectPath: {
+                cwd: {
                   type: 'string',
                   description:
                     'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
-              required: [],
+              required: ['cwd'],
             },
           },
           {
@@ -261,13 +261,13 @@ export class ServerService {
             description: 'Get User Stories for a particular PRD',
             inputSchema: {
               type: 'object',
-              required: ['prdId'],
+              required: ['prdId', 'cwd'],
               properties: {
                 prdId: {
                   type: 'string',
                   description: 'The ID of the PRD to get user stories for',
                 },
-                projectPath: {
+                cwd: {
                   type: 'string',
                   description:
                     'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
@@ -280,7 +280,7 @@ export class ServerService {
             description: 'Get Tasks for a particular User Story',
             inputSchema: {
               type: 'object',
-              required: ['prdId', 'userStoryId'],
+              required: ['prdId', 'userStoryId', 'cwd'],
               properties: {
                 prdId: {
                   type: 'string',
@@ -290,7 +290,7 @@ export class ServerService {
                   type: 'string',
                   description: 'The ID of the User Story to get tasks for',
                 },
-                projectPath: {
+                cwd: {
                   type: 'string',
                   description:
                     'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
@@ -303,7 +303,7 @@ export class ServerService {
             description: 'Get a Task for a particular User Story in a particular PRD',
             inputSchema: {
               type: 'object',
-              required: ['prdId', 'userStoryId', 'taskId'],
+              required: ['prdId', 'userStoryId', 'taskId', 'cwd'],
               properties: {
                 prdId: {
                   type: 'string',
@@ -317,7 +317,7 @@ export class ServerService {
                   type: 'string',
                   description: 'The ID of the Task to get',
                 },
-                projectPath: {
+                cwd: {
                   type: 'string',
                   description:
                     'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
@@ -361,120 +361,95 @@ export class ServerService {
           }
 
           case 'get-brds': {
-            const { projectPath } = OptionalProjectPathSchema.parse(args)
+            const { cwd } = OptionalProjectPathSchema.parse(args)
 
             // Try to infer project path if provided
-            if (projectPath) {
-              await this.loadSolutionByAutoInference(projectPath)
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
             }
 
-            if (!this.solution) {
-              // For tests that expect the original error message
-              if (!projectPath) {
-                throw new Error('No project path set. Use set-project-path first.')
-              }
+            if (!this.solution || !cwd) {
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.BRD))
           }
 
           case 'get-prds': {
-            const { projectPath } = OptionalProjectPathSchema.parse(args)
+            const { cwd } = OptionalProjectPathSchema.parse(args)
 
             // Try to infer project path if provided
-            if (projectPath) {
-              await this.loadSolutionByAutoInference(projectPath)
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
             }
 
-            if (!this.solution) {
-              // For tests that expect the original error message
-              if (!projectPath) {
-                throw new Error('No project path set. Use set-project-path first.')
-              }
+            if (!this.solution || !cwd) {
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.PRD))
           }
 
           case 'get-nfrs': {
-            const { projectPath } = OptionalProjectPathSchema.parse(args)
+            const { cwd } = OptionalProjectPathSchema.parse(args)
 
             // Try to infer project path if provided
-            if (projectPath) {
-              await this.loadSolutionByAutoInference(projectPath)
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
             }
 
-            if (!this.solution) {
-              // For tests that expect the original error message
-              if (!projectPath) {
-                throw new Error('No project path set. Use set-project-path first.')
-              }
+            if (!this.solution || !cwd) {
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.NFR))
           }
 
           case 'get-uirs': {
-            const { projectPath } = OptionalProjectPathSchema.parse(args)
+            const { cwd } = OptionalProjectPathSchema.parse(args)
 
             // Try to infer project path if provided
-            if (projectPath) {
-              await this.loadSolutionByAutoInference(projectPath)
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
             }
 
-            if (!this.solution) {
-              // For tests that expect the original error message
-              if (!projectPath) {
-                throw new Error('No project path set. Use set-project-path first.')
-              }
+            if (!this.solution || !cwd) {
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.UIR))
           }
 
           case 'get-bps': {
-            const { projectPath } = OptionalProjectPathSchema.parse(args)
+            const { cwd } = OptionalProjectPathSchema.parse(args)
 
             // Try to infer project path if provided
-            if (projectPath) {
-              await this.loadSolutionByAutoInference(projectPath)
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
             }
-
-            if (!this.solution) {
-              // For tests that expect the original error message
-              if (!projectPath) {
-                throw new Error('No project path set. Use set-project-path first.')
-              }
+            if (!this.solution || !cwd) {
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.BP))
           }
 
           case 'get-user-stories': {
-            const { prdId, projectPath } = GetUserStoriesRequestSchema.parse(args)
+            const { prdId, cwd } = GetUserStoriesRequestSchema.parse(args)
 
             // Try to infer project path if provided
-            if (projectPath) {
-              await this.loadSolutionByAutoInference(projectPath)
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
             }
 
-            if (!this.solution) {
-              // For tests that expect the original error message
-              if (!projectPath) {
-                throw new Error('No project path set. Use set-project-path first.')
-              }
+            if (!this.solution || !cwd) {
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
@@ -486,20 +461,16 @@ export class ServerService {
           }
 
           case 'get-tasks': {
-            const { prdId, userStoryId, projectPath } = GetTasksRequestSchema.parse(args)
+            const { prdId, userStoryId, cwd } = GetTasksRequestSchema.parse(args)
 
             // Try to infer project path if provided
-            if (projectPath) {
-              await this.loadSolutionByAutoInference(projectPath)
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
             }
 
-            if (!this.solution) {
-              // For tests that expect the original error message
-              if (!projectPath) {
-                throw new Error('No project path set. Use set-project-path first.')
-              }
+            if (!this.solution || !cwd) {
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
@@ -516,20 +487,16 @@ export class ServerService {
           }
 
           case 'get-task': {
-            const { prdId, userStoryId, taskId, projectPath } = GetTaskRequestSchema.parse(args)
+            const { prdId, userStoryId, taskId, cwd } = GetTaskRequestSchema.parse(args)
 
             // Try to infer project path if provided
-            if (projectPath) {
-              await this.loadSolutionByAutoInference(projectPath)
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
             }
 
-            if (!this.solution) {
-              // For tests that expect the original error message
-              if (!projectPath) {
-                throw new Error('No project path set. Use set-project-path first.')
-              }
+            if (!this.solution || !cwd) {
               throw new Error(
-                'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)

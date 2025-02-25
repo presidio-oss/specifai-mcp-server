@@ -199,19 +199,19 @@ describe('ServerService', () => {
       const userStoriesSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'get-user-stories'
       )
-      expect(userStoriesSchema?.inputSchema.required).toEqual(['prdId'])
+      expect(userStoriesSchema?.inputSchema.required).toEqual(['prdId', 'cwd'])
 
       // Verify schema for get-tasks
       const tasksSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'get-tasks'
       )
-      expect(tasksSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId'])
+      expect(tasksSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId', 'cwd'])
 
       // Verify schema for get-task
       const taskSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'get-task'
       )
-      expect(taskSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId', 'taskId'])
+      expect(taskSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId', 'taskId', 'cwd'])
 
       // Verify schema for set-project-path
       const setProjectPathSchema = response.tools.find(
@@ -247,7 +247,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-brds',
-          arguments: { projectPath: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specif-ai-path' },
         },
       })
 
@@ -266,7 +266,7 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-brds',
-            arguments: { projectPath: '/non/existent/dir' },
+            arguments: { cwd: '/non/existent/dir' },
           },
         })
       ).rejects.toThrow('No project path set')
@@ -284,7 +284,7 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-brds',
-            arguments: { projectPath: '/valid/dir' },
+            arguments: { cwd: '/valid/dir' },
           },
         })
       ).rejects.toThrow('No project path set')
@@ -302,7 +302,7 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-brds',
-            arguments: { projectPath: '/with/specif-ai-path' },
+            arguments: { cwd: '/with/specif-ai-path' },
           },
         })
       ).rejects.toThrow('No project path set')
@@ -320,7 +320,7 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-brds',
-            arguments: { projectPath: '/with/specif-ai-path' },
+            arguments: { cwd: '/with/specif-ai-path' },
           },
         })
       ).rejects.toThrow('No project path set')
@@ -363,7 +363,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-prds',
-          arguments: { projectPath: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specif-ai-path' },
         },
       })
       expect(response.content[0].text).toContain('PRD01')
@@ -375,7 +375,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-nfrs',
-          arguments: { projectPath: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specif-ai-path' },
         },
       })
       expect(response.content[0].text).toContain('NFR01')
@@ -387,7 +387,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-uirs',
-          arguments: { projectPath: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specif-ai-path' },
         },
       })
       expect(response.content[0].text).toContain('UIR01')
@@ -399,7 +399,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-bps',
-          arguments: { projectPath: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specif-ai-path' },
         },
       })
       expect(response.content[0].text).toContain('BP01')
@@ -413,7 +413,7 @@ describe('ServerService', () => {
           name: 'get-user-stories',
           arguments: {
             prdId: 'PRD01',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -429,7 +429,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'PRD01',
             userStoryId: 'US1',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -446,7 +446,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'US1',
             taskId: 'T1',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -462,7 +462,7 @@ describe('ServerService', () => {
           name: 'get-user-stories',
           arguments: {
             prdId: 'nonexistent',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -478,7 +478,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'nonexistent',
             userStoryId: 'US1',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -494,7 +494,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'PRD01',
             userStoryId: 'nonexistent',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -511,7 +511,7 @@ describe('ServerService', () => {
             prdId: 'nonexistent',
             userStoryId: 'US1',
             taskId: 'T1',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -528,7 +528,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'nonexistent',
             taskId: 'T1',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -545,7 +545,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'US1',
             taskId: 'nonexistent',
-            projectPath: '/with/specif-ai-path',
+            cwd: '/with/specif-ai-path',
           },
         },
       })
@@ -562,7 +562,7 @@ describe('ServerService', () => {
             name: 'get-user-stories',
             arguments: {
               // Missing prdId which is required
-              projectPath: '/with/specif-ai-path',
+              cwd: '/with/specif-ai-path',
             },
           },
         })
@@ -584,11 +584,11 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-brds',
-            arguments: { projectPath: '/some/path' },
+            arguments: { cwd: '/some/path' },
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
 
       // Test with get-prds
@@ -596,11 +596,11 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-prds',
-            arguments: { projectPath: '/some/path' },
+            arguments: { cwd: '/some/path' },
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
 
       // Test with get-nfrs
@@ -608,11 +608,11 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-nfrs',
-            arguments: { projectPath: '/some/path' },
+            arguments: { cwd: '/some/path' },
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
 
       // Test with get-uirs
@@ -620,11 +620,11 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-uirs',
-            arguments: { projectPath: '/some/path' },
+            arguments: { cwd: '/some/path' },
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
 
       // Test with get-bps
@@ -632,11 +632,11 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-bps',
-            arguments: { projectPath: '/some/path' },
+            arguments: { cwd: '/some/path' },
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
 
       // Test with get-user-stories
@@ -646,12 +646,12 @@ describe('ServerService', () => {
             name: 'get-user-stories',
             arguments: {
               prdId: 'PRD01',
-              projectPath: '/some/path',
+              cwd: '/some/path',
             },
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
 
       // Test with get-tasks
@@ -662,12 +662,12 @@ describe('ServerService', () => {
             arguments: {
               prdId: 'PRD01',
               userStoryId: 'US1',
-              projectPath: '/some/path',
+              cwd: '/some/path',
             },
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
 
       // Test with get-task
@@ -679,12 +679,12 @@ describe('ServerService', () => {
               prdId: 'PRD01',
               userStoryId: 'US1',
               taskId: 'T1',
-              projectPath: '/some/path',
+              cwd: '/some/path',
             },
           },
         })
       ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid projectPath for to auto-infer.'
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
     })
   })
@@ -733,7 +733,7 @@ describe('ServerService', () => {
     test('should handle get-brds request', async () => {
       const handler = mockRequestHandlers.get('call-tool')
       const response = await handler({
-        params: { name: 'get-brds', arguments: {} },
+        params: { name: 'get-brds', arguments: { cwd: '/test/path' } },
       })
 
       expect(response.content[0].text).toContain('BRD01')
@@ -745,7 +745,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-user-stories',
-          arguments: { prdId: 'PRD01' },
+          arguments: { prdId: 'PRD01', cwd: '/test/path' },
         },
       })
 
@@ -761,6 +761,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'PRD01',
             userStoryId: 'US1',
+            cwd: '/test/path',
           },
         },
       })
@@ -772,7 +773,7 @@ describe('ServerService', () => {
     test('should handle get-nfrs request', async () => {
       const handler = mockRequestHandlers.get('call-tool')
       const response = await handler({
-        params: { name: 'get-nfrs', arguments: {} },
+        params: { name: 'get-nfrs', arguments: { cwd: '/test/path' } },
       })
 
       expect(response.content[0].text).toContain('NFR01')
@@ -782,7 +783,7 @@ describe('ServerService', () => {
     test('should handle get-uirs request', async () => {
       const handler = mockRequestHandlers.get('call-tool')
       const response = await handler({
-        params: { name: 'get-uirs', arguments: {} },
+        params: { name: 'get-uirs', arguments: { cwd: '/test/path' } },
       })
 
       expect(response.content[0].text).toContain('UIR01')
@@ -792,7 +793,7 @@ describe('ServerService', () => {
     test('should handle get-bps request', async () => {
       const handler = mockRequestHandlers.get('call-tool')
       const response = await handler({
-        params: { name: 'get-bps', arguments: {} },
+        params: { name: 'get-bps', arguments: { cwd: '/test/path' } },
       })
 
       expect(response.content[0].text).toContain('BP01')
@@ -808,6 +809,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'US1',
             taskId: 'T1',
+            cwd: '/test/path',
           },
         },
       })
@@ -842,17 +844,23 @@ describe('ServerService', () => {
 
     test('should handle malformed PRD in get-user-stories', async () => {
       const handler = mockRequestHandlers.get('call-tool')
+      // Create a new server service instance with malformed path
+      mockRequestHandlers.clear()
+      const newServerService = new ServerService()
+      const malformedHandler = mockRequestHandlers.get('call-tool')
+
       // Set malformed solution path
-      await handler({
+      await malformedHandler({
         params: {
           name: 'set-project-path',
           arguments: { path: '/test/malformed/path' },
         },
       })
-      const response = await handler({
+
+      const response = await malformedHandler({
         params: {
           name: 'get-user-stories',
-          arguments: { prdId: 'PRD01' },
+          arguments: { prdId: 'PRD01', cwd: '/test/malformed/path' },
         },
       })
       expect(response.content[0].text).toBe('')
@@ -860,17 +868,23 @@ describe('ServerService', () => {
 
     test('should handle empty PRD list', async () => {
       const handler = mockRequestHandlers.get('call-tool')
+      // Create a new server service instance with empty PRD path
+      mockRequestHandlers.clear()
+      const emptyPrdService = new ServerService()
+      const emptyPrdHandler = mockRequestHandlers.get('call-tool')
+
       // Set empty PRD solution path
-      await handler({
+      await emptyPrdHandler({
         params: {
           name: 'set-project-path',
           arguments: { path: '/test/empty/path' },
         },
       })
-      const response = await handler({
+
+      const response = await emptyPrdHandler({
         params: {
           name: 'get-prds',
-          arguments: {},
+          arguments: { cwd: '/test/empty/path' },
         },
       })
       expect(response.content[0].text).toBe('')
@@ -881,7 +895,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-user-stories',
-          arguments: { prdId: 'nonexistent' },
+          arguments: { prdId: 'nonexistent', cwd: '/test/path' },
         },
       })
 
@@ -896,6 +910,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'nonexistent',
             userStoryId: 'US1',
+            cwd: '/test/path',
           },
         },
       })
@@ -912,6 +927,7 @@ describe('ServerService', () => {
             prdId: 'nonexistent',
             userStoryId: 'US1',
             taskId: 'T1',
+            cwd: '/test/path',
           },
         },
       })
@@ -927,6 +943,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'PRD01',
             userStoryId: 'nonexistent',
+            cwd: '/test/path',
           },
         },
       })
@@ -943,6 +960,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'nonexistent',
             taskId: 'T1',
+            cwd: '/test/path',
           },
         },
       })
@@ -959,6 +977,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'US1',
             taskId: 'nonexistent',
+            cwd: '/test/path',
           },
         },
       })
@@ -974,6 +993,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'PRD01',
             userStoryId: 'nonexistent',
+            cwd: '/test/path',
           },
         },
       })
@@ -982,114 +1002,124 @@ describe('ServerService', () => {
     })
 
     test('should handle get-user-stories before project path is set', async () => {
-      const newServerService = new ServerService()
-      const handler = mockRequestHandlers.get('call-tool')
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
-        handler({
+        noPathHandler({
           params: {
             name: 'get-user-stories',
-            arguments: { prdId: 'PRD01' },
+            arguments: { prdId: 'PRD01' }, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('No project path set. Use set-project-path first.')
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
     test('should handle get-brds before project path is set', async () => {
-      const newServerService = new ServerService()
-      const handler = mockRequestHandlers.get('call-tool')
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
-        handler({
+        noPathHandler({
           params: {
             name: 'get-brds',
-            arguments: {},
+            arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('No project path set. Use set-project-path first.')
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
     test('should handle get-prds before project path is set', async () => {
-      const newServerService = new ServerService()
-      const handler = mockRequestHandlers.get('call-tool')
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
-        handler({
+        noPathHandler({
           params: {
             name: 'get-prds',
-            arguments: {},
+            arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('No project path set. Use set-project-path first.')
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
     test('should handle get-nfrs before project path is set', async () => {
-      const newServerService = new ServerService()
-      const handler = mockRequestHandlers.get('call-tool')
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
-        handler({
+        noPathHandler({
           params: {
             name: 'get-nfrs',
-            arguments: {},
+            arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('No project path set. Use set-project-path first.')
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
     test('should handle get-uirs before project path is set', async () => {
-      const newServerService = new ServerService()
-      const handler = mockRequestHandlers.get('call-tool')
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
-        handler({
+        noPathHandler({
           params: {
             name: 'get-uirs',
-            arguments: {},
+            arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('No project path set. Use set-project-path first.')
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
     test('should handle get-bps before project path is set', async () => {
-      const newServerService = new ServerService()
-      const handler = mockRequestHandlers.get('call-tool')
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
-        handler({
+        noPathHandler({
           params: {
             name: 'get-bps',
-            arguments: {},
+            arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('No project path set. Use set-project-path first.')
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
     test('should handle get-tasks before project path is set', async () => {
-      const newServerService = new ServerService()
-      const handler = mockRequestHandlers.get('call-tool')
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
-        handler({
+        noPathHandler({
           params: {
             name: 'get-tasks',
             arguments: {
               prdId: 'PRD01',
               userStoryId: 'US1',
+              // Deliberately omit cwd
             },
           },
         })
-      ).rejects.toThrow('No project path set. Use set-project-path first.')
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
     test('should handle get-task before project path is set', async () => {
-      const newServerService = new ServerService()
-      const handler = mockRequestHandlers.get('call-tool')
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
-        handler({
+        noPathHandler({
           params: {
             name: 'get-task',
             arguments: {
               prdId: 'PRD01',
               userStoryId: 'US1',
               taskId: 'T1',
+              // Deliberately omit cwd
             },
           },
         })
-      ).rejects.toThrow('No project path set. Use set-project-path first.')
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
     test('should handle set-project-path with invalid path', async () => {
