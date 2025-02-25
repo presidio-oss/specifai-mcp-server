@@ -49,7 +49,7 @@ Example:
 async function main() {
   try {
     logger.info(
-      { version: process.env.SP_VERSION, pwd: process.env.PWD },
+      { version: process.env.SP_VERSION, pwd: process.env.PWD, ...process.env },
       'Starting Specif-ai MCP Server'
     )
 
