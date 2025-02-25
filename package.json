@@ -1,6 +1,6 @@
 {
   "name": "@vj-presidio/specif-ai-mcp-server",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Specif-ai MCP Server that runs over stdio",
   "type": "module",
   "license": "MIT",

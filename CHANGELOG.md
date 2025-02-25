@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>0.6.2 (2025-02-25)</small>
+
+* refactor: rename projectPath to cwd and make it required ([f8f79be](https://github.com/vj-presidio/specif-ai-mcp-server/commit/f8f79be))
+
 ## <small>0.6.1 (2025-02-25)</small>
 
 * fix: improve clarity of project path descriptions in server service ([7f3acfb](https://github.com/vj-presidio/specif-ai-mcp-server/commit/7f3acfb))
