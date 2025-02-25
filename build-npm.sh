@@ -26,6 +26,8 @@ if bun build ./index.ts \
   --target node \
   --minify \
   --sourcemap \
+  --external thread-stream \
+  --external pino \
   --define "process.env.SP_VERSION=\"$SP_VERSION\""; then
     echo -e "${GREEN}✓ Successfully built npm package${NC}"
     echo "----------------------------------------"
