@@ -2,8 +2,11 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js'
 import { object, z } from 'zod'
+import { join } from 'path'
+import { readFile, access, constants } from 'fs/promises'
 import type { Solution } from '../types'
 import { DocumentService } from './document.service'
+import { FileService } from './file.service'
 import { logger } from '../utils/logger'
 
 /**
@@ -11,6 +14,7 @@ import { logger } from '../utils/logger'
  */
 const GetUserStoriesRequestSchema = object({
   prdId: z.string(),
+  projectPath: z.string().optional(),
 })
 
 /**
@@ -19,6 +23,7 @@ const GetUserStoriesRequestSchema = object({
 const GetTasksRequestSchema = object({
   prdId: z.string(),
   userStoryId: z.string(),
+  projectPath: z.string().optional(),
 })
 
 /**
@@ -28,6 +33,14 @@ const GetTaskRequestSchema = object({
   prdId: z.string(),
   userStoryId: z.string(),
   taskId: z.string(),
+  projectPath: z.string().optional(),
+})
+
+/**
+ * Schema for tools that only need an optional project path
+ */
+const OptionalProjectPathSchema = object({
+  projectPath: z.string().optional(),
 })
 
 /**
@@ -36,6 +49,7 @@ const GetTaskRequestSchema = object({
 export class ServerService {
   private server: Server
   private documentService: DocumentService
+  private fileService: FileService
   private solution: Solution | null
   private projectPath: string | null
 
@@ -43,6 +57,7 @@ export class ServerService {
     this.solution = null
     this.projectPath = null
     this.documentService = new DocumentService()
+    this.fileService = new FileService()
     this.server = new Server(
       {
         name: 'specif-ai',
@@ -74,6 +89,51 @@ export class ServerService {
         ].join('\n')
       )
       .join('\n')
+  }
+
+  /**
+   * Infer project path from a given directory path
+   * @param directoryPath - The directory path to check for .specif-ai-path file
+   * @returns The inferred project path or null if not found
+   */
+  private async inferProjectPath(directoryPath: string): Promise<string | null> {
+    if (!directoryPath) {
+      logger.debug('No directory path provided for inference')
+      return null
+    }
+
+    try {
+      // Check if the directory exists
+      if (!(await this.fileService.isDirectory(directoryPath))) {
+        logger.debug({ directoryPath }, 'Directory does not exist')
+        return null
+      }
+
+      // Check if .specif-ai-path file exists
+      const specFilePath = join(directoryPath, '.specif-ai-path')
+      try {
+        await access(specFilePath, constants.R_OK)
+      } catch {
+        logger.debug({ specFilePath }, '.specif-ai-path file not found')
+        return null
+      }
+
+      // Read the file content
+      const content = await readFile(specFilePath, 'utf-8')
+      const projectPath = content.trim()
+
+      // Validate the project path
+      if (!(await this.fileService.isDirectory(projectPath))) {
+        logger.warn({ projectPath }, 'Project path from .specif-ai-path is not a valid directory')
+        return null
+      }
+
+      logger.info({ directoryPath, projectPath }, 'Successfully inferred project path')
+      return projectPath
+    } catch (error) {
+      logger.error({ error, directoryPath }, 'Error inferring project path')
+      return null
+    }
   }
 
   /**
@@ -112,6 +172,13 @@ export class ServerService {
             description: 'Get Business Requirement Documents for this project',
             inputSchema: {
               type: 'object',
+              properties: {
+                projectPath: {
+                  type: 'string',
+                  description:
+                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                },
+              },
               required: [],
             },
           },
@@ -120,6 +187,13 @@ export class ServerService {
             description: 'Get Product Requirement Documents for this project',
             inputSchema: {
               type: 'object',
+              properties: {
+                projectPath: {
+                  type: 'string',
+                  description:
+                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                },
+              },
               required: [],
             },
           },
@@ -128,6 +202,13 @@ export class ServerService {
             description: 'Get Non-Functional Requirement Documents for this project',
             inputSchema: {
               type: 'object',
+              properties: {
+                projectPath: {
+                  type: 'string',
+                  description:
+                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                },
+              },
               required: [],
             },
           },
@@ -136,6 +217,13 @@ export class ServerService {
             description: 'Get User Interface Requirement Documents for this project',
             inputSchema: {
               type: 'object',
+              properties: {
+                projectPath: {
+                  type: 'string',
+                  description:
+                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                },
+              },
               required: [],
             },
           },
@@ -144,6 +232,13 @@ export class ServerService {
             description: 'Get Business Process Documents for this project',
             inputSchema: {
               type: 'object',
+              properties: {
+                projectPath: {
+                  type: 'string',
+                  description:
+                    'Optional absolute path where the tool is called from to auto-infer the project path',
+                },
+              },
               required: [],
             },
           },
@@ -157,6 +252,11 @@ export class ServerService {
                 prdId: {
                   type: 'string',
                   description: 'The ID of the PRD to get user stories for',
+                },
+                projectPath: {
+                  type: 'string',
+                  description:
+                    'Optional absolute path where the tool is called from to auto-infer the project path',
                 },
               },
             },
@@ -175,6 +275,11 @@ export class ServerService {
                 userStoryId: {
                   type: 'string',
                   description: 'The ID of the User Story to get tasks for',
+                },
+                projectPath: {
+                  type: 'string',
+                  description:
+                    'Optional absolute path where the tool is called from to auto-infer the project path',
                 },
               },
             },
@@ -197,6 +302,11 @@ export class ServerService {
                 taskId: {
                   type: 'string',
                   description: 'The ID of the Task to get',
+                },
+                projectPath: {
+                  type: 'string',
+                  description:
+                    'Optional absolute path where the tool is called from to auto-infer the project path',
                 },
               },
             },
@@ -223,40 +333,152 @@ export class ServerService {
             return this.createTextResponse(`Project path set to: ${path}`)
           }
 
-          case 'get-brds':
+          case 'get-brds': {
+            const { projectPath } = OptionalProjectPathSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (projectPath) {
+              const inferredPath = await this.inferProjectPath(projectPath)
+              if (inferredPath) {
+                this.projectPath = inferredPath
+                this.solution = await this.documentService.loadSolution(inferredPath)
+                logger.info({ inferredPath }, 'Project path auto-inferred')
+              }
+            }
+
             if (!this.solution) {
-              throw new Error('No project path set. Use set-project-path first.')
+              // For tests that expect the original error message
+              if (!projectPath) {
+                throw new Error('No project path set. Use set-project-path first.')
+              }
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid projectPath.'
+              )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.BRD))
+          }
 
-          case 'get-prds':
+          case 'get-prds': {
+            const { projectPath } = OptionalProjectPathSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (projectPath) {
+              const inferredPath = await this.inferProjectPath(projectPath)
+              if (inferredPath) {
+                this.projectPath = inferredPath
+                this.solution = await this.documentService.loadSolution(inferredPath)
+                logger.info({ inferredPath }, 'Project path auto-inferred')
+              }
+            }
+
             if (!this.solution) {
-              throw new Error('No project path set. Use set-project-path first.')
+              // For tests that expect the original error message
+              if (!projectPath) {
+                throw new Error('No project path set. Use set-project-path first.')
+              }
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid projectPath.'
+              )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.PRD))
+          }
 
-          case 'get-nfrs':
+          case 'get-nfrs': {
+            const { projectPath } = OptionalProjectPathSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (projectPath) {
+              const inferredPath = await this.inferProjectPath(projectPath)
+              if (inferredPath) {
+                this.projectPath = inferredPath
+                this.solution = await this.documentService.loadSolution(inferredPath)
+                logger.info({ inferredPath }, 'Project path auto-inferred')
+              }
+            }
+
             if (!this.solution) {
-              throw new Error('No project path set. Use set-project-path first.')
+              // For tests that expect the original error message
+              if (!projectPath) {
+                throw new Error('No project path set. Use set-project-path first.')
+              }
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid projectPath.'
+              )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.NFR))
+          }
 
-          case 'get-uirs':
+          case 'get-uirs': {
+            const { projectPath } = OptionalProjectPathSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (projectPath) {
+              const inferredPath = await this.inferProjectPath(projectPath)
+              if (inferredPath) {
+                this.projectPath = inferredPath
+                this.solution = await this.documentService.loadSolution(inferredPath)
+                logger.info({ inferredPath }, 'Project path auto-inferred')
+              }
+            }
+
             if (!this.solution) {
-              throw new Error('No project path set. Use set-project-path first.')
+              // For tests that expect the original error message
+              if (!projectPath) {
+                throw new Error('No project path set. Use set-project-path first.')
+              }
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid projectPath.'
+              )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.UIR))
+          }
 
-          case 'get-bps':
+          case 'get-bps': {
+            const { projectPath } = OptionalProjectPathSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (projectPath) {
+              const inferredPath = await this.inferProjectPath(projectPath)
+              if (inferredPath) {
+                this.projectPath = inferredPath
+                this.solution = await this.documentService.loadSolution(inferredPath)
+                logger.info({ inferredPath }, 'Project path auto-inferred')
+              }
+            }
+
             if (!this.solution) {
-              throw new Error('No project path set. Use set-project-path first.')
+              // For tests that expect the original error message
+              if (!projectPath) {
+                throw new Error('No project path set. Use set-project-path first.')
+              }
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid projectPath.'
+              )
             }
             return this.createTextResponse(this.formatDocuments(this.solution.BP))
+          }
 
           case 'get-user-stories': {
-            const { prdId } = GetUserStoriesRequestSchema.parse(args)
+            const { prdId, projectPath } = GetUserStoriesRequestSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (projectPath) {
+              const inferredPath = await this.inferProjectPath(projectPath)
+              if (inferredPath) {
+                this.projectPath = inferredPath
+                this.solution = await this.documentService.loadSolution(inferredPath)
+                logger.info({ inferredPath }, 'Project path auto-inferred')
+              }
+            }
+
             if (!this.solution) {
-              throw new Error('No project path set. Use set-project-path first.')
+              // For tests that expect the original error message
+              if (!projectPath) {
+                throw new Error('No project path set. Use set-project-path first.')
+              }
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid projectPath.'
+              )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
@@ -267,9 +489,26 @@ export class ServerService {
           }
 
           case 'get-tasks': {
-            const { prdId, userStoryId } = GetTasksRequestSchema.parse(args)
+            const { prdId, userStoryId, projectPath } = GetTasksRequestSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (projectPath) {
+              const inferredPath = await this.inferProjectPath(projectPath)
+              if (inferredPath) {
+                this.projectPath = inferredPath
+                this.solution = await this.documentService.loadSolution(inferredPath)
+                logger.info({ inferredPath }, 'Project path auto-inferred')
+              }
+            }
+
             if (!this.solution) {
-              throw new Error('No project path set. Use set-project-path first.')
+              // For tests that expect the original error message
+              if (!projectPath) {
+                throw new Error('No project path set. Use set-project-path first.')
+              }
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid projectPath.'
+              )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
@@ -285,9 +524,26 @@ export class ServerService {
           }
 
           case 'get-task': {
-            const { prdId, userStoryId, taskId } = GetTaskRequestSchema.parse(args)
+            const { prdId, userStoryId, taskId, projectPath } = GetTaskRequestSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (projectPath) {
+              const inferredPath = await this.inferProjectPath(projectPath)
+              if (inferredPath) {
+                this.projectPath = inferredPath
+                this.solution = await this.documentService.loadSolution(inferredPath)
+                logger.info({ inferredPath }, 'Project path auto-inferred')
+              }
+            }
+
             if (!this.solution) {
-              throw new Error('No project path set. Use set-project-path first.')
+              // For tests that expect the original error message
+              if (!projectPath) {
+                throw new Error('No project path set. Use set-project-path first.')
+              }
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid projectPath.'
+              )
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
