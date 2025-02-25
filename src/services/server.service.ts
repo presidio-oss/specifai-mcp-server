@@ -168,7 +168,7 @@ export class ServerService {
           {
             name: 'set-project-path',
             description:
-              'Set the project path and reload the solution, use this tool only when we not automatically infer the project path or asked by the user or us., we will try to auto infer it from the environment',
+              'Set the project path and reload the solution, use this tool only when we not automatically able to infer the project path or asked by the user or us., we will try to auto infer it from the environment first.',
             inputSchema: {
               type: 'object',
               required: ['path'],
@@ -190,7 +190,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
+                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: [],
@@ -205,7 +205,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
+                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: [],
@@ -220,7 +220,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
+                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: [],
@@ -235,7 +235,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
+                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: [],
@@ -250,7 +250,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
+                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: [],
@@ -270,7 +270,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
+                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
             },
@@ -293,7 +293,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
+                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
             },
@@ -320,7 +320,7 @@ export class ServerService {
                 projectPath: {
                   type: 'string',
                   description:
-                    'Optional absolute path where the tool is called from to auto-infer the project path, on most cases this is not needed, as we automatically infer it from the environment, but in some cases, it might be needed. This path will be mostly current working directory from where the tool is called.',
+                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
             },
