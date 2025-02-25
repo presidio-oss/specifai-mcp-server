@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>0.6.1 (2025-02-25)</small>
+
+* fix: improve clarity of project path descriptions in server service ([7f3acfb](https://github.com/vj-presidio/specif-ai-mcp-server/commit/7f3acfb))
+
 ## 0.6.0 (2025-02-25)
 
 * feat: include all environment variables in startup log for better visibility ([8d4cfa8](https://github.com/vj-presidio/specif-ai-mcp-server/commit/8d4cfa8))
