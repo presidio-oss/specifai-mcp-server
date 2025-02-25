@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 (2025-02-25)
+
+* feat: add external dependencies to npm build for thread-stream and pino ([bc08c8c](https://github.com/vj-presidio/specif-ai-mcp-server/commit/bc08c8c))
+* feat: update client commands and arguments for npx, node, and bunx examples and testing coverage ([a97978f](https://github.com/vj-presidio/specif-ai-mcp-server/commit/a97978f))
+* chore: remove unused dependencies from bun.lock and package.json ([50d4cd3](https://github.com/vj-presidio/specif-ai-mcp-server/commit/50d4cd3))
+
 ## 0.3.0 (2025-02-25)
 
 * feat: add project path auto-inference from .specif-ai-path file ([51a8194](https://github.com/vj-presidio/specif-ai-mcp-server/commit/51a8194))
