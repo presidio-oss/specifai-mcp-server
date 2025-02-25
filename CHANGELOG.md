@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0 (2025-02-25)
+
+* feat: add project path auto-inference from .specif-ai-path file ([51a8194](https://github.com/vj-presidio/specif-ai-mcp-server/commit/51a8194))
+
 ## <small>0.2.7 (2025-02-24)</small>
 
 * chore: add project overview, development setup, architecture, and deployment guides ([b5c7e13](https://github.com/vj-presidio/specif-ai-mcp-server/commit/b5c7e13))
