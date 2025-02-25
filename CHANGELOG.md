@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0 (2025-02-25)
+
+* feat: include all environment variables in startup log for better visibility ([8d4cfa8](https://github.com/vj-presidio/specif-ai-mcp-server/commit/8d4cfa8))
+
 ## 0.5.0 (2025-02-25)
 
 * feat: add optional PWD environment variable and update error messages for clarity ([02472af](https://github.com/vj-presidio/specif-ai-mcp-server/commit/02472af))
