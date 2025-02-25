@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 (2025-02-25)
+
+* feat: add optional PWD environment variable and update error messages for clarity ([02472af](https://github.com/vj-presidio/specif-ai-mcp-server/commit/02472af))
+
 ## 0.4.0 (2025-02-25)
 
 * feat: add external dependencies to npm build for thread-stream and pino ([bc08c8c](https://github.com/vj-presidio/specif-ai-mcp-server/commit/bc08c8c))
