@@ -56,11 +56,24 @@ const mockSolution: Solution = {
   ],
 }
 
+// Mock fs/promises
+jest.mock('fs/promises', () => ({
+  readdir: jest.fn(),
+  readFile: jest.fn(),
+  access: jest.fn(),
+  constants: {
+    R_OK: 4,
+  },
+}))
+
+// Import mocked fs/promises to access mock functions
+import { readdir, readFile, access } from 'fs/promises'
+
 // Mock DocumentService
 jest.mock('../document.service', () => ({
   DocumentService: jest.fn().mockImplementation(() => ({
     loadSolution: jest.fn().mockImplementation((path) => {
-      if (path === '/test/path') {
+      if (path === '/test/path' || path === '/inferred/path') {
         return Promise.resolve(mockSolution)
       }
       if (path === '/test/malformed/path') {
@@ -92,6 +105,24 @@ jest.mock('../document.service', () => ({
     }),
     findTask: jest.fn().mockImplementation((userStory: UserStory, taskId: string) => {
       return userStory.tasks?.find((task) => task.id === taskId) || null
+    }),
+  })),
+}))
+
+// Mock FileService
+jest.mock('../file.service', () => ({
+  FileService: jest.fn().mockImplementation(() => ({
+    readAllJsonFiles: jest.fn(),
+    isDirectory: jest.fn().mockImplementation((path) => {
+      if (
+        path === '/valid/dir' ||
+        path === '/test/path' ||
+        path === '/inferred/path' ||
+        path === '/with/specif-ai-path'
+      ) {
+        return Promise.resolve(true)
+      }
+      return Promise.resolve(false)
     }),
   })),
 }))
@@ -187,6 +218,474 @@ describe('ServerService', () => {
         (t: { name: string; inputSchema: any }) => t.name === 'set-project-path'
       )
       expect(setProjectPathSchema?.inputSchema.required).toEqual(['path'])
+    })
+  })
+
+  describe('Project Path Inference', () => {
+    let mockReaddir: jest.Mock
+    let mockReadFile: jest.Mock
+    let mockAccess: jest.Mock
+
+    beforeEach(() => {
+      mockReaddir = readdir as jest.Mock
+      mockReadFile = readFile as jest.Mock
+      mockAccess = access as jest.Mock
+
+      // Default mock implementations
+      mockReaddir.mockResolvedValue(['file1.txt', '.specif-ai-path'])
+      mockReadFile.mockResolvedValue('/inferred/path')
+      mockAccess.mockResolvedValue(undefined)
+
+      // Clear mock calls
+      mockReaddir.mockClear()
+      mockReadFile.mockClear()
+      mockAccess.mockClear()
+    })
+
+    test('should infer project path from directory with .specif-ai-path file', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-brds',
+          arguments: { projectPath: '/with/specif-ai-path' },
+        },
+      })
+
+      expect(mockAccess).toHaveBeenCalled()
+      expect(mockReadFile).toHaveBeenCalled()
+      expect(response.content[0].text).toContain('BRD01')
+    })
+
+    test('should handle non-existent directory for inference', async () => {
+      // Create a new server service instance to avoid state from previous tests
+      mockRequestHandlers.clear()
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+
+      await expect(
+        handler({
+          params: {
+            name: 'get-brds',
+            arguments: { projectPath: '/non/existent/dir' },
+          },
+        })
+      ).rejects.toThrow('No project path set')
+    })
+
+    test('should handle directory without .specif-ai-path file', async () => {
+      // Create a new server service instance to avoid state from previous tests
+      mockRequestHandlers.clear()
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+
+      mockAccess.mockRejectedValue(new Error('File not found'))
+
+      await expect(
+        handler({
+          params: {
+            name: 'get-brds',
+            arguments: { projectPath: '/valid/dir' },
+          },
+        })
+      ).rejects.toThrow('No project path set')
+    })
+
+    test('should handle invalid inferred path', async () => {
+      // Create a new server service instance to avoid state from previous tests
+      mockRequestHandlers.clear()
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+
+      mockReadFile.mockResolvedValue('/invalid/inferred/path')
+
+      await expect(
+        handler({
+          params: {
+            name: 'get-brds',
+            arguments: { projectPath: '/with/specif-ai-path' },
+          },
+        })
+      ).rejects.toThrow('No project path set')
+    })
+
+    test('should handle error during inference', async () => {
+      // Create a new server service instance to avoid state from previous tests
+      mockRequestHandlers.clear()
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+
+      mockReadFile.mockRejectedValue(new Error('Read error'))
+
+      await expect(
+        handler({
+          params: {
+            name: 'get-brds',
+            arguments: { projectPath: '/with/specif-ai-path' },
+          },
+        })
+      ).rejects.toThrow('No project path set')
+    })
+
+    test('should directly access inferProjectPath method', async () => {
+      // Test with valid path
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const result1 = await (serverService as any).inferProjectPath('/with/specif-ai-path')
+      expect(result1).toBe('/inferred/path')
+
+      // Test with empty path
+      const result2 = await (serverService as any).inferProjectPath('')
+      expect(result2).toBeNull()
+
+      // Test with non-existent directory
+      const result3 = await (serverService as any).inferProjectPath('/non/existent/dir')
+      expect(result3).toBeNull()
+
+      // Test with directory without .specif-ai-path file
+      mockAccess.mockRejectedValue(new Error('File not found'))
+      const result4 = await (serverService as any).inferProjectPath('/valid/dir')
+      expect(result4).toBeNull()
+
+      // Test with invalid inferred path
+      mockAccess.mockResolvedValue(undefined)
+      mockReadFile.mockResolvedValue('/invalid/inferred/path')
+      const result5 = await (serverService as any).inferProjectPath('/with/specif-ai-path')
+      expect(result5).toBeNull()
+
+      // Test with error during file read
+      mockReadFile.mockRejectedValue(new Error('Read error'))
+      const result6 = await (serverService as any).inferProjectPath('/with/specif-ai-path')
+      expect(result6).toBeNull()
+    })
+
+    test('should auto-infer project path for get-prds', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-prds',
+          arguments: { projectPath: '/with/specif-ai-path' },
+        },
+      })
+      expect(response.content[0].text).toContain('PRD01')
+    })
+
+    test('should auto-infer project path for get-nfrs', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-nfrs',
+          arguments: { projectPath: '/with/specif-ai-path' },
+        },
+      })
+      expect(response.content[0].text).toContain('NFR01')
+    })
+
+    test('should auto-infer project path for get-uirs', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-uirs',
+          arguments: { projectPath: '/with/specif-ai-path' },
+        },
+      })
+      expect(response.content[0].text).toContain('UIR01')
+    })
+
+    test('should auto-infer project path for get-bps', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-bps',
+          arguments: { projectPath: '/with/specif-ai-path' },
+        },
+      })
+      expect(response.content[0].text).toContain('BP01')
+    })
+
+    test('should auto-infer project path for get-user-stories', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-user-stories',
+          arguments: {
+            prdId: 'PRD01',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toContain('US1')
+    })
+
+    test('should auto-infer project path for get-tasks', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-tasks',
+          arguments: {
+            prdId: 'PRD01',
+            userStoryId: 'US1',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toContain('T1')
+    })
+
+    test('should auto-infer project path for get-task', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-task',
+          arguments: {
+            prdId: 'PRD01',
+            userStoryId: 'US1',
+            taskId: 'T1',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toContain('T1')
+    })
+
+    // Additional tests to cover remaining lines
+    test('should handle auto-inference with non-existent PRD in get-user-stories', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-user-stories',
+          arguments: {
+            prdId: 'nonexistent',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toBe('No PRD found with ID nonexistent')
+    })
+
+    test('should handle auto-inference with non-existent PRD in get-tasks', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-tasks',
+          arguments: {
+            prdId: 'nonexistent',
+            userStoryId: 'US1',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toBe('No PRD found with ID nonexistent')
+    })
+
+    test('should handle auto-inference with non-existent user story in get-tasks', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-tasks',
+          arguments: {
+            prdId: 'PRD01',
+            userStoryId: 'nonexistent',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toBe('No User Story found with ID nonexistent')
+    })
+
+    test('should handle auto-inference with non-existent PRD in get-task', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-task',
+          arguments: {
+            prdId: 'nonexistent',
+            userStoryId: 'US1',
+            taskId: 'T1',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toBe('No PRD found with ID nonexistent')
+    })
+
+    test('should handle auto-inference with non-existent user story in get-task', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-task',
+          arguments: {
+            prdId: 'PRD01',
+            userStoryId: 'nonexistent',
+            taskId: 'T1',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toBe('No User Story found with ID nonexistent')
+    })
+
+    test('should handle auto-inference with non-existent task in get-task', async () => {
+      mockReadFile.mockResolvedValue('/inferred/path')
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-task',
+          arguments: {
+            prdId: 'PRD01',
+            userStoryId: 'US1',
+            taskId: 'nonexistent',
+            projectPath: '/with/specif-ai-path',
+          },
+        },
+      })
+      expect(response.content[0].text).toBe('No Task found with ID nonexistent')
+    })
+
+    // Tests to cover remaining lines
+    // Tests to cover remaining lines
+    test('should handle Zod validation errors', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      await expect(
+        handler({
+          params: {
+            name: 'get-user-stories',
+            arguments: {
+              // Missing prdId which is required
+              projectPath: '/with/specif-ai-path',
+            },
+          },
+        })
+      ).rejects.toThrow('Invalid arguments')
+    })
+
+    // Test to cover the specific error case when projectPath is provided but inference fails
+    test('should throw specific error when projectPath is provided but inference fails', async () => {
+      // Create a new server service instance
+      mockRequestHandlers.clear()
+      const newServerService = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+
+      // Mock inferProjectPath to return null (inference failure)
+      jest.spyOn(newServerService as any, 'inferProjectPath').mockResolvedValue(null)
+
+      // Test with get-brds
+      await expect(
+        handler({
+          params: {
+            name: 'get-brds',
+            arguments: { projectPath: '/some/path' },
+          },
+        })
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid projectPath.'
+      )
+
+      // Test with get-prds
+      await expect(
+        handler({
+          params: {
+            name: 'get-prds',
+            arguments: { projectPath: '/some/path' },
+          },
+        })
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid projectPath.'
+      )
+
+      // Test with get-nfrs
+      await expect(
+        handler({
+          params: {
+            name: 'get-nfrs',
+            arguments: { projectPath: '/some/path' },
+          },
+        })
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid projectPath.'
+      )
+
+      // Test with get-uirs
+      await expect(
+        handler({
+          params: {
+            name: 'get-uirs',
+            arguments: { projectPath: '/some/path' },
+          },
+        })
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid projectPath.'
+      )
+
+      // Test with get-bps
+      await expect(
+        handler({
+          params: {
+            name: 'get-bps',
+            arguments: { projectPath: '/some/path' },
+          },
+        })
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid projectPath.'
+      )
+
+      // Test with get-user-stories
+      await expect(
+        handler({
+          params: {
+            name: 'get-user-stories',
+            arguments: {
+              prdId: 'PRD01',
+              projectPath: '/some/path',
+            },
+          },
+        })
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid projectPath.'
+      )
+
+      // Test with get-tasks
+      await expect(
+        handler({
+          params: {
+            name: 'get-tasks',
+            arguments: {
+              prdId: 'PRD01',
+              userStoryId: 'US1',
+              projectPath: '/some/path',
+            },
+          },
+        })
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid projectPath.'
+      )
+
+      // Test with get-task
+      await expect(
+        handler({
+          params: {
+            name: 'get-task',
+            arguments: {
+              prdId: 'PRD01',
+              userStoryId: 'US1',
+              taskId: 'T1',
+              projectPath: '/some/path',
+            },
+          },
+        })
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid projectPath.'
+      )
     })
   })
 

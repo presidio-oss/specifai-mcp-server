@@ -2,12 +2,12 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 
 const transport = new StdioClientTransport({
-  command: 'npx',
-  args: ['specif-ai-mcp-server', 'path/to/project/spec/files'],
+  command: 'bunx',
+  args: ['@vj-presidio/specif-ai-mcp-server@latest'],
 })
 
 const client = new Client({
-  name: 'example-binary-client',
+  name: 'example-bunx-client',
   version: '0.0.1',
 })
 
@@ -15,7 +15,9 @@ await client.connect(transport)
 
 const result = await client.callTool({
   name: 'get-brds',
-  arguments: {},
+  arguments: {
+    projectPath: 'path/to/project', // Path containing `.specif-ai-path`
+  },
 })
 
 for (const content of result.content as Array<any>) {
