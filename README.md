@@ -95,7 +95,3 @@ For package manager installation:
 
 - Node.js >= 16.0.0
 - Bun >= 1.0.0 (if using Bun runtime)
-
-## License
-
-MIT
