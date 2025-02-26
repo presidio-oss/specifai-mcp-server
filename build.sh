@@ -14,15 +14,15 @@ mkdir -p build
 
 # Define all target platforms
 targets=(
-    "bun-darwin-arm64:specif-ai-mcp-server-darwin-arm64-v${SP_VERSION}"
-    "bun-darwin-x64:specif-ai-mcp-server-darwin-x64-v${SP_VERSION}"
-    "bun-linux-arm64:specif-ai-mcp-server-linux-arm64-v${SP_VERSION}"
-    "bun-linux-x64:specif-ai-mcp-server-linux-x64-v${SP_VERSION}"
-    "bun-linux-x64-baseline:specif-ai-mcp-server-linux-x64-baseline-v${SP_VERSION}"
-    "bun-linux-x64-modern:specif-ai-mcp-server-linux-x64-modern-v${SP_VERSION}"
-    "bun-windows-x64:specif-ai-mcp-server-windows-x64-v${SP_VERSION}.exe"
-    "bun-windows-x64-baseline:specif-ai-mcp-server-windows-x64-baseline-v${SP_VERSION}.exe"
-    "bun-windows-x64-modern:specif-ai-mcp-server-windows-x64-modern-v${SP_VERSION}.exe"
+    "bun-darwin-arm64:specifai-mcp-server-darwin-arm64-v${SP_VERSION}"
+    "bun-darwin-x64:specifai-mcp-server-darwin-x64-v${SP_VERSION}"
+    "bun-linux-arm64:specifai-mcp-server-linux-arm64-v${SP_VERSION}"
+    "bun-linux-x64:specifai-mcp-server-linux-x64-v${SP_VERSION}"
+    "bun-linux-x64-baseline:specifai-mcp-server-linux-x64-baseline-v${SP_VERSION}"
+    "bun-linux-x64-modern:specifai-mcp-server-linux-x64-modern-v${SP_VERSION}"
+    "bun-windows-x64:specifai-mcp-server-windows-x64-v${SP_VERSION}.exe"
+    "bun-windows-x64-baseline:specifai-mcp-server-windows-x64-baseline-v${SP_VERSION}.exe"
+    "bun-windows-x64-modern:specifai-mcp-server-windows-x64-modern-v${SP_VERSION}.exe"
 )
 
 # Function to build for a specific target
@@ -72,7 +72,7 @@ check_binary_version() {
     echo -e "${BLUE}Version information:${NC}"
     echo "----------------------------------------"
     chmod +x "build/$binary"
-    "./build/$binary" --help | grep "specif-ai-mcp-server - v"
+    "./build/$binary" --help | grep "specifai-mcp-server - v"
     echo "----------------------------------------"
 }
 
@@ -87,20 +87,20 @@ if [ "$success" = true ]; then
     case "$(uname -s)" in
         Darwin*)
             if [ "$(uname -m)" = "arm64" ]; then
-                check_binary_version "specif-ai-mcp-server-darwin-arm64-v${SP_VERSION}"
+                check_binary_version "specifai-mcp-server-darwin-arm64-v${SP_VERSION}"
             else
-                check_binary_version "specif-ai-mcp-server-darwin-x64-v${SP_VERSION}"
+                check_binary_version "specifai-mcp-server-darwin-x64-v${SP_VERSION}"
             fi
             ;;
         Linux*)
             if [ "$(uname -m)" = "aarch64" ]; then
-                check_binary_version "specif-ai-mcp-server-linux-arm64-v${SP_VERSION}"
+                check_binary_version "specifai-mcp-server-linux-arm64-v${SP_VERSION}"
             else
-                check_binary_version "specif-ai-mcp-server-linux-x64-v${SP_VERSION}"
+                check_binary_version "specifai-mcp-server-linux-x64-v${SP_VERSION}"
             fi
             ;;
         MINGW*|CYGWIN*|MSYS*)
-            check_binary_version "specif-ai-mcp-server-windows-x64-v${SP_VERSION}.exe"
+            check_binary_version "specifai-mcp-server-windows-x64-v${SP_VERSION}.exe"
             ;;
         *)
             echo -e "${RED}Unsupported platform for version check${NC}"

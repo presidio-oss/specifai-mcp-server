@@ -1,4 +1,4 @@
-# Update script for specif-ai-mcp-server (Windows PowerShell)
+# Update script for specifai-mcp-server (Windows PowerShell)
 
 # Script parameters
 param(
@@ -9,8 +9,8 @@ param(
 
 # Repository information
 $RepoOwner = "vj-presidio"
-$RepoName = "specif-ai-mcp-server"
-$BinaryName = "specif-ai-mcp-server"
+$RepoName = "specifai-mcp-server"
+$BinaryName = "specifai-mcp-server"
 $InstallDir = "$env:ProgramFiles\specif-ai"
 
 # Colors for output

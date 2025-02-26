@@ -10,7 +10,7 @@
     "addUntrackedFiles": true
   },
   "github": {
-    "release": true,
+    "release": false,
     "makeLatest": true,
     "assets": ["build/*"],
     "comments": {

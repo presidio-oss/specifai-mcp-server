@@ -6,7 +6,9 @@ import os from 'os'
  * Default log file path: $HOME/.specif-ai/mcp-log.log
  * Can be overridden with LOG_FILE_PATH environment variable
  */
-const LOG_FILE_PATH = process.env.LOG_FILE_PATH || `${process.env.HOME}/.specif-ai/mcp-log.log`
+const LOG_FILE_PATH =
+  process.env.LOG_FILE_PATH ||
+  (process.env.HOME ? `${process.env.HOME}/.specif-ai/mcp-log.log` : undefined)
 
 /**
  * Logger configuration options
@@ -30,26 +32,42 @@ type ExtendedTransportOptions = TransportTargetOptions & {
 }
 
 /**
- * Transport configuration for file writing
+ * Create a logger instance based on environment conditions
  */
-const transportOptions: ExtendedTransportOptions = {
-  target: 'pino/file',
-  options: {
-    destination: LOG_FILE_PATH,
-    append: true,
-    sync: false,
-    mkdir: true,
-    silent: true,
-  },
-  worker: {
-    autoEnd: false,
-  },
+let logger: pino.Logger
+
+// Only attempt file logging if we have a valid path
+if (LOG_FILE_PATH) {
+  try {
+    /**
+     * Transport configuration for file writing
+     */
+    const transportOptions: ExtendedTransportOptions = {
+      target: 'pino/file',
+      options: {
+        destination: LOG_FILE_PATH,
+        append: true,
+        sync: false,
+        mkdir: true,
+        silent: true,
+      },
+      worker: {
+        autoEnd: false,
+      },
+    }
+
+    // Wrap in try-catch to handle any transport initialization errors
+    logger = pino(loggerOptions, pino.transport(transportOptions))
+  } catch (err) {
+    // Silently fall back to no-op logger if transport fails
+    logger = pino({ ...loggerOptions, enabled: false })
+  }
+} else {
+  // If no valid log path, use a no-op logger
+  logger = pino({ ...loggerOptions, enabled: false })
 }
 
-/**
- * Create logger instance that writes to file if possible,
- * otherwise silently falls back to noop transport
- */
-const logger = pino(loggerOptions, pino.transport(transportOptions))
+// Note: We can't directly add error handlers to pino logger instances
+// The errors are handled by the transport configuration with silent: true
 
 export { logger }

@@ -3,7 +3,7 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 
 const transport = new StdioClientTransport({
   command: 'npx',
-  args: ['--yes', '@vj-presidio/specif-ai-mcp-server@latest'],
+  args: ['--yes', '@presidio-dev/specifai-mcp-server@latest'],
 })
 
 const client = new Client({

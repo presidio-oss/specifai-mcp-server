@@ -16,7 +16,7 @@ check_package_version() {
     echo -e "${BLUE}Checking npm package version...${NC}"
     echo -e "${BLUE}Version information:${NC}"
     echo "----------------------------------------"
-    node ./dist/index.js --help | grep "specif-ai-mcp-server - v"
+    node ./dist/index.js --help | grep "specifai-mcp-server - v"
     echo "----------------------------------------"
 }
 

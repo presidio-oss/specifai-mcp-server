@@ -2,7 +2,7 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 
 const transport = new StdioClientTransport({
-  command: 'specif-ai-mcp-server',
+  command: 'specifai-mcp-server',
   args: ['path/to/project/spec/files'],
 })
 

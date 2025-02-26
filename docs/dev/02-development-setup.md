@@ -11,8 +11,8 @@
 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/vj-presidio/specif-ai-mcp-server.git
-cd specif-ai-mcp-server
+git clone https://github.com/presidio-oss/specifai-mcp-server.git
+cd specifai-mcp-server
 ```
 
 2. **Install Dependencies**

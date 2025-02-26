@@ -184,7 +184,6 @@ describe('ServerService', () => {
 
       expect(response.tools).toHaveLength(9)
       expect(response.tools.map((t: { name: string }) => t.name)).toEqual([
-        'set-project-path',
         'get-brds',
         'get-prds',
         'get-nfrs',
@@ -193,6 +192,7 @@ describe('ServerService', () => {
         'get-user-stories',
         'get-tasks',
         'get-task',
+        'set-project-path',
       ])
 
       // Verify schema for get-user-stories

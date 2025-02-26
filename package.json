@@ -1,6 +1,6 @@
 {
-  "name": "@vj-presidio/specif-ai-mcp-server",
-  "version": "0.6.1",
+  "name": "@presidio-dev/specifai-mcp-server",
+  "version": "0.0.0",
   "description": "Specif-ai MCP Server that runs over stdio",
   "type": "module",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vj-presidio/specif-ai-mcp-server.git"
+    "url": "git+https://github.com/presidio-oss/specifai-mcp-server.git"
   },
   "keywords": [
     "specif-ai",
@@ -23,7 +23,7 @@
   "module": "dist/index.js",
   "main": "dist/index.js",
   "bin": {
-    "specif-ai-mcp-server": "dist/index.js"
+    "specifai-mcp-server": "dist/index.js"
   },
   "files": [
     "dist",

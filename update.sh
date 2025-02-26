@@ -12,8 +12,8 @@ WINDOWS_INSTALL_DIR="C:\\Program Files\\specif-ai"
 
 # Repository information
 REPO_OWNER="vj-presidio"
-REPO_NAME="specif-ai-mcp-server"
-BINARY_NAME="specif-ai-mcp-server"
+REPO_NAME="specifai-mcp-server"
+BINARY_NAME="specifai-mcp-server"
 
 # Parse command line arguments
 VERSION=""

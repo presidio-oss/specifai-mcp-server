@@ -103,8 +103,8 @@ The server uses Pino for logging:
 
 ```bash
 # Revert to previous version
-npm unpublish @vj-presidio/specif-ai-mcp-server@{version}
-npm publish @vj-presidio/specif-ai-mcp-server@{previous-version}
+npm unpublish @presidio-dev/specifai-mcp-server@{version}
+npm publish @presidio-dev/specifai-mcp-server@{previous-version}
 ```
 
 ### 2. Git Tags

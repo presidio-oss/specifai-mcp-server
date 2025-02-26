@@ -166,22 +166,6 @@ export class ServerService {
       return {
         tools: [
           {
-            name: 'set-project-path',
-            description:
-              'Set the project path and reload the solution, use this tool only when we not automatically able to infer the project path or asked by the user or us., we will try to auto infer it from the environment first.',
-            inputSchema: {
-              type: 'object',
-              required: ['path'],
-              properties: {
-                path: {
-                  type: 'string',
-                  description:
-                    'The absolute path to the project directory containing specification files',
-                },
-              },
-            },
-          },
-          {
             name: 'get-brds',
             description: 'Get Business Requirement Documents for this project',
             inputSchema: {
@@ -190,7 +174,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -205,7 +189,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -220,7 +204,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -235,7 +219,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -250,7 +234,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -270,7 +254,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
             },
@@ -293,7 +277,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
             },
@@ -320,7 +304,23 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from to auto-infer the project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                },
+              },
+            },
+          },
+          {
+            name: 'set-project-path',
+            description:
+              'Update the project path and reload the solution. use this tool only when we not automatically able to infer the project path or asked by the user or us., we will try to auto infer it from the environment first.',
+            inputSchema: {
+              type: 'object',
+              required: ['path'],
+              properties: {
+                path: {
+                  type: 'string',
+                  description:
+                    'The absolute path to a directory containing specif-ai specification files.',
                 },
               },
             },
@@ -342,7 +342,7 @@ export class ServerService {
           this.projectPath = inferredPath
           this.documentService.loadSolution(inferredPath).then((solution) => {
             this.solution = solution
-            logger.info({ solution }, 'Solution loaded from auto-inferred project path')
+            logger.info('Solution loaded from auto-inferred project path')
           })
         }
       })
