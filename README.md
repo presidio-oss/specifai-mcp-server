@@ -5,7 +5,20 @@ A Model Context Protocol (MCP) server for [Specif-ai](https://github.com/presidi
 > [!WARNING]
 > This server is currently in experimental. The functionality and available tools are subject to change and expansion as we continue to develop and improve the server.
 
-Get started quickly, see [Configuration](#configuration) for more details:
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://badge.fury.io/js/%40presidio-dev%2Fspecifai-mcp-server.svg)](https://badge.fury.io/js/%40presidio-dev%2Fspecifai-mcp-server)
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Preparing Your Project](#preparing-your-project)
+- [IDE Integration](#specifai-mcp-integration-with-popular-ide-and-extension)
+- [Available Tools](#available-tools)
+- [Requirements](#requirements)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
 
 ## Installation
 
@@ -17,7 +30,7 @@ npx --yes @presidio-dev/specifai-mcp-server@latest
 npx --yes @presidio-dev/specifai-mcp-server@1.2.3
 ```
 
-we used `npx` to install the server, but you can use any node package manager of your preference such as `yarn`, `pnpm`, `bun`, etc.
+We used `npx` to install the server, but you can use any node package manager of your preference such as `yarn`, `pnpm`, `bun`, etc.
 
 ## Configuration
 
@@ -65,7 +78,7 @@ For example, if your project directory is located at `/path/to/project`, the `.s
 
 See the setup instructions for each
 
-1. [Cline](./docs/setup/cline.md)
+1. [Hai Build](./docs/setup/hai-build.md)
 2. [Cursor](./docs/setup/cursor.md)
 
 ### Available Tools
@@ -86,12 +99,32 @@ The server provides several tools for interacting with your specification docume
 
 ## Requirements
 
-For binary installation:
-
-- curl (Unix) or PowerShell (Windows)
-- sudo access (Unix, for system-wide installation)
-
-For package manager installation:
+Package manager installation:
 
 - Node.js >= 16.0.0
 - Bun >= 1.0.0 (if using Bun runtime)
+
+## Contributing
+
+We welcome contributions to the Specif-ai MCP Server! Please see our [Contributing Guide](CONTRIBUTING.md) for more information on how to get started.
+
+### Development Setup
+
+For detailed instructions on setting up your development environment, please refer to our [Development Setup Guide](docs/dev/02-development-setup.md).
+
+### Architecture
+
+To understand the project architecture, please see our [Architecture Guide](docs/dev/03-architecture-guide.md).
+
+## Security
+
+For information about our security policy and how to report security vulnerabilities, please see our [Security Policy](SECURITY.md).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- [Model Context Protocol](https://modelcontextprotocol.io/) - The protocol specification this server implements
+- [Specif-ai](https://github.com/presidio-oss/specif-ai) - The project this server integrates with
