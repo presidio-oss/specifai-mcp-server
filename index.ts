@@ -44,13 +44,13 @@ Example:
 }
 
 /**
- * Main entry point for the Specif-ai MCP Server
+ * Main entry point for the Specifai MCP Server
  */
 async function main() {
   try {
     logger.info(
       { version: process.env.SP_VERSION, pwd: process.env.PWD, ...process.env },
-      'Starting Specif-ai MCP Server'
+      'Starting Specifai MCP Server'
     )
 
     const args = process.argv.slice(2)
@@ -69,7 +69,7 @@ async function main() {
     const serverService = new ServerService(process.env.PWD)
     await serverService.start()
 
-    logger.info('Specif-ai MCP Server running on stdio')
+    logger.info('Specifai MCP Server running on stdio')
   } catch (error) {
     logger.error({ error: error instanceof Error ? error.message : String(error) }, 'Fatal error')
     process.exit(1)

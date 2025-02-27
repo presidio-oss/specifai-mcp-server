@@ -2,7 +2,7 @@
 
 ## System Overview
 
-The Specif-ai MCP Server implements the Model Context Protocol (MCP) over stdio, providing a standardized interface for managing requirement documents. The system follows a service-oriented architecture with clear separation of concerns.
+The Specifai MCP Server implements the Model Context Protocol (MCP) over stdio, providing a standardized interface for managing requirement documents. The system follows a service-oriented architecture with clear separation of concerns.
 
 ```mermaid
 graph TD

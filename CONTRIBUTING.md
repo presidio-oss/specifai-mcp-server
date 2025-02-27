@@ -1,6 +1,6 @@
-# Contributing to Specif-ai MCP Server
+# Contributing to Specifai MCP Server
 
-Thank you for your interest in contributing to the Specif-ai MCP Server! This document provides guidelines and instructions for contributing to this project.
+Thank you for your interest in contributing to the Specifai MCP Server! This document provides guidelines and instructions for contributing to this project.
 
 ## Code of Conduct
 

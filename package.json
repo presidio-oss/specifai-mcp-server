@@ -1,7 +1,7 @@
 {
   "name": "@presidio-dev/specifai-mcp-server",
   "version": "0.0.0",
-  "description": "Specif-ai MCP Server that runs over stdio",
+  "description": "Specifai MCP Server that runs over stdio",
   "type": "module",
   "license": "MIT",
   "publishConfig": {
@@ -12,14 +12,14 @@
     "url": "git+https://github.com/presidio-oss/specifai-mcp-server.git"
   },
   "keywords": [
-    "specif-ai",
+    "specifai",
     "mcp",
     "model-context-protocol",
     "cli",
     "stdio",
     "server"
   ],
-  "author": "Specif-ai",
+  "author": "Presidio",
   "module": "dist/index.js",
   "main": "dist/index.js",
   "bin": {

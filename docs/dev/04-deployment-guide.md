@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide covers the process of building, releasing, and deploying the Specif-ai MCP Server. The project uses automated release processes with conventional commits and semantic versioning.
+This guide covers the process of building, releasing, and deploying the Specifai MCP Server. The project uses automated release processes with conventional commits and semantic versioning.
 
 ## Build Process
 

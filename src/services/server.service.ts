@@ -226,7 +226,7 @@ export class ServerService {
             },
           },
           {
-            name: 'get-bps',
+            name: 'get-bpds',
             description: 'Get Business Process Documents for this project',
             inputSchema: {
               type: 'object',
@@ -424,7 +424,7 @@ export class ServerService {
             return this.createTextResponse(this.formatDocuments(this.solution.UIR))
           }
 
-          case 'get-bps': {
+          case 'get-bpds': {
             const { cwd } = OptionalProjectPathSchema.parse(args)
 
             // Try to infer project path if provided

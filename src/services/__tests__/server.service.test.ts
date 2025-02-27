@@ -188,7 +188,7 @@ describe('ServerService', () => {
         'get-prds',
         'get-nfrs',
         'get-uirs',
-        'get-bps',
+        'get-bpds',
         'get-user-stories',
         'get-tasks',
         'get-task',
@@ -393,12 +393,12 @@ describe('ServerService', () => {
       expect(response.content[0].text).toContain('UIR01')
     })
 
-    test('should auto-infer project path for get-bps', async () => {
+    test('should auto-infer project path for get-bpds', async () => {
       mockReadFile.mockResolvedValue('/inferred/path')
       const handler = mockRequestHandlers.get('call-tool')
       const response = await handler({
         params: {
-          name: 'get-bps',
+          name: 'get-bpds',
           arguments: { cwd: '/with/specif-ai-path' },
         },
       })
@@ -627,11 +627,11 @@ describe('ServerService', () => {
         'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
       )
 
-      // Test with get-bps
+      // Test with get-bpds
       await expect(
         handler({
           params: {
-            name: 'get-bps',
+            name: 'get-bpds',
             arguments: { cwd: '/some/path' },
           },
         })
@@ -790,10 +790,10 @@ describe('ServerService', () => {
       expect(response.content[0].text).toContain('Test UIR')
     })
 
-    test('should handle get-bps request', async () => {
+    test('should handle get-bpds request', async () => {
       const handler = mockRequestHandlers.get('call-tool')
       const response = await handler({
-        params: { name: 'get-bps', arguments: { cwd: '/test/path' } },
+        params: { name: 'get-bpds', arguments: { cwd: '/test/path' } },
       })
 
       expect(response.content[0].text).toContain('BP01')
@@ -1071,14 +1071,14 @@ describe('ServerService', () => {
       ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
 
-    test('should handle get-bps before project path is set', async () => {
+    test('should handle get-bpds before project path is set', async () => {
       mockRequestHandlers.clear()
       const noPathService = new ServerService()
       const noPathHandler = mockRequestHandlers.get('call-tool')
       await expect(
         noPathHandler({
           params: {
-            name: 'get-bps',
+            name: 'get-bpds',
             arguments: {}, // Deliberately omit cwd
           },
         })

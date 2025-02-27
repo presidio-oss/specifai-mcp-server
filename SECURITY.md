@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-We take the security of Specif-ai MCP Server seriously. If you believe you've found a security vulnerability, please follow these steps:
+We take the security of Specifai MCP Server seriously. If you believe you've found a security vulnerability, please follow these steps:
 
 1. **Do not disclose the vulnerability publicly**
 2. **Email the details to **
@@ -21,14 +21,14 @@ We take the security of Specif-ai MCP Server seriously. If you believe you've fo
 
 ## Security Best Practices for Users
 
-1. **Keep the package updated**: Always use the latest version of the Specif-ai MCP Server
+1. **Keep the package updated**: Always use the latest version of the Specifai MCP Server
 2. **Validate inputs**: When integrating with the server, ensure all inputs are properly validated
 3. **Manage permissions**: Ensure proper file system permissions are set for the project directory
 4. **Secure your environment**: Follow security best practices for your Node.js environment
 
 ## Security Measures
 
-The Specif-ai MCP Server implements several security measures:
+The Specifai MCP Server implements several security measures:
 
 1. **Input validation**: All inputs are validated using Zod schemas
 2. **Error handling**: Proper error handling to prevent information leakage
@@ -44,4 +44,4 @@ When a security vulnerability is reported, we follow this disclosure process:
 3. We release a patch and notify users
 4. After users have had sufficient time to update, we may publish a security advisory
 
-Thank you for helping keep Specif-ai MCP Server and its users safe!
+Thank you for helping keep Specifai MCP Server and its users safe!
