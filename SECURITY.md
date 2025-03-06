@@ -5,7 +5,7 @@
 We take the security of Specifai MCP Server seriously. If you believe you've found a security vulnerability, please follow these steps:
 
 1. **Do not disclose the vulnerability publicly**
-2. **Email the details to **
+2. **Email the details to** [hai-feedback@presidio.com](mailto:hai-feedback@presidio.com).
    - Provide a detailed description of the vulnerability
    - Include steps to reproduce the issue
    - Mention the version of the software where you found the vulnerability
