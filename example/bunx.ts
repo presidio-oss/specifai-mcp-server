@@ -16,7 +16,7 @@ await client.connect(transport)
 const result = await client.callTool({
   name: 'get-brds',
   arguments: {
-    projectPath: 'path/to/project', // Path containing `.specif-ai-path`
+    projectPath: 'path/to/project', // Path containing `.specifai-path`
   },
 })
 

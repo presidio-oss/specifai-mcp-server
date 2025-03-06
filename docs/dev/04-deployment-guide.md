@@ -95,7 +95,7 @@ The server uses Pino for logging:
 - Log levels: trace, debug, info, warn, error
 - Structured JSON logging
 - Pretty printing in development
-- all the logs are stored in the `$HOME/.specif-ai/mcp-log.log` file
+- all the logs are stored in the `$HOME/.specifai/mcp-log.log` file
 
 ## Rollback Procedure
 
