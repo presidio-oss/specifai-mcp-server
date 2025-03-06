@@ -60,7 +60,7 @@ export class ServerService {
     this.fileService = new FileService()
     this.server = new Server(
       {
-        name: 'specif-ai',
+        name: 'specifai',
         version: `${process.env.SP_VERSION || '0.0.0'}`,
       },
       {
@@ -106,7 +106,7 @@ export class ServerService {
 
   /**
    * Infer project path from a given directory path
-   * @param directoryPath - The directory path to check for .specif-ai-path file
+   * @param directoryPath - The directory path to check for .specifai-path file
    * @returns The inferred project path or null if not found
    */
   private async inferProjectPath(directoryPath: string): Promise<string | null> {
@@ -122,12 +122,12 @@ export class ServerService {
         return null
       }
 
-      // Check if .specif-ai-path file exists
-      const specFilePath = join(directoryPath, '.specif-ai-path')
+      // Check if .specifai-path file exists
+      const specFilePath = join(directoryPath, '.specifai-path')
       try {
         await access(specFilePath, constants.R_OK)
       } catch {
-        logger.debug({ specFilePath }, '.specif-ai-path file not found')
+        logger.debug({ specFilePath }, '.specifai-path file not found')
         return null
       }
 
@@ -137,7 +137,7 @@ export class ServerService {
 
       // Validate the project path
       if (!(await this.fileService.isDirectory(projectPath))) {
-        logger.warn({ projectPath }, 'Project path from .specif-ai-path is not a valid directory')
+        logger.warn({ projectPath }, 'Project path from .specifai-path is not a valid directory')
         return null
       }
 
@@ -174,7 +174,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specifai-path` file to auto-infer the specifai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -189,7 +189,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specifai-path` file to auto-infer the specifai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -204,7 +204,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specifai-path` file to auto-infer the specifai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -219,7 +219,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specifai-path` file to auto-infer the specifai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -234,7 +234,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specifai-path` file to auto-infer the specifai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
               required: ['cwd'],
@@ -254,7 +254,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specifai-path` file to auto-infer the specifai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
             },
@@ -277,7 +277,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specifai-path` file to auto-infer the specifai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
             },
@@ -304,7 +304,7 @@ export class ServerService {
                 cwd: {
                   type: 'string',
                   description:
-                    'Absolute path where the tool is called from and containing the `.specif-ai-path` file to auto-infer the specif-ai project path. This path will be current working directory (cwd) from where the tool is called.',
+                    'Absolute path where the tool is called from and containing the `.specifai-path` file to auto-infer the specifai project path. This path will be current working directory (cwd) from where the tool is called.',
                 },
               },
             },
@@ -320,7 +320,7 @@ export class ServerService {
                 path: {
                   type: 'string',
                   description:
-                    'The absolute path to a directory containing specif-ai specification files.',
+                    'The absolute path to a directory containing specifai specification files.',
                 },
               },
             },

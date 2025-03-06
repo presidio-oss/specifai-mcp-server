@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 # Default installation directory
 INSTALL_DIR="/usr/local/bin"
-WINDOWS_INSTALL_DIR="C:\\Program Files\\specif-ai"
+WINDOWS_INSTALL_DIR="C:\\Program Files\\specifai"
 
 # Repository information
 REPO_OWNER="vj-presidio"

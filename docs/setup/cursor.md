@@ -22,7 +22,7 @@ On the "Features" settings page, Scroll down and find the "MCP Servers" section 
 
 ![Step 4](SCR-20250224-qzke-2.png)
 
-On the configuration dialog, set the name to "specif-ai" and change Type to "Command" on the command input field set the values like below. see more examples config in [README.md](../../README.md) and Click "Add" button to save the configuration and add the server to the list.
+On the configuration dialog, set the name to "specifai" and change Type to "Command" on the command input field set the values like below. see more examples config in [README.md](../../README.md) and Click "Add" button to save the configuration and add the server to the list.
 
 ## Step 5
 

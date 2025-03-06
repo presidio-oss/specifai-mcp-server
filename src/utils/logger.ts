@@ -3,12 +3,12 @@ import type { LoggerOptions, TransportTargetOptions } from 'pino'
 import os from 'os'
 
 /**
- * Default log file path: $HOME/.specif-ai/mcp-log.log
+ * Default log file path: $HOME/.specifai/mcp-log.log
  * Can be overridden with LOG_FILE_PATH environment variable
  */
 const LOG_FILE_PATH =
   process.env.LOG_FILE_PATH ||
-  (process.env.HOME ? `${process.env.HOME}/.specif-ai/mcp-log.log` : undefined)
+  (process.env.HOME ? `${process.env.HOME}/.specifai/mcp-log.log` : undefined)
 
 /**
  * Logger configuration options

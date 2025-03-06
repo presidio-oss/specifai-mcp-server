@@ -10,7 +10,7 @@ param(
 $RepoOwner = "vj-presidio"
 $RepoName = "specifai-mcp-server"
 $BinaryName = "specifai-mcp-server"
-$InstallDir = "$env:ProgramFiles\specif-ai"
+$InstallDir = "$env:ProgramFiles\specifai"
 
 # Colors for output
 $Green = "Green"

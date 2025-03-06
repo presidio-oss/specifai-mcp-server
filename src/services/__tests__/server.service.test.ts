@@ -118,7 +118,7 @@ jest.mock('../file.service', () => ({
         path === '/valid/dir' ||
         path === '/test/path' ||
         path === '/inferred/path' ||
-        path === '/with/specif-ai-path'
+        path === '/with/specifai-path'
       ) {
         return Promise.resolve(true)
       }
@@ -232,7 +232,7 @@ describe('ServerService', () => {
       mockAccess = access as jest.Mock
 
       // Default mock implementations
-      mockReaddir.mockResolvedValue(['file1.txt', '.specif-ai-path'])
+      mockReaddir.mockResolvedValue(['file1.txt', '.specifai-path'])
       mockReadFile.mockResolvedValue('/inferred/path')
       mockAccess.mockResolvedValue(undefined)
 
@@ -242,12 +242,12 @@ describe('ServerService', () => {
       mockAccess.mockClear()
     })
 
-    test('should infer project path from directory with .specif-ai-path file', async () => {
+    test('should infer project path from directory with .specifai-path file', async () => {
       const handler = mockRequestHandlers.get('call-tool')
       const response = await handler({
         params: {
           name: 'get-brds',
-          arguments: { cwd: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specifai-path' },
         },
       })
 
@@ -272,7 +272,7 @@ describe('ServerService', () => {
       ).rejects.toThrow('No project path set')
     })
 
-    test('should handle directory without .specif-ai-path file', async () => {
+    test('should handle directory without .specifai-path file', async () => {
       // Create a new server service instance to avoid state from previous tests
       mockRequestHandlers.clear()
       const newServerService = new ServerService()
@@ -302,7 +302,7 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-brds',
-            arguments: { cwd: '/with/specif-ai-path' },
+            arguments: { cwd: '/with/specifai-path' },
           },
         })
       ).rejects.toThrow('No project path set')
@@ -320,7 +320,7 @@ describe('ServerService', () => {
         handler({
           params: {
             name: 'get-brds',
-            arguments: { cwd: '/with/specif-ai-path' },
+            arguments: { cwd: '/with/specifai-path' },
           },
         })
       ).rejects.toThrow('No project path set')
@@ -329,7 +329,7 @@ describe('ServerService', () => {
     test('should directly access inferProjectPath method', async () => {
       // Test with valid path
       mockReadFile.mockResolvedValue('/inferred/path')
-      const result1 = await (serverService as any).inferProjectPath('/with/specif-ai-path')
+      const result1 = await (serverService as any).inferProjectPath('/with/specifai-path')
       expect(result1).toBe('/inferred/path')
 
       // Test with empty path
@@ -340,7 +340,7 @@ describe('ServerService', () => {
       const result3 = await (serverService as any).inferProjectPath('/non/existent/dir')
       expect(result3).toBeNull()
 
-      // Test with directory without .specif-ai-path file
+      // Test with directory without .specifai-path file
       mockAccess.mockRejectedValue(new Error('File not found'))
       const result4 = await (serverService as any).inferProjectPath('/valid/dir')
       expect(result4).toBeNull()
@@ -348,12 +348,12 @@ describe('ServerService', () => {
       // Test with invalid inferred path
       mockAccess.mockResolvedValue(undefined)
       mockReadFile.mockResolvedValue('/invalid/inferred/path')
-      const result5 = await (serverService as any).inferProjectPath('/with/specif-ai-path')
+      const result5 = await (serverService as any).inferProjectPath('/with/specifai-path')
       expect(result5).toBeNull()
 
       // Test with error during file read
       mockReadFile.mockRejectedValue(new Error('Read error'))
-      const result6 = await (serverService as any).inferProjectPath('/with/specif-ai-path')
+      const result6 = await (serverService as any).inferProjectPath('/with/specifai-path')
       expect(result6).toBeNull()
     })
 
@@ -363,7 +363,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-prds',
-          arguments: { cwd: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specifai-path' },
         },
       })
       expect(response.content[0].text).toContain('PRD01')
@@ -375,7 +375,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-nfrs',
-          arguments: { cwd: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specifai-path' },
         },
       })
       expect(response.content[0].text).toContain('NFR01')
@@ -387,7 +387,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-uirs',
-          arguments: { cwd: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specifai-path' },
         },
       })
       expect(response.content[0].text).toContain('UIR01')
@@ -399,7 +399,7 @@ describe('ServerService', () => {
       const response = await handler({
         params: {
           name: 'get-bpds',
-          arguments: { cwd: '/with/specif-ai-path' },
+          arguments: { cwd: '/with/specifai-path' },
         },
       })
       expect(response.content[0].text).toContain('BP01')
@@ -413,7 +413,7 @@ describe('ServerService', () => {
           name: 'get-user-stories',
           arguments: {
             prdId: 'PRD01',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -429,7 +429,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'PRD01',
             userStoryId: 'US1',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -446,7 +446,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'US1',
             taskId: 'T1',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -462,7 +462,7 @@ describe('ServerService', () => {
           name: 'get-user-stories',
           arguments: {
             prdId: 'nonexistent',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -478,7 +478,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'nonexistent',
             userStoryId: 'US1',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -494,7 +494,7 @@ describe('ServerService', () => {
           arguments: {
             prdId: 'PRD01',
             userStoryId: 'nonexistent',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -511,7 +511,7 @@ describe('ServerService', () => {
             prdId: 'nonexistent',
             userStoryId: 'US1',
             taskId: 'T1',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -528,7 +528,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'nonexistent',
             taskId: 'T1',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -545,7 +545,7 @@ describe('ServerService', () => {
             prdId: 'PRD01',
             userStoryId: 'US1',
             taskId: 'nonexistent',
-            cwd: '/with/specif-ai-path',
+            cwd: '/with/specifai-path',
           },
         },
       })
@@ -562,7 +562,7 @@ describe('ServerService', () => {
             name: 'get-user-stories',
             arguments: {
               // Missing prdId which is required
-              cwd: '/with/specif-ai-path',
+              cwd: '/with/specifai-path',
             },
           },
         })
