@@ -69,6 +69,14 @@ jest.mock('fs/promises', () => ({
 // Import mocked fs/promises to access mock functions
 import { readdir, readFile, access } from 'fs/promises'
 
+const mockMiniSearch = {
+  search: jest.fn(),
+  addAll: jest.fn(),
+  removeAll: jest.fn(),
+}
+jest.mock('minisearch', () => {
+  return jest.fn().mockImplementation(() => mockMiniSearch)
+})
 // Mock DocumentService
 jest.mock('../document.service', () => ({
   DocumentService: jest.fn().mockImplementation(() => ({
@@ -162,6 +170,10 @@ describe('ServerService', () => {
     ConsoleManager.restoreConsole()
   })
 
+  afterAll(() => {
+    jest.unmock('minisearch')
+  })
+
   let serverService: ServerService
 
   beforeEach(async () => {
@@ -182,7 +194,7 @@ describe('ServerService', () => {
       const handler = mockRequestHandlers.get('list-tools')
       const response = await handler()
 
-      expect(response.tools).toHaveLength(9)
+      expect(response.tools).toHaveLength(12)
       expect(response.tools.map((t: { name: string }) => t.name)).toEqual([
         'get-brds',
         'get-prds',
@@ -193,6 +205,9 @@ describe('ServerService', () => {
         'get-tasks',
         'get-task',
         'set-project-path',
+        'get-task-by-id',
+        'list-all-tasks',
+        'search',
       ])
 
       // Verify schema for get-user-stories
@@ -218,6 +233,24 @@ describe('ServerService', () => {
         (t: { name: string; inputSchema: any }) => t.name === 'set-project-path'
       )
       expect(setProjectPathSchema?.inputSchema.required).toEqual(['path'])
+
+      // Verify schema for get-task-by-id
+      const getTaskByIdSchema = response.tools.find(
+        (t: { name: string; inputSchema: any }) => t.name === 'get-task-by-id'
+      )
+      expect(getTaskByIdSchema?.inputSchema.required).toEqual(['taskId', 'cwd'])
+
+      // Verify schema for list-all-tasks
+      const listAllTasksSchema = response.tools.find(
+        (t: { name: string; inputSchema: any }) => t.name === 'list-all-tasks'
+      )
+      expect(listAllTasksSchema?.inputSchema.required).toEqual(['cwd'])
+
+      // Verify schema for search
+      const searchSchema = response.tools.find(
+        (t: { name: string; inputSchema: any }) => t.name === 'search'
+      )
+      expect(searchSchema?.inputSchema.required).toEqual(['searchTerm', 'cwd'])
     })
   })
 
@@ -887,7 +920,7 @@ describe('ServerService', () => {
           arguments: { cwd: '/test/empty/path' },
         },
       })
-      expect(response.content[0].text).toBe('')
+      expect(response.content[0].text).toBe('No PRDs found')
     })
 
     test('should handle non-existent PRD in get-user-stories', async () => {
@@ -1132,6 +1165,207 @@ describe('ServerService', () => {
           },
         })
       ).rejects.toThrow('Invalid path')
+    })
+  })
+
+  describe('New Tool Handlers', () => {
+    const mockMiniSearch = {
+      search: jest.fn(),
+      addAll: jest.fn(),
+      removeAll: jest.fn(),
+    }
+    let originalMiniSearch: any
+
+    beforeEach(async () => {
+      mockMiniSearch.search.mockClear().mockReset()
+      mockMiniSearch.addAll.mockClear().mockReset()
+      mockMiniSearch.removeAll.mockClear().mockReset()
+
+      mockRequestHandlers.clear()
+      serverService = new ServerService()
+      ;(serverService as any).miniSearch = mockMiniSearch
+
+      const handler = mockRequestHandlers.get('call-tool')
+      await handler({
+        params: {
+          name: 'set-project-path',
+          arguments: { path: '/test/path' },
+        },
+      })
+
+      mockMiniSearch.search.mockReturnValue([])
+      mockMiniSearch.addAll.mockReturnValue(undefined)
+      mockMiniSearch.removeAll.mockReturnValue(undefined)
+    })
+
+    test('should handle get-task-by-id request', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-task-by-id',
+          arguments: { taskId: 'T1', cwd: '/test/path' },
+        },
+      })
+      expect(response.content[0].text).toContain('ID: T1')
+      expect(response.content[0].text).toContain('Title: Task 1')
+      expect(response.content[0].text).toContain('Description: Test task')
+    })
+
+    test('should handle get-task-by-id request for non-existent task', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-task-by-id',
+          arguments: { taskId: 'nonexistent', cwd: '/test/path' },
+        },
+      })
+      expect(response.content[0].text).toBe('No Task found with ID nonexistent')
+    })
+
+    test('should handle list-all-tasks request', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'list-all-tasks',
+          arguments: { cwd: '/test/path' },
+        },
+      })
+      expect(response.content[0].text).toContain('ID: T1')
+      expect(response.content[0].text).toContain('Title: Task 1')
+      expect(response.content[0].text).not.toContain('Description:')
+    })
+
+    test('should handle list-all-tasks request with limit and offset', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'list-all-tasks',
+          arguments: { cwd: '/test/path', limit: 1, offset: 0 },
+        },
+      })
+      expect(response.content[0].text).toContain('ID: T1')
+      expect(response.content[0].text).toContain('Title: Task 1')
+    })
+
+    test('should handle search request', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      mockMiniSearch.search.mockReturnValue([
+        {
+          id: 'T1',
+          title: 'Task 1',
+          description: 'Test task',
+          type: 'TASK',
+          score: 1,
+          match: {},
+          terms: [],
+        },
+      ])
+
+      const response = await handler({
+        params: {
+          name: 'search',
+          arguments: { searchTerm: 'Test task', cwd: '/test/path' },
+        },
+      })
+
+      expect(mockMiniSearch.search).toHaveBeenCalledWith('Test task')
+      expect(response.content[0].text).toContain('ID: T1')
+      expect(response.content[0].text).toContain('Title: Task 1')
+      expect(response.content[0].text).toContain('Description: Test task')
+      expect(response.content[0].text).toContain('Type: TASK')
+    })
+
+    test('should handle search request with type filter', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      mockMiniSearch.search.mockReturnValue([
+        {
+          id: 'T1',
+          title: 'Task 1',
+          description: 'Test task',
+          type: 'TASK',
+          score: 1,
+          match: {},
+          terms: [],
+        },
+        {
+          id: 'BRD01',
+          title: 'Test BRD',
+          description: 'Test BRD description',
+          type: 'BRD',
+          score: 1,
+          match: {},
+          terms: [],
+        },
+      ])
+
+      const response = await handler({
+        params: {
+          name: 'search',
+          arguments: { searchTerm: 'Test', type: 'BRD', cwd: '/test/path' },
+        },
+      })
+
+      expect(mockMiniSearch.search).toHaveBeenCalledWith('Test')
+      expect(response.content[0].text).toContain('ID: BRD01')
+      expect(response.content[0].text).toContain('Type: BRD')
+      expect(response.content[0].text).not.toContain('ID: T1')
+    })
+
+    test('should handle search request with no results', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      mockMiniSearch.search.mockReturnValue([])
+
+      const response = await handler({
+        params: {
+          name: 'search',
+          arguments: { searchTerm: 'nonexistent term', cwd: '/test/path' },
+        },
+      })
+
+      expect(mockMiniSearch.search).toHaveBeenCalledWith('nonexistent term')
+      expect(response.content[0].text).toBe('No results found')
+    })
+
+    test('should handle search request before project path is set', async () => {
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
+      await expect(
+        noPathHandler({
+          params: {
+            name: 'search',
+            arguments: { searchTerm: 'test' },
+          },
+        })
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
+    })
+
+    test('should handle get-task-by-id request before project path is set', async () => {
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
+      await expect(
+        noPathHandler({
+          params: {
+            name: 'get-task-by-id',
+            arguments: { taskId: 'T1' },
+          },
+        })
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
+    })
+
+    test('should handle list-all-tasks request before project path is set', async () => {
+      mockRequestHandlers.clear()
+      const noPathService = new ServerService()
+      const noPathHandler = mockRequestHandlers.get('call-tool')
+      await expect(
+        noPathHandler({
+          params: {
+            name: 'list-all-tasks',
+            arguments: {},
+          },
+        })
+      ).rejects.toThrow('Invalid arguments: cwd: Required')
     })
   })
 

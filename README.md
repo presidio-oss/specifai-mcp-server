@@ -96,6 +96,9 @@ The server provides several tools for interacting with your specification docume
 | `get-tasks`        | Get Tasks for a specific User Story      |
 | `get-task`         | Get details of a specific Task           |
 | `set-project-path` | Set or change the project directory path |
+| `get-task-by-id`   | Get details of a specific Task by ID     |
+| `list-all-tasks`   | List all available tasks                 |
+| `search`           | Full text search across all documents    |
 
 ## Requirements
 

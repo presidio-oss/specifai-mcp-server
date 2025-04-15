@@ -36,6 +36,8 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "jest --watch",
+    "dev": "bun build ./index.ts --outdir ./dist --target node --minify --sourcemap --external pino",
+    "dev:watch": "bun build --watch ./index.ts --outdir ./dist --target node --minify --sourcemap --external pino",
     "build": "./build.sh",
     "build:npm": "./build-npm.sh",
     "prepublishOnly": "bun run build:npm",
@@ -64,6 +66,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.5.0",
+    "minisearch": "^7.1.2",
     "pino": "^9.6.0",
     "zod": "^3.24.2"
   },
