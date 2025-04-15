@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 (2025-04-15)
+
+* feat(server): add search, list-all-tasks, and get-task-by-id tools & improvements ([98c32e6](https://github.com/presidio-oss/specifai-mcp-server/commit/98c32e6))
+
 ## 0.3.0 (2025-03-06)
 
 * feat: add external dependencies to npm build for thread-stream and pino ([bc08c8c](https://github.com/presidio-oss/specifai-mcp-server/commit/bc08c8c))
