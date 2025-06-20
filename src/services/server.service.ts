@@ -115,8 +115,8 @@ export class ServerService {
     this.documentService = new DocumentService()
     this.fileService = new FileService()
     this.miniSearch = new MiniSearch({
-      fields: ['id', 'title', 'description', 'type'],
-      storeFields: ['id', 'title', 'description', 'type'],
+      fields: ['id', 'title', 'description', 'type', 'jiraId'],
+      storeFields: ['id', 'title', 'description', 'type', 'jiraId'],
       searchOptions: {
         fuzzy: true,
       },
@@ -141,13 +141,16 @@ export class ServerService {
   /**
    * Format document array into text output
    */
-  private formatDocuments(docs: Array<{ id: string; title: string; description: string }>): string {
+  private formatDocuments(
+    docs: Array<{ id: string; title: string; description: string; jiraId?: string }>
+  ): string {
     return docs
       .map((doc) =>
         [
           `ID: ${doc.id}`,
           `Title: ${doc.title}`,
           `Description: ${doc.description}`,
+          ...(doc.jiraId ? [`Jira ID: ${doc.jiraId}`] : []),
           '--------------',
         ].join('\n')
       )
@@ -281,7 +284,7 @@ export class ServerService {
           {
             name: 'get-prds',
             description:
-              'Get Product Requirement Documents for this project, returns ID, Title, Description(not included by default)',
+              'Get Product Requirement Documents for this project, returns ID, Title, Description(not included by default), and Jira ID (when available)',
             inputSchema: {
               type: 'object',
               properties: {
@@ -490,7 +493,7 @@ export class ServerService {
           {
             name: 'get-task-by-id',
             description:
-              "Retrieves complete information about a specific task when you know its exact ID. This tool provides direct access to a single task's details without having to retrieve and filter through all tasks., returns full task object, ID, Title, Description",
+              "Retrieves complete information about a specific task when you know its exact ID. This tool provides direct access to a single task's details without having to retrieve and filter through all tasks., returns full task object, ID, Title, Description, and Jira ID (when available)",
             inputSchema: {
               type: 'object',
               required: ['taskId', 'cwd'],
@@ -511,7 +514,7 @@ export class ServerService {
           {
             name: 'list-all-tasks',
             description:
-              'List all the tasks available across all PRDs and User Stories, without task description, only return ID and Title',
+              'List all the tasks available across all PRDs and User Stories, without task description, only return ID, Title, and Jira ID (when available)',
             inputSchema: {
               type: 'object',
               required: ['cwd'],
@@ -534,7 +537,7 @@ export class ServerService {
           {
             name: 'search',
             description:
-              'Full text search across all documents, returns an array of document ID, Title, Description',
+              'Search documents by text content or Jira ID across all documents, returns document ID, Title, Description, Type, and Jira ID (when available)',
             inputSchema: {
               type: 'object',
               required: ['searchTerm', 'cwd'],
@@ -676,6 +679,7 @@ export class ServerService {
                   `ID: ${prd.id}`,
                   `Title: ${prd.title}`,
                   ...(includeDescription ? [`Description: ${prd.description}`] : []),
+                  ...(prd.jiraId ? [`Jira ID: ${prd.jiraId}`] : []),
                 ]
 
                 if (includeUserStories) {
@@ -686,6 +690,9 @@ export class ServerService {
                     prd.userStories.forEach((userStory) => {
                       lines.push(`  US ID: ${userStory.id}`)
                       lines.push(`  US Title: ${userStory.title}`)
+                      if (userStory.jiraId) {
+                        lines.push(`  US Jira ID: ${userStory.jiraId}`)
+                      }
 
                       if (includeTasks) {
                         if (userStory.tasks.length === 0) {
@@ -695,6 +702,9 @@ export class ServerService {
                           userStory.tasks.forEach((task) => {
                             lines.push(`      TASK ID: ${task.id}`)
                             lines.push(`      TASK Title: ${task.title}`)
+                            if (task.jiraId) {
+                              lines.push(`      TASK Jira ID: ${task.jiraId}`)
+                            }
                           })
                         }
                       }
@@ -876,11 +886,7 @@ export class ServerService {
               logger.warn({ prdId, userStoryId, taskId }, 'Task not found')
               return this.createTextResponse(`No Task found with ID ${taskId}`)
             }
-            return this.createTextResponse(
-              [`ID: ${task.id}`, `Title: ${task.title}`, `Description: ${task.description}`].join(
-                '\n'
-              )
-            )
+            return this.createTextResponse(this.formatDocuments([task]))
           }
 
           case 'list-all-tasks': {
@@ -913,6 +919,7 @@ export class ServerService {
                 tasks.map((task) => ({
                   ID: task.id,
                   Title: task.title,
+                  ...(task.jiraId && { 'Jira ID': task.jiraId }),
                 }))
               )
             )
@@ -938,11 +945,7 @@ export class ServerService {
               logger.warn({ taskId }, 'Task not found')
               return this.createTextResponse(`No Task found with ID ${taskId}`)
             }
-            return this.createTextResponse(
-              [`ID: ${task.id}`, `Title: ${task.title}`, `Description: ${task.description}`].join(
-                '\n'
-              )
-            )
+            return this.createTextResponse(this.formatDocuments([task]))
           }
 
           case 'search': {
@@ -959,7 +962,16 @@ export class ServerService {
               )
             }
 
-            let searchResult = this.miniSearch.search(searchTerm)
+            const isJiraId = /^[A-Z][A-Z0-9_]+-\d+$/i.test(searchTerm)
+
+            let searchResult = isJiraId
+              ? this.miniSearch.search(searchTerm, {
+                  prefix: false,
+                  fuzzy: false,
+                  combineWith: 'AND',
+                  fields: ['jiraId'],
+                })
+              : this.miniSearch.search(searchTerm)
 
             if (type) {
               searchResult = searchResult.filter((doc) => doc.type === type)
@@ -976,6 +988,7 @@ export class ServerService {
                   `Title: ${doc.title}`,
                   `Description: ${doc.description}`,
                   `Type: ${doc.type}`,
+                  ...(doc.jiraId ? [`Jira ID: ${doc.jiraId}`] : []),
                   '--------------',
                 ].join('\n')
               )

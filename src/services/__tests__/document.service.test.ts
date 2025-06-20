@@ -43,6 +43,7 @@ class MockFileService {
           content: {
             title: 'Test PRD',
             requirement: 'Test requirement',
+            epicTicketId: 'HB-1001',
           },
         },
         {
@@ -53,11 +54,33 @@ class MockFileService {
                 id: 'US1',
                 name: 'User Story 1',
                 description: 'Test user story',
+                storyTicketId: 'HB-2001',
                 tasks: [
                   {
                     id: 'T1',
                     list: 'Task 1',
                     acceptance: 'Test acceptance',
+                    subTaskTicketId: 'HB-3001',
+                  },
+                  {
+                    id: 'T2',
+                    list: 'Task 2',
+                    acceptance: 'Test acceptance 2',
+                    // No Jira ID for this task
+                  },
+                ],
+              },
+              {
+                id: 'US2',
+                name: 'User Story 2',
+                description: 'Test user story 2',
+                // No Jira ID for this user story
+                tasks: [
+                  {
+                    id: 'T3',
+                    list: 'Task 3',
+                    acceptance: 'Test acceptance 3',
+                    subTaskTicketId: 'HB-3003',
                   },
                 ],
               },
@@ -146,21 +169,45 @@ describe('DocumentService', () => {
         description: 'Test requirement',
       })
 
-      // Check PRDs with user stories
+      // Check PRDs with user stories and Jira IDs
       expect(solution.PRD).toHaveLength(1) // Only one valid PRD (with both base and feature)
       const prd = solution.PRD[0]
       expect(prd.id).toBe('PRD01')
-      expect(prd.userStories).toHaveLength(1)
-      expect(prd.userStories[0].tasks).toHaveLength(1)
+      expect(prd.jiraId).toBe('HB-1001')
+      expect(prd.userStories).toHaveLength(2)
+
+      // Check first user story with Jira ID
       expect(prd.userStories[0]).toEqual({
         id: 'US1',
         title: 'User Story 1',
         description: 'Test user story',
+        jiraId: 'HB-2001',
         tasks: [
           {
             id: 'T1',
             title: 'Task 1',
             description: 'Test acceptance',
+            jiraId: 'HB-3001',
+          },
+          {
+            id: 'T2',
+            title: 'Task 2',
+            description: 'Test acceptance 2',
+          },
+        ],
+      })
+
+      // Check second user story without Jira ID
+      expect(prd.userStories[1]).toEqual({
+        id: 'US2',
+        title: 'User Story 2',
+        description: 'Test user story 2',
+        tasks: [
+          {
+            id: 'T3',
+            title: 'Task 3',
+            description: 'Test acceptance 3',
+            jiraId: 'HB-3003',
           },
         ],
       })

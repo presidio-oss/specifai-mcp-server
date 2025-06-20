@@ -58,11 +58,13 @@ export class DocumentService {
             id: feature.id,
             title: feature.name,
             description: feature.description,
+            ...(feature.storyTicketId && { jiraId: feature.storyTicketId }),
             tasks: feature.tasks.map(
               (task: any): Task => ({
                 id: task.id,
                 title: task.list,
                 description: task.acceptance,
+                ...(task.subTaskTicketId && { jiraId: task.subTaskTicketId }),
               })
             ),
           }))
@@ -76,6 +78,7 @@ export class DocumentService {
             id: obj.name.replace('.json', '').replace('-base', ''),
             title: obj.content.title,
             description: obj.content.requirement,
+            ...(obj.content.epicTicketId && { jiraId: obj.content.epicTicketId }),
             userStories,
           }
         }

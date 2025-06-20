@@ -10,13 +10,16 @@ export interface BaseDocument {
 /**
  * Task within a user story
  */
-export interface Task extends BaseDocument {}
+export interface Task extends BaseDocument {
+  jiraId?: string
+}
 
 /**
  * User story containing tasks
  */
 export interface UserStory extends BaseDocument {
   tasks: Task[]
+  jiraId?: string
 }
 
 /**
@@ -24,6 +27,7 @@ export interface UserStory extends BaseDocument {
  */
 export interface PRD extends BaseDocument {
   userStories: UserStory[]
+  jiraId?: string
 }
 
 /**
