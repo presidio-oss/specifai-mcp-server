@@ -116,7 +116,7 @@ export class ServerService {
     this.fileService = new FileService()
     this.miniSearch = new MiniSearch({
       fields: ['id', 'title', 'description', 'type', 'jiraId'],
-      storeFields: ['id', 'title', 'description', 'type', 'jiraId'],
+      storeFields: ['id', 'title', 'description', 'type', 'jiraId', 'linkedBRDIds'],
       searchOptions: {
         fuzzy: true,
       },
@@ -284,7 +284,7 @@ export class ServerService {
           {
             name: 'get-prds',
             description:
-              'Get Product Requirement Documents for this project, returns ID, Title, Description(not included by default), and Jira ID (when available)',
+              'Get Product Requirement Documents for this project, returns ID, Title, Description(not included by default), Jira ID (when available), and LinkedBRDIds (when available)',
             inputSchema: {
               type: 'object',
               properties: {
@@ -680,6 +680,9 @@ export class ServerService {
                   `Title: ${prd.title}`,
                   ...(includeDescription ? [`Description: ${prd.description}`] : []),
                   ...(prd.jiraId ? [`Jira ID: ${prd.jiraId}`] : []),
+                  ...(prd.linkedBRDIds && prd.linkedBRDIds.length > 0
+                    ? [`LinkedBRDIds: ${prd.linkedBRDIds.join(', ')}`]
+                    : []),
                 ]
 
                 if (includeUserStories) {
@@ -982,16 +985,21 @@ export class ServerService {
             }
 
             const allSearchResultString = searchResult
-              .map((doc) =>
-                [
+              .map((doc) => {
+                const lines = [
                   `ID: ${doc.id}`,
                   `Title: ${doc.title}`,
                   `Description: ${doc.description}`,
                   `Type: ${doc.type}`,
                   ...(doc.jiraId ? [`Jira ID: ${doc.jiraId}`] : []),
-                  '--------------',
-                ].join('\n')
-              )
+                ]
+
+                if (doc.type === 'PRD' && doc.linkedBRDIds && doc.linkedBRDIds.length > 0) {
+                  lines.push(`LinkedBRDIds: ${doc.linkedBRDIds.join(', ')}`)
+                }
+                lines.push('--------------')
+                return lines.join('\n')
+              })
               .join('\n')
 
             return this.createTextResponse(allSearchResultString)

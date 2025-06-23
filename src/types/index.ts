@@ -28,6 +28,7 @@ export interface UserStory extends BaseDocument {
 export interface PRD extends BaseDocument {
   userStories: UserStory[]
   jiraId?: string
+  linkedBRDIds?: string[]
 }
 
 /**

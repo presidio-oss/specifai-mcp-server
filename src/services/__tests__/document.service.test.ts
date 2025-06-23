@@ -44,6 +44,7 @@ class MockFileService {
             title: 'Test PRD',
             requirement: 'Test requirement',
             epicTicketId: 'HB-1001',
+            linkedBRDIds: ['BRD01', 'BRD02'],
           },
         },
         {
@@ -174,6 +175,7 @@ describe('DocumentService', () => {
       const prd = solution.PRD[0]
       expect(prd.id).toBe('PRD01')
       expect(prd.jiraId).toBe('HB-1001')
+      expect(prd.linkedBRDIds).toEqual(['BRD01', 'BRD02'])
       expect(prd.userStories).toHaveLength(2)
 
       // Check first user story with Jira ID

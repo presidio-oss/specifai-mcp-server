@@ -80,6 +80,7 @@ export class DocumentService {
             description: obj.content.requirement,
             ...(obj.content.epicTicketId && { jiraId: obj.content.epicTicketId }),
             userStories,
+            ...(obj.content.linkedBRDIds && { linkedBRDIds: obj.content.linkedBRDIds }),
           }
         }
         return null
