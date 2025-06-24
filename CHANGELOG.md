@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>0.4.3 (2025-06-24)</small>
+
+* docs: update README and add new image assets ([b36f642](https://github.com/presidio-oss/specifai-mcp-server/commit/b36f642))
+
 ## <small>0.4.2 (2025-06-24)</small>
 
 * docs: enhance README with detailed installation instructions and visual elements ([0ceca50](https://github.com/presidio-oss/specifai-mcp-server/commit/0ceca50))
