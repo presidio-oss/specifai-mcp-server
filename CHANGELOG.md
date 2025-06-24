@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>0.4.1 (2025-06-24)</small>
+
+* docs: update README with installation instructions and requirements ([e6fee36](https://github.com/presidio-oss/specifai-mcp-server/commit/e6fee36))
+
 ## 0.4.0 (2025-04-15)
 
 * feat(server): add search, list-all-tasks, and get-task-by-id tools & improvements ([98c32e6](https://github.com/presidio-oss/specifai-mcp-server/commit/98c32e6))
