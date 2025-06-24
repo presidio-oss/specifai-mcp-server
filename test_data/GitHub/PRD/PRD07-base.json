@@ -1,4 +1,5 @@
 {
   "requirement": "The app must allow users to create, view, manage, and close issues with labels, assignments, and due dates. Screens: A kanban-style board for issue management and individual issue detail pages. Personas: Developers tracking bugs and feature requests, and project managers prioritizing tasks.",
-  "title": "Issue Tracking"
+  "title": "Issue Tracking",
+  "linkedBRDIds": ["BRD14", "BRD15"]
 }

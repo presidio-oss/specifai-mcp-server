@@ -120,9 +120,20 @@ Recommended settings (`settings.json`):
    - Console logs are formatted with pino-pretty
 
 2. **Testing**
+
    - Use `test:watch` for development
    - Debug tests using Jest VSCode extension
    - Check coverage reports in `coverage/` directory
+
+3. **MCP Inspector**
+
+   Test your MCP server interactively:
+
+   ```bash
+   npx @modelcontextprotocol/inspector node index.ts
+   ```
+
+   The Inspector provides tabs to test resources, prompts, and tools with real-time feedback.
 
 ## Common Issues
 
