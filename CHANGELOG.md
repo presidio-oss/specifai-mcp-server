@@ -1,5 +1,17 @@
 # Changelog
 
+## <small>0.4.3 (2025-06-24)</small>
+
+* docs: update README and add new image assets ([b36f642](https://github.com/presidio-oss/specifai-mcp-server/commit/b36f642))
+
+## <small>0.4.2 (2025-06-24)</small>
+
+* docs: enhance README with detailed installation instructions and visual elements ([0ceca50](https://github.com/presidio-oss/specifai-mcp-server/commit/0ceca50))
+
+## <small>0.4.1 (2025-06-24)</small>
+
+* docs: update README with installation instructions and requirements ([e6fee36](https://github.com/presidio-oss/specifai-mcp-server/commit/e6fee36))
+
 ## 0.4.0 (2025-04-15)
 
 * feat(server): add search, list-all-tasks, and get-task-by-id tools & improvements ([98c32e6](https://github.com/presidio-oss/specifai-mcp-server/commit/98c32e6))
