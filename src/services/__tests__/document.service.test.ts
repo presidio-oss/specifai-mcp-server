@@ -36,6 +36,51 @@ class MockFileService {
         },
       ]
     }
+    // Test TC data - direct in TC directory
+    if (dir === '/test/path/TC') {
+      return []
+    }
+    // Test TC data - in US1 subdirectory
+    if (dir === '/test/path/TC/US1') {
+      return [
+        {
+          name: 'TC01-base.json',
+          content: {
+            id: 'TC01',
+            title: 'Test TC',
+            description: 'Test TC requirement',
+            preConditions: ['Precondition 1', 'Precondition 2'],
+            steps: [
+              {
+                stepNumber: 1,
+                action: 'Action 1',
+                expectedResult: 'Expected Result 1',
+              },
+            ],
+            priority: 'High',
+            type: 'Functional',
+          },
+        },
+        {
+          name: 'TC02-base.json',
+          content: {
+            id: 'TC02',
+            title: 'Test TC with requirement field',
+            requirement: 'Test TC requirement field',
+            preConditions: ['Precondition 1', 'Precondition 2'],
+            steps: [
+              {
+                stepNumber: 1,
+                action: 'Action 1',
+                expectedResult: 'Expected Result 1',
+              },
+            ],
+            priority: 'High',
+            type: 'Functional',
+          },
+        },
+      ]
+    }
     if (dir.endsWith('PRD')) {
       return [
         {
@@ -129,6 +174,9 @@ describe('DocumentService', () => {
 
   describe('loadSolution', () => {
     test('should load and process all document types with correct structure', async () => {
+      // Mock readdir to ensure US1 directory is found
+      jest.spyOn(require('fs/promises'), 'readdir').mockResolvedValue(['US1'])
+
       const solution = await documentService.loadSolution('/test/path')
 
       // Check all document types
@@ -144,6 +192,19 @@ describe('DocumentService', () => {
         id: 'test',
         title: 'Test Doc',
         description: 'Test requirement',
+      })
+
+      // Check TC documents
+      expect(solution.TC).toHaveLength(2)
+      expect(solution.TC[0]).toEqual({
+        id: 'TC01',
+        title: 'Test TC',
+        description: 'Test TC requirement',
+      })
+      expect(solution.TC[1]).toEqual({
+        id: 'TC02',
+        title: 'Test TC with requirement field',
+        description: 'Test TC requirement field',
       })
 
       // Check PRDs with user stories
@@ -212,7 +273,72 @@ describe('DocumentService', () => {
         PRD: [],
         NFR: [],
         UIR: [],
+        TC: [],
       })
+    })
+
+    test('should load test cases from user story subdirectories', async () => {
+      // Completely override the readAllJsonFiles method for this test only since the folder structure is different
+      mockFileService.readAllJsonFiles = jest.fn().mockImplementation((dir) => {
+        if (dir === '/test/path/TC/US1') {
+          return Promise.resolve([
+            {
+              name: 'TC01-base.json',
+              content: {
+                id: 'TC01',
+                title: 'Test TC',
+                description: 'Test TC requirement',
+                preConditions: ['Precondition 1', 'Precondition 2'],
+                steps: [
+                  {
+                    stepNumber: 1,
+                    action: 'Action 1',
+                    expectedResult: 'Expected Result 1',
+                  },
+                ],
+                priority: 'High',
+                type: 'Functional',
+              },
+            },
+            {
+              name: 'TC02-base.json',
+              content: {
+                id: 'TC02',
+                title: 'Test TC with requirement field',
+                requirement: 'Test TC requirement field',
+                preConditions: ['Precondition 1', 'Precondition 2'],
+                steps: [
+                  {
+                    stepNumber: 1,
+                    action: 'Action 1',
+                    expectedResult: 'Expected Result 1',
+                  },
+                ],
+                priority: 'High',
+                type: 'Functional',
+              },
+            },
+          ])
+        }
+        // Return empty array for all other directories
+        return Promise.resolve([])
+      })
+
+      // Mock readdir to return directories
+      jest
+        .spyOn(require('fs/promises'), 'readdir')
+        .mockResolvedValue(['US1', 'US2', 'other-file.txt'])
+
+      const solution = await documentService.loadSolution('/test/path')
+
+      // Verify that test cases were loaded from the US1 directory
+      expect(solution.TC).toHaveLength(2)
+      expect(solution.TC[0].id).toBe('TC01')
+      expect(solution.TC[0].title).toBe('Test TC')
+      expect(solution.TC[0].description).toBe('Test TC requirement')
+      expect(solution.TC[1].id).toBe('TC02')
+      expect(solution.TC[1].title).toBe('Test TC with requirement field')
+      expect(solution.TC[1].description).toBe('Test TC requirement field')
     })
   })
 

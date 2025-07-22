@@ -1,4 +1,5 @@
 import { join } from 'path'
+import { readdir } from 'fs/promises'
 import type {
   Solution,
   JsonFileContent,
@@ -8,6 +9,7 @@ import type {
   NFR,
   UIR,
   BP,
+  TC,
   UserStory,
   Task,
 } from '../types'
@@ -34,7 +36,7 @@ export class DocumentService {
     return objects.map((obj) => ({
       id: obj.name.replace('.json', '').replace('-base', ''),
       title: obj.content.title,
-      description: obj.content.requirement,
+      description: obj.content.description || obj.content.requirement,
     }))
   }
 
@@ -85,10 +87,50 @@ export class DocumentService {
   }
 
   /**
-   * Load all documents from a project directory
-   * @param projectPath - Path to the project directory
-   * @returns Solution containing all document types
+   * Load test cases from user story subdirectories
+   * @param tcPath - Path to the TC directory
+   * @returns Array of test case file contents
    */
+  private async loadTestCases(tcPath: string): Promise<JsonFileContent[]> {
+    try {
+      // First check if the TC directory exists
+      if (!(await this.fileService.isDirectory(tcPath))) {
+        logger.warn({ tcPath }, 'TC directory not found')
+        return []
+      }
+
+      // Get all user story directories (US1, US2, etc.)
+      const userStoryDirs = await readdir(tcPath)
+
+      // Filter directories that start with "US"
+      const usDirectories = userStoryDirs.filter((dir: string) => dir.startsWith('US'))
+
+      // If no user story directories found, try reading directly from TC directory
+      if (usDirectories.length === 0) {
+        logger.info(
+          { tcPath },
+          'No user story directories found, reading directly from TC directory'
+        )
+        return await this.fileService.readAllJsonFiles(tcPath)
+      }
+
+      // Read test cases from each user story directory
+      const allTestCases: JsonFileContent[] = []
+
+      for (const usDir of usDirectories) {
+        const usPath = join(tcPath, usDir)
+        const testCases = await this.fileService.readAllJsonFiles(usPath)
+        allTestCases.push(...testCases)
+      }
+
+      logger.info({ count: allTestCases.length }, 'Loaded test cases from user story directories')
+      return allTestCases
+    } catch (error) {
+      logger.error({ error, tcPath }, 'Error loading test cases')
+      return []
+    }
+  }
+
   async loadSolution(projectPath: string): Promise<Solution> {
     logger.info({ projectPath }, 'Loading solution')
 
@@ -106,12 +148,16 @@ export class DocumentService {
         this.fileService.readAllJsonFiles(join(projectPath, 'UIR')),
       ])
 
+      // Load test cases from user story subdirectories
+      const tcs = await this.loadTestCases(join(projectPath, 'TC'))
+
       const solution = {
         BP: this.normalize(bps) as BP[],
         BRD: this.normalize(brds) as BRD[],
         PRD: this.processPRDs(prds),
         NFR: this.normalize(nfrs) as NFR[],
         UIR: this.normalize(uirs) as UIR[],
+        TC: this.normalize(tcs) as TC[],
       }
 
       logger.info(
@@ -121,6 +167,7 @@ export class DocumentService {
           prdsCount: solution.PRD.length,
           nfrsCount: solution.NFR.length,
           uirsCount: solution.UIR.length,
+          tcsCount: solution.TC.length,
         },
         'Solution loaded successfully'
       )
@@ -134,6 +181,7 @@ export class DocumentService {
         PRD: [],
         NFR: [],
         UIR: [],
+        TC: [],
       }
     }
   }

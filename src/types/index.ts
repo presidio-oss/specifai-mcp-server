@@ -47,6 +47,11 @@ export interface UIR extends BaseDocument {}
 export interface BP extends BaseDocument {}
 
 /**
+ * Test case document
+ */
+export interface TC extends BaseDocument {}
+
+/**
  * Complete solution containing all document types
  */
 export interface Solution {
@@ -55,6 +60,7 @@ export interface Solution {
   NFR: NFR[]
   BP: BP[]
   UIR: UIR[]
+  TC: TC[]
 }
 
 /**

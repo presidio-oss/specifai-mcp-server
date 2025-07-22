@@ -52,7 +52,7 @@ const GetTaskByIdRequestSchema = object({
 const SearchRequestSchema = object({
   searchTerm: z.string(),
   cwd: z.string(),
-  type: z.enum(['PRD', 'BRD', 'NFR', 'UIR', 'BP', 'US', 'TASK']).optional(),
+  type: z.enum(['PRD', 'BRD', 'NFR', 'UIR', 'TC', 'BP', 'US', 'TASK']).optional(),
 })
 
 const GetBRsRequestSchema = object({
@@ -86,6 +86,13 @@ const GetUIRsRequestSchema = object({
 })
 
 const GetBPsRequestSchema = object({
+  cwd: z.string(),
+  includeDescription: z.boolean().optional().default(false),
+  limit: z.number().optional().default(10),
+  offset: z.number().optional().default(0),
+})
+
+const GetTCsRequestSchema = object({
   cwd: z.string(),
   includeDescription: z.boolean().optional().default(false),
   limit: z.number().optional().default(10),
@@ -397,6 +404,32 @@ export class ServerService {
             },
           },
           {
+            name: 'get-tcs',
+            description: 'Get Test Case Documents for this project',
+            inputSchema: {
+              type: 'object',
+              properties: {
+                cwd: {
+                  type: 'string',
+                  description: cwdMessage,
+                },
+                includeDescription: {
+                  type: 'boolean',
+                  description: 'Include description in the output, default is false',
+                },
+                limit: {
+                  type: 'number',
+                  description: 'Limit the number of documents to return, default is 10',
+                },
+                offset: {
+                  type: 'number',
+                  description: 'Offset the number of documents to return, default is 0',
+                },
+              },
+              required: ['cwd'],
+            },
+          },
+          {
             name: 'get-user-stories',
             description: 'Get User Stories for a particular PRD',
             inputSchema: {
@@ -546,7 +579,7 @@ export class ServerService {
                 type: {
                   type: 'string',
                   description:
-                    'Optional type of document to search in, valid values are: PRD, BRD, NFR, UIR, BP, US, TASK',
+                    'Optional type of document to search in, valid values are: PRD, BRD, NFR, UIR, TC, BP, US, TASK',
                 },
                 cwd: {
                   type: 'string',
@@ -570,6 +603,7 @@ export class ServerService {
       ...this.solution.NFR.map((nfr) => ({ ...nfr, type: 'NFR' })),
       ...this.solution.UIR.map((uir) => ({ ...uir, type: 'UIR' })),
       ...this.solution.BP.map((bp) => ({ ...bp, type: 'BP' })),
+      ...this.solution.TC.map((tc) => ({ ...tc, type: 'TC' })),
       ...this.solution.PRD.flatMap((prd) => prd.userStories).map((userStory) => ({
         ...userStory,
         type: 'US',
@@ -796,6 +830,37 @@ export class ServerService {
 
             if (docs.length === 0) {
               return this.createTextResponse('No BPs found')
+            }
+
+            return this.createTextResponse(this.formatDocumentsV2(docs))
+          }
+
+          case 'get-tcs': {
+            const { cwd, includeDescription, limit, offset } = GetTCsRequestSchema.parse(args)
+
+            // Try to infer project path if provided
+            if (cwd) {
+              await this.loadSolutionByAutoInference(cwd)
+            }
+
+            if (!this.solution || !cwd) {
+              throw new Error(
+                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+              )
+            }
+
+            const docs = this.paginate(
+              this.solution.TC.map((tc) => ({
+                ID: tc.id,
+                Title: tc.title,
+                ...(includeDescription ? { Description: tc.description } : {}),
+              })),
+              limit,
+              offset
+            )
+
+            if (docs.length === 0) {
+              return this.createTextResponse('No Test Cases found')
             }
 
             return this.createTextResponse(this.formatDocumentsV2(docs))
