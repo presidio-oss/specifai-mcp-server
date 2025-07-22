@@ -1,0 +1,33 @@
+{
+  "id": "TC01",
+  "title": "User Authentication and Dashboard Access Test",
+  "description": "Verify that users can successfully create an account, log in, and access the main dashboard. The test should confirm that all UI elements are properly displayed and functional across different browsers and devices.",
+  "preConditions": [
+    "The Discord application is installed and running.",
+    "User has a valid email address for registration."
+  ],
+  "steps": [
+    {
+      "stepNumber": 1,
+      "action": "Open the Discord application and navigate to the registration page.",
+      "expectedResult": "The registration page loads successfully with all form fields visible."
+    },
+    {
+      "stepNumber": 2,
+      "action": "Enter valid registration information and submit the form.",
+      "expectedResult": "The system accepts the information and creates a new account."
+    },
+    {
+      "stepNumber": 3,
+      "action": "Log out and then log back in with the newly created credentials.",
+      "expectedResult": "Login is successful and redirects to the main dashboard."
+    },
+    {
+      "stepNumber": 4,
+      "action": "Verify that all UI elements on the dashboard are properly displayed.",
+      "expectedResult": "All UI elements are visible, properly aligned, and functional."
+    }
+  ],
+  "priority": "High",
+  "type": "Functional"
+}

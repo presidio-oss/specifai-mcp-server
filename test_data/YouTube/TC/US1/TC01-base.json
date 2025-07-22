@@ -1,0 +1,33 @@
+{
+  "id": "TC01",
+  "title": "YouTube User Authentication and Home Page Access Test",
+  "description": "Verify that users can successfully sign in to YouTube with a Google account and access the home page. The test should confirm that all UI elements are properly displayed and functional across different browsers and devices.",
+  "preConditions": [
+    "YouTube is accessible via web browser.",
+    "User has a valid Google account for sign-in."
+  ],
+  "steps": [
+    {
+      "stepNumber": 1,
+      "action": "Navigate to YouTube's home page.",
+      "expectedResult": "The YouTube home page loads successfully with recommended videos visible."
+    },
+    {
+      "stepNumber": 2,
+      "action": "Click the 'Sign In' button and enter valid Google credentials.",
+      "expectedResult": "The system accepts the credentials and logs the user in."
+    },
+    {
+      "stepNumber": 3,
+      "action": "Verify that the user is redirected back to the YouTube home page with personalized recommendations.",
+      "expectedResult": "Home page loads with personalized content based on user's watch history and subscriptions."
+    },
+    {
+      "stepNumber": 4,
+      "action": "Verify that all UI elements on the home page are properly displayed.",
+      "expectedResult": "All UI elements are visible, properly aligned, and functional."
+    }
+  ],
+  "priority": "High",
+  "type": "Functional"
+}

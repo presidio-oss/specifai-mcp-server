@@ -1,0 +1,34 @@
+{
+  "id": "TC02",
+  "title": "YouTube Video Upload and Management Test",
+  "description": "Verify that users can successfully upload, edit, and manage videos on YouTube. The test should confirm that all video management features work as expected.",
+  "preConditions": [
+    "User has a valid YouTube/Google account and is logged in.",
+    "User has appropriate permissions to upload videos.",
+    "User has a video file ready for upload."
+  ],
+  "steps": [
+    {
+      "stepNumber": 1,
+      "action": "Navigate to the 'Create' button and select 'Upload video'.",
+      "expectedResult": "The video upload page loads successfully with all form fields visible."
+    },
+    {
+      "stepNumber": 2,
+      "action": "Select a video file for upload and wait for the upload to complete.",
+      "expectedResult": "The video file is uploaded successfully and the details form is displayed."
+    },
+    {
+      "stepNumber": 3,
+      "action": "Enter video details (title, description, thumbnail, visibility) and save changes.",
+      "expectedResult": "The system saves the video details and begins processing the video."
+    },
+    {
+      "stepNumber": 4,
+      "action": "Navigate to the 'Your videos' section and verify the uploaded video is present.",
+      "expectedResult": "The uploaded video appears in the list with the correct details and status."
+    }
+  ],
+  "priority": "High",
+  "type": "Functional"
+}

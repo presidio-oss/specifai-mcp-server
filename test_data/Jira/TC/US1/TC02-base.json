@@ -1,0 +1,34 @@
+{
+  "id": "TC02",
+  "title": "Jira Issue Creation and Management Test",
+  "description": "Verify that users can successfully create, view, edit, and transition issues through a workflow. The test should confirm that all issue management features work as expected.",
+  "preConditions": [
+    "User has a valid Jira account and is logged in.",
+    "User has appropriate permissions to create and manage issues.",
+    "At least one project exists in the Jira instance."
+  ],
+  "steps": [
+    {
+      "stepNumber": 1,
+      "action": "Navigate to a project and click 'Create Issue'.",
+      "expectedResult": "The issue creation form loads successfully with all fields visible."
+    },
+    {
+      "stepNumber": 2,
+      "action": "Enter issue details (summary, description, type, priority) and create the issue.",
+      "expectedResult": "The system creates the issue and displays it with all entered information."
+    },
+    {
+      "stepNumber": 3,
+      "action": "Edit the issue to update its fields and save changes.",
+      "expectedResult": "Changes are saved successfully and reflected in the issue details."
+    },
+    {
+      "stepNumber": 4,
+      "action": "Transition the issue to a different status in the workflow.",
+      "expectedResult": "Issue status is updated and the issue appears in the appropriate column on the board."
+    }
+  ],
+  "priority": "High",
+  "type": "Functional"
+}
