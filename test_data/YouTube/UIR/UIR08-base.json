@@ -1,4 +1,4 @@
 {
-  "requirement": "The navigation bar should include Home, Explore, Subscriptions, Library, and Profile sections, dynamically updating based on user interactions.",
-  "title": "Dynamic Navigation Bar"
+  "title": "Interactive Commenting System",
+  "requirement": "The commenting system must enable users to comment, reply, and like other comments with intuitive actions placed near each video."
 }

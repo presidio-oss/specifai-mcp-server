@@ -1,4 +1,4 @@
 {
-  "requirement": "Implement robust security measures, including two-factor authentication, data encryption, and fraud prevention mechanisms, to protect user accounts and sensitive information.",
-  "title": "Enhance Platform Security Features"
+  "title": "User Account Personalization",
+  "requirement": "Allow users to create and customize their accounts with profile pictures, playlists, saved videos, subscription lists, and viewing history for easier access to relevant content."
 }

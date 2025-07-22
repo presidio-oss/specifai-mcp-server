@@ -1,4 +1,4 @@
 {
-  "requirement": "The system must utilize a technology stack that supports microservices architecture, cloud-based deployments, and containerization with tools like Kubernetes.",
-  "title": "Technology Stack Constraints"
+  "title": "Low storage footprint",
+  "requirement": "Optimize offline content downloads to minimize disk space and memory usage for users across device types."
 }

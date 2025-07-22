@@ -1,4 +1,4 @@
 {
-  "requirement": "Allow users to create, manage, and share custom playlists effortlessly, supporting the addition of songs from the music library and enabling collaborative playlist options with friends or family.",
-  "title": "Playlist Creation Feature"
+  "title": "Playlist Creation Capability",
+  "requirement": "Allow users to create, customize, and share playlists easily, facilitating options to reorder tracks, add descriptions, and collaborate with other users while maintaining an intuitive interface."
 }

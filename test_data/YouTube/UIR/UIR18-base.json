@@ -1,4 +1,0 @@
-{
-  "requirement": "Dynamic elements like tooltips and modals should appear only when triggered and must include clear options for closure or dismissal.",
-  "title": "Tooltip and Modal Behavior"
-}

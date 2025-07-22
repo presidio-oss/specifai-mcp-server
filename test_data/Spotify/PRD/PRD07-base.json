@@ -1,4 +1,7 @@
 {
-  "requirement": "The app should provide pre-curated playlists categorized by mood, genre, themes, or activity. Screens: A discovery screen showcasing thematic playlists arranged by categories like 'Chill,' 'Workout,' and 'Party.' Personas: Users searching for music matching specific moods or occasions.",
-  "title": "Curated Genre-Based Playlists"
+  "title": "Sync Across Devices",
+  "requirement": "Enable real-time synchronization of user data, including playlists, streaming history, and preferences across smartphones, desktops, and tablets.  \n#### Screens:  \n* Device Management Screen: Show list of connected devices and sync status.  \n#### Personas:  \n* Multi-Device User: Switches seamlessly between devices during daily use.  \n* Global Traveler: Prefers syncing across portable and static devices for flexibility.",
+  "linkedBRDIds": [
+    "BRD07"
+  ]
 }

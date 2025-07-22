@@ -1,4 +1,4 @@
 {
-  "requirement": "Support community-building features like comments, likes, dislikes, polls, and shared posts that foster interaction between content creators and viewers, enriching the platform’s social element.",
-  "title": "Enable Community Engagement Tools"
+  "title": "Mobile Accessibility Features",
+  "requirement": "Provide optimized support for mobile devices with dedicated apps for Android and iOS, including offline viewing, gesture controls, and mobile-first UI/UX design principles."
 }

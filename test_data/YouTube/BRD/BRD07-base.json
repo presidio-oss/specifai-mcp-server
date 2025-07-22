@@ -1,4 +1,4 @@
 {
-  "requirement": "Develop an advanced search algorithm that allows users to search videos based on title, description, tags, and keywords while supporting filters such as upload date, length, and popularity for precise discovery.",
-  "title": "Implement Robust Search Capabilities"
+  "title": "Channel Management Dashboard",
+  "requirement": "Develop a dashboard for creators to manage their channels, analyze audience metrics, monitor revenue performance, schedule uploads, and customize channel aesthetics such as banners and branding."
 }

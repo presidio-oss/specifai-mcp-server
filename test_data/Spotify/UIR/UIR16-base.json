@@ -1,4 +1,0 @@
-{
-  "requirement": "The app should handle low-network conditions gracefully by preloading key assets, providing fallback options for media playback, and showing appropriate notifications.",
-  "title": "Low-Network Optimization"
-}

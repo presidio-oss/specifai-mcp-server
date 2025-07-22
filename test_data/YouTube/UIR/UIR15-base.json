@@ -1,4 +1,4 @@
 {
-  "requirement": "The UI should display appropriate messages and behavior when the app is in offline mode, while providing options to retry loading resources.",
-  "title": "Offline State Handling"
+  "title": "Performance Optimization",
+  "requirement": "UI elements like videos, thumbnails, and navigation menus must load quickly and efficiently, with fallback options for slower connections."
 }

@@ -1,4 +1,4 @@
 {
-  "requirement": "Ensure fast and accurate search results and personalized recommendations with a response time of less than 1 second.",
-  "title": "Efficient Search and Recommendations"
+  "title": "Efficient Live Streaming",
+  "requirement": "The platform must support low-latency live streaming with a delay of under 5 seconds for enhanced interactivity."
 }

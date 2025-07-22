@@ -1,4 +1,4 @@
 {
-  "requirement": "The application should support full keyboard navigation, ensuring that all functionalities, including searching, playback, and content navigation, are accessible via keyboard shortcuts.",
-  "title": "Keyboard Navigation"
+  "title": "Accessibility Compliance Standards",
+  "requirement": "The UI must comply with WCAG guidelines, ensuring support for screen readers, keyboard navigation, adjustable font sizes, and high-contrast themes for usability by all users."
 }

@@ -1,4 +1,4 @@
 {
-  "requirement": "All elements must be labeled appropriately to provide meaningful descriptions for screen readers, ensuring visually impaired users can navigate and interact with the app.",
-  "title": "Screen Reader Compatibility"
+  "title": "Interactive Feedback Messages",
+  "requirement": "The application should provide clear feedback messages for user actions, such as successful downloads, playlist updates, or errors during playback or network issues."
 }

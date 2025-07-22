@@ -1,4 +1,4 @@
 {
-  "requirement": "Content recommendation algorithms must generate suggestions in under 500ms for a seamless user experience.",
-  "title": "Personalized Recommendation Speed"
+  "title": "User feedback integration",
+  "requirement": "Support **feedback analytics** for improving recommendations using user listening behaviors and preferences."
 }

@@ -1,4 +1,4 @@
 {
-  "requirement": "The home screen should prominently display personalized recommendations, including playlists, songs, and podcasts, with visually appealing card-based layouts and clear action buttons for playback.",
-  "title": "Home Screen Design"
+  "title": "On-Demand Music Access",
+  "requirement": "The interface must allow users to search, browse, and select songs, playlists, and podcasts effortlessly, with an intuitive search bar and advanced filters for personalized results."
 }

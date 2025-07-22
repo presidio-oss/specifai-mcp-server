@@ -1,4 +1,10 @@
 {
-  "requirement": "The app should allow users to create accounts and log in via email, password, or supported third-party integrations like Google or Facebook. Screens: A registration screen prompting users for their details and a login screen enabling secure authentication. Personas: New users looking to set up an account and existing users returning to access their music.",
-  "title": "User Account Management"
+  "title": "Music Playback Engine",
+  "requirement": "Enable seamless streaming of millions of songs with high playback quality and support for diverse genres, catering to a global audience.\n\n#### Screens:\n\n- Home Screen: Show recommended and trending songs grouped by genre and region.\n- Playback Screen: Display song details like album art, artist name, and playback controls (play/pause, skip, etc.).\n#### Personas:\n\n- Music Enthusiast: Listens to a variety of genres and artists worldwide.\n- Casual Listener: Prefers accessing popular music easily without complexity.\n",
+  "linkedBRDIds": [
+    "BRD01"
+  ],
+  "pmoId": "HB-7526",
+  "lastPushToJiraTimestamp": "2025-07-22T06:26:20.438Z",
+  "lastPullFromJiraTimestamp": "2025-07-22T06:26:31.118Z"
 }

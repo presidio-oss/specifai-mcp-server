@@ -1,4 +1,4 @@
 {
-  "requirement": "Provide an extensive catalog of podcasts across multiple genres, supporting on-demand playback, episode downloads, and automatic updates for new episodes to ensure a seamless podcast experience.",
-  "title": "Podcast Catalog Integration"
+  "title": "Offline Listening Access",
+  "requirement": "Implement offline listening capabilities by enabling users to download selected songs, playlists, or podcasts and access them without an internet connection while ensuring proper digital rights management."
 }

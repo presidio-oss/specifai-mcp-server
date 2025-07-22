@@ -1,4 +1,4 @@
 {
-  "requirement": "The app must ensure a minimum 99.9% uptime with proactive monitoring and failover mechanisms to handle server outages.",
-  "title": "Reliable Service Uptime"
+  "title": "Database reliability",
+  "requirement": "Implement fault-tolerant mechanisms to ensure _zero downtime_ for user authentication, data access, and personalized recommendations."
 }

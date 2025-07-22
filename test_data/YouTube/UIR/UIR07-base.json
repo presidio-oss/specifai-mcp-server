@@ -1,4 +1,4 @@
 {
-  "requirement": "A search bar should be available with autocomplete functionality and filters for sorting videos by category, upload date, view count, and duration.",
-  "title": "Search and Filtering Options"
+  "title": "Monetization Setup Flow",
+  "requirement": "Creators must have access to a monetization setup UI that facilitates ad preferences, monetization status overview, and control of revenue streams."
 }

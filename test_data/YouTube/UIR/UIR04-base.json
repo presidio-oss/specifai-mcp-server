@@ -1,4 +1,4 @@
 {
-  "requirement": "A dedicated section should be included for initiating live streams with features such as real-time chat, viewer counts, and live reactions.",
-  "title": "Live Streaming Functionality"
+  "title": "Channel Customizations",
+  "requirement": "Users should be able to personalize their channels, including uploading unique profile pictures and banners with pre-set dimension guidelines."
 }

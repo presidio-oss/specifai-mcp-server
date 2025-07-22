@@ -1,4 +1,7 @@
 {
-  "requirement": "The app should allow users to create and customize channels with profile photos, banners, and descriptions. Screens: A channel management screen for branding and analytics. Personas: Aspiring creators who want to build their online presence and showcase their content.",
-  "title": "Channel Creation and Management"
+  "title": "User and Creator Analytics",
+  "requirement": "Provide creators with insights on viewer demographics, engagement, and revenue, while allowing viewers to track their personal watch habits.  \n#### Screens:  \n- **Analytics Dashboard (Creators)**: Offers data visualizations on audience behavior.  \n- **User Activity Screen (Viewers)**: Summarizes viewing and subscription history.  \n#### Personas:  \n- **Creators**: Need actionable insights to optimize content.  \n- **Viewers**: Interested in tracking their activity patterns.",
+  "linkedBRDIds": [
+    "BRD11"
+  ]
 }

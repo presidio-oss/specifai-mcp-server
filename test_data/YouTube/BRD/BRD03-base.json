@@ -1,4 +1,4 @@
 {
-  "requirement": "Create an AI-driven recommendation engine that suggests relevant videos based on user behavior, preferences, and history, increasing engagement and watch time on the platform.",
-  "title": "Recommend Personalized Content"
+  "title": "Recommendation Algorithm",
+  "requirement": "Develop an intelligent recommendation system to suggest relevant videos to users based on their watch history, preferences, and engagement patterns using data-driven machine learning methods."
 }

@@ -1,4 +1,4 @@
 {
-  "requirement": "The platform must maintain 99.9% uptime, ensuring uninterrupted service for live streaming and video playback.",
-  "title": "24/7 System Uptime"
+  "title": "Fast Video Playback Performance",
+  "requirement": "Video streaming should load within 2 seconds for standard network conditions to ensure a smooth user experience."
 }

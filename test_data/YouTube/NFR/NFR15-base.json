@@ -1,4 +1,4 @@
 {
-  "requirement": "Optimize the app to minimize battery consumption during video playback and background operation on mobile devices.",
-  "title": "Energy-Efficient Mobile Usage"
+  "title": "Platform Resource Efficiency",
+  "requirement": "Optimize platform resource usage to not exceed 75% of system capacity under normal operating conditions."
 }

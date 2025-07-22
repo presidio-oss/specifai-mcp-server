@@ -1,4 +1,7 @@
 {
-  "requirement": "Users should have options to shuffle the playback order of songs or repeat individual tracks and playlists. Screens: Playback control buttons accessible from the now-playing screen. Personas: Users who enjoy variety or want to loop their favorite songs.",
-  "title": "Shuffle and Repeat Controls"
+  "title": "High-Definition Audio Options",
+  "requirement": "Offer varied audio quality settings, including high-definition streaming, addressing diverse bandwidth capabilities globally.  \n#### Screens:  \n* Audio Preferences Screen: Allows adjustment of audio quality in playback settings.  \n#### Personas:  \n* Audiophile: Prefers superior audio quality with high fidelity.  \n* Standard User: Chooses quality based on bandwidth availability.",
+  "linkedBRDIds": [
+    "BRD12"
+  ]
 }

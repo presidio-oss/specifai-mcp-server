@@ -1,4 +1,4 @@
 {
-  "requirement": "The app must support low latency music and podcast streaming with uninterrupted playback, even during peak usage hours.",
-  "title": "High Performance Standards"
+  "title": "Scalability for global users",
+  "requirement": "_Spotify_ must handle millions of concurrent global users without degradation in performance."
 }

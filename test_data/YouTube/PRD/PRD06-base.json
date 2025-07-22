@@ -1,4 +1,7 @@
 {
-  "requirement": "Users should be able to subscribe to channels and receive notifications when new content is uploaded. Screens: A subscriptions feed displaying new content and a notification center for alerts. Personas: Regular viewers who follow their favorite creators and want timely updates on their new uploads.",
-  "title": "Subscription and Notification"
+  "title": "Enhanced User Engagement",
+  "requirement": "Enable commenting, liking, disliking, and sharing functionalities. Provide creators with tools to moderate and highlight comments.  \n#### Screens:  \n- **Video Engagement Section**: Lists likes/dislikes, comments, and sharing options.  \n- **Engagement Dashboard**: Allows creators to view and moderate interactions.  \n#### Personas:  \n- **Viewers**: Wish to express opinions and share content.  \n- **Creators**: Need tools to foster and manage community engagement.",
+  "linkedBRDIds": [
+    "BRD06"
+  ]
 }

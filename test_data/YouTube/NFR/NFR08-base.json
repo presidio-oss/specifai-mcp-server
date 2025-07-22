@@ -1,4 +1,4 @@
 {
-  "requirement": "The app must be available and perform consistently across web browsers, Android, iOS, smart TVs, and gaming consoles.",
-  "title": "Cross-Platform Compatibility"
+  "title": "User-Friendly Maintenance",
+  "requirement": "System updates and maintenance must not interrupt user activity and should be planned during low usage periods."
 }

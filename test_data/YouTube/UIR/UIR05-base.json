@@ -1,4 +1,4 @@
 {
-  "requirement": "The UI should provide creators with tools to enable monetization settings, view earnings analytics, and manage ad placements on their videos.",
-  "title": "Creator Monetization Tools"
+  "title": "Live Streaming UI",
+  "requirement": "The live streaming interface must include real-time chat, viewer count display, and easy control buttons for stream management."
 }

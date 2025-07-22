@@ -1,4 +1,4 @@
 {
-  "requirement": "A high contrast mode should be available to ensure text readability and distinguishable interface components for visually impaired users.",
-  "title": "High Contrast Mode"
+  "title": "Dynamic Dropdown Menus",
+  "requirement": "The UI should include dropdown menus for navigation, such as selecting video categories or sorting content, with smooth animations and intuitive behavior."
 }

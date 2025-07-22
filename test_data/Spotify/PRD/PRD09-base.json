@@ -1,4 +1,7 @@
 {
-  "requirement": "The app should enable users to share playlists, songs, and podcasts directly to social media platforms or with other users via links. Screens: A share modal enabling content sharing options like links or platform selection. Personas: Users interested in sharing their music preferences with friends or followers.",
-  "title": "Social Sharing"
+  "title": "Social Sharing Integration",
+  "requirement": "Introduce social features for playlist sharing, collaborative creation, following friends/artists, and viewing user activity feeds.  \n#### Screens:  \n* Social Dashboard: Displays user activity and shared playlists.  \n* Friends List: Allows users to manage connections and follow artists easily.  \n#### Personas:  \n* Community Builder: Enjoys connecting with others and sharing activities.  \n* Music Influencer: Uses collaborative playlists to grow influence.",
+  "linkedBRDIds": [
+    "BRD09"
+  ]
 }

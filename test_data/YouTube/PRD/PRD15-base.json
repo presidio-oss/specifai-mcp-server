@@ -1,4 +1,7 @@
 {
-  "requirement": "The app should integrate with platforms like Google Drive for file uploads and social media for sharing content. Screens: An integration settings screen to connect accounts and manage permissions. Personas: Users who want seamless connectivity with other platforms for enhanced functionality.",
-  "title": "Integration with External Platforms"
+  "title": "Ad Placement Optimization",
+  "requirement": "Deploy an intelligent ad placement system that ensures minimal user disruption while maximizing revenue.  \n#### Screens:  \n- **Ad Performance Dashboard**: Allows creators to manage and optimize ad placements.  \n#### Personas:  \n- **Advertisers**: Interested in maximizing ad performance.  \n- **Creators**: Seek revenue without alienating users.",
+  "linkedBRDIds": [
+    "BRD15"
+  ]
 }

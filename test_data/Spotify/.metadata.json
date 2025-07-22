@@ -1,9 +1,55 @@
 {
+  "id": "62518b15-a519-433b-a947-a3c45286240e",
   "name": "Spotify",
   "description": "Spotify is a music streaming service that offers on-demand access to millions of songs, podcasts, and playlists with personalized recommendations and offline listening.",
   "technicalDetails": "Java, GCP",
   "createReqt": true,
-  "id": "6b82f1f5-5933-4908-bca5-79ee11cbb755",
-  "createdAt": "2025-02-20T07:37:02.573Z",
-  "cleanSolution": false
+  "createdAt": "2025-07-22T06:11:33.953Z",
+  "cleanSolution": false,
+  "BRD": {
+    "enabled": true,
+    "minCount": 15,
+    "count": 15
+  },
+  "PRD": {
+    "enabled": true,
+    "minCount": 15,
+    "count": 15
+  },
+  "UIR": {
+    "enabled": true,
+    "minCount": 15,
+    "count": 15
+  },
+  "NFR": {
+    "enabled": true,
+    "minCount": 15,
+    "count": 15
+  },
+  "mcpSettings": {
+    "mcpServers": {}
+  },
+  "isFailed": false,
+  "failureInfo": null,
+  "BP": {
+    "count": 0
+  },
+  "US": {
+    "count": 5
+  },
+  "TASK": {
+    "count": 35
+  },
+  "TC": {
+    "count": 0
+  },
+  "integration": {
+    "selectedPmoTool": "jira",
+    "jira": {
+      "jiraProjectKey": "",
+      "clientId": "",
+      "clientSecret": "",
+      "redirectUrl": "http://localhost:12345/callback"
+    }
+  }
 }

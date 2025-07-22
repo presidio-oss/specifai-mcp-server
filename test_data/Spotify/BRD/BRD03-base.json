@@ -1,4 +1,4 @@
 {
-  "requirement": "Develop algorithms to provide personalized music and podcast recommendations based on listening history, user preferences, and trending content, enhancing user engagement and retention.",
-  "title": "Personalized Recommendations"
+  "title": "Podcast Streaming Feature",
+  "requirement": "Provide an integrated platform for streaming thousands of podcasts, including the ability to browse by categories, search by topics or hosts, and save user preferences for future listening."
 }

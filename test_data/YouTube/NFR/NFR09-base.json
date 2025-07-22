@@ -1,4 +1,4 @@
 {
-  "requirement": "Platform updates must be deployable with zero downtime to ensure uninterrupted user experience.",
-  "title": "Seamless Software Updates"
+  "title": "Technology Stack Compatibility",
+  "requirement": "The app must utilize modern, proven technologies and frameworks that are widely supported for long-term sustainability."
 }

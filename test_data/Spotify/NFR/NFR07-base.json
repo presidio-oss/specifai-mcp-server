@@ -1,4 +1,4 @@
 {
-  "requirement": "Ensure reliable functionality of downloaded content, even without network connectivity, with content expiration policies in place.",
-  "title": "Offline Playback Capability"
+  "title": "Authentication security",
+  "requirement": "Implement strong user authentication protocols (e.g., two-factor authentication) to prevent unauthorized access."
 }

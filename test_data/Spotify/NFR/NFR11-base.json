@@ -1,4 +1,4 @@
 {
-  "requirement": "The app must optimize memory and CPU usage, ensuring low resource consumption across all supported devices.",
-  "title": "Resource Efficiency Standards"
+  "title": "Energy-efficient usage",
+  "requirement": "Design the app to reduce battery consumption during streaming and ensure optimal resource usage."
 }

@@ -1,4 +1,4 @@
 {
-  "requirement": "The user interface should include options for leaving comments, replying, liking or disliking videos, and subscribing to channels, with real-time engagement updates.",
-  "title": "Commenting and Engagement"
+  "title": "Content Discovery Tools",
+  "requirement": "The UI should feature powerful search functionality with filters (e.g., upload date, length), trending sections, and category-based navigation for easier content discovery."
 }

@@ -1,4 +1,7 @@
 {
-  "requirement": "The app should send push notifications for new music releases, playlist updates, and podcast episodes. Screens: A notification settings screen where users can manage their preferences for different types of alerts. Personas: Users who want to stay updated on their favorite artists and shows.",
-  "title": "Push Notifications for Updates"
+  "title": "Parental Control Mechanisms",
+  "requirement": "Add parental control settings to restrict explicit content and manage accessibility for child accounts, ensuring a family-friendly experience.  \n#### Screens:  \n* Parental Settings Screen: Allows control over explicit content and account permissions.  \n#### Personas:  \n* Concerned Parent: Prioritizes safety and control for child users.",
+  "linkedBRDIds": [
+    "BRD15"
+  ]
 }

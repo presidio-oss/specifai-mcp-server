@@ -1,4 +1,7 @@
 {
-  "requirement": "The app should enable registered users to upload video files with descriptions, tags, thumbnails, and privacy settings. Screens: An upload screen with inputs for video, metadata, and privacy settings. Personas: Content creators who want to share their videos and manage their audience.",
-  "title": "Video Upload Functionality"
+  "title": "High-Quality Video Playback",
+  "requirement": "Provide a seamless video streaming experience across multiple resolutions (480p to 4K) with autoplay, subtitles, and adjustable playback speed.  \n#### Screens:  \n- **Video Player Screen**: Includes resolution selectors, speed controls, and subtitle support.  \n#### Personas:  \n- **Viewers**: Seek a high-quality and customizable playback experience.",
+  "linkedBRDIds": [
+    "BRD02"
+  ]
 }

@@ -1,4 +1,4 @@
 {
-  "requirement": "The app must comply with international music copyright laws and licensing agreements in all operating regions.",
-  "title": "Content Copyright Compliance"
+  "title": "Data security compliance",
+  "requirement": "Protect user-sensitive data through encryption and adherence to **GDPR** and other relevant data protection regulations."
 }

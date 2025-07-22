@@ -1,4 +1,7 @@
 {
-  "requirement": "The app should provide monetization tools like ads, memberships, and sponsorships for eligible creators. Screens: A creator dashboard showing revenue analytics and tools to set up monetization. Personas: Creators seeking to earn income from their content and manage their earnings effectively.",
-  "title": "Content Monetization Options"
+  "title": "Mobile-Friendly Experience",
+  "requirement": "Optimize the platform for mobile use with Android/iOS apps featuring offline viewing, gesture navigation, and mobile-first design.  \n#### Screens:  \n- **Mobile Homepage**: Tailored for compact screens with intuitive navigation.  \n#### Personas:  \n- **Mobile Users**: Expect streamlined, user-friendly mobile experiences.",
+  "linkedBRDIds": [
+    "BRD09"
+  ]
 }
