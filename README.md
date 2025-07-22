@@ -236,6 +236,7 @@ The server provides several tools for interacting with your specification docume
 | `get-nfrs`         | Get Non-Functional Requirements          |
 | `get-uirs`         | Get User Interface Requirements          |
 | `get-bpds`         | Get Business Process Documents           |
+| `get-tcs`          | Get Test Case Documents                  |
 | `get-user-stories` | Get User Stories for a specific PRD      |
 | `get-tasks`        | Get Tasks for a specific User Story      |
 | `get-task`         | Get details of a specific Task           |
