@@ -11,7 +11,7 @@ export interface BaseDocument {
  * Task within a user story
  */
 export interface Task extends BaseDocument {
-  jiraId?: string
+  pmoId?: string
 }
 
 /**
@@ -19,7 +19,7 @@ export interface Task extends BaseDocument {
  */
 export interface UserStory extends BaseDocument {
   tasks: Task[]
-  jiraId?: string
+  pmoId?: string
 }
 
 /**
@@ -27,7 +27,7 @@ export interface UserStory extends BaseDocument {
  */
 export interface PRD extends BaseDocument {
   userStories: UserStory[]
-  jiraId?: string
+  pmoId?: string
   linkedBRDIds?: string[]
 }
 
@@ -51,6 +51,23 @@ export interface UIR extends BaseDocument {}
  */
 export interface BP extends BaseDocument {}
 
+
+/**
+ * project metadata 
+ */
+export interface ProjectMetadata {
+  id: string;
+  name: string;
+  description: string;
+  technicalDetails: string;
+  createReqt?: boolean;
+  cleanSolution?: boolean;
+  createdAt: string;
+  integration?: {
+    selectedPmoTool?: string;
+  };
+}
+
 /**
  * Complete solution containing all document types
  */
@@ -60,6 +77,7 @@ export interface Solution {
   NFR: NFR[]
   BP: BP[]
   UIR: UIR[]
+  METADATA: ProjectMetadata | null
 }
 
 /**

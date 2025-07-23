@@ -21,6 +21,26 @@ class MockFileService {
   }
 
   async readAllJsonFiles(dir: string): Promise<JsonFileContent[]> {
+    // Handle metadata file
+    if (dir === '/test/path') {
+      return [
+        {
+          name: '.metadata.json',
+          content: {
+            id: 'test-project',
+            name: 'Test Project',
+            description: 'Test project description',
+            technicalDetails: 'Test technical details',
+            createReqt: true,
+            cleanSolution: false,
+            createdAt: '2023-01-01T00:00:00.000Z',
+            integration: {
+              selectedPmoTool: 'jira',
+            },
+          },
+        },
+      ]
+    }
     // Test empty directory case
     if (dir.endsWith('NFR')) {
       return []
@@ -43,7 +63,7 @@ class MockFileService {
           content: {
             title: 'Test PRD',
             requirement: 'Test requirement',
-            epicTicketId: 'HB-1001',
+            pmoId: 'HB-1001',
             linkedBRDIds: ['BRD01', 'BRD02'],
           },
         },
@@ -55,19 +75,19 @@ class MockFileService {
                 id: 'US1',
                 name: 'User Story 1',
                 description: 'Test user story',
-                storyTicketId: 'HB-2001',
+                pmoId: 'HB-2001',
                 tasks: [
                   {
                     id: 'T1',
                     list: 'Task 1',
                     acceptance: 'Test acceptance',
-                    subTaskTicketId: 'HB-3001',
+                    pmoId: 'HB-3001',
                   },
                   {
                     id: 'T2',
                     list: 'Task 2',
                     acceptance: 'Test acceptance 2',
-                    // No Jira ID for this task
+                    // No Pmo ID for this task
                   },
                 ],
               },
@@ -75,13 +95,13 @@ class MockFileService {
                 id: 'US2',
                 name: 'User Story 2',
                 description: 'Test user story 2',
-                // No Jira ID for this user story
+                // No Pmo ID for this user story
                 tasks: [
                   {
                     id: 'T3',
                     list: 'Task 3',
                     acceptance: 'Test acceptance 3',
-                    subTaskTicketId: 'HB-3003',
+                    pmoId: 'HB-3003',
                   },
                 ],
               },
@@ -170,26 +190,26 @@ describe('DocumentService', () => {
         description: 'Test requirement',
       })
 
-      // Check PRDs with user stories and Jira IDs
+      // Check PRDs with user stories and Pmo IDs
       expect(solution.PRD).toHaveLength(1) // Only one valid PRD (with both base and feature)
       const prd = solution.PRD[0]
       expect(prd.id).toBe('PRD01')
-      expect(prd.jiraId).toBe('HB-1001')
+      expect(prd.pmoId).toBe('HB-1001')
       expect(prd.linkedBRDIds).toEqual(['BRD01', 'BRD02'])
       expect(prd.userStories).toHaveLength(2)
 
-      // Check first user story with Jira ID
+      // Check first user story with Pmo ID
       expect(prd.userStories[0]).toEqual({
         id: 'US1',
         title: 'User Story 1',
         description: 'Test user story',
-        jiraId: 'HB-2001',
+        pmoId: 'HB-2001',
         tasks: [
           {
             id: 'T1',
             title: 'Task 1',
             description: 'Test acceptance',
-            jiraId: 'HB-3001',
+            pmoId: 'HB-3001',
           },
           {
             id: 'T2',
@@ -199,7 +219,7 @@ describe('DocumentService', () => {
         ],
       })
 
-      // Check second user story without Jira ID
+      // Check second user story without Pmo ID
       expect(prd.userStories[1]).toEqual({
         id: 'US2',
         title: 'User Story 2',
@@ -209,7 +229,7 @@ describe('DocumentService', () => {
             id: 'T3',
             title: 'Task 3',
             description: 'Test acceptance 3',
-            jiraId: 'HB-3003',
+            pmoId: 'HB-3003',
           },
         ],
       })
@@ -261,6 +281,7 @@ describe('DocumentService', () => {
         PRD: [],
         NFR: [],
         UIR: [],
+        METADATA: null,
       })
     })
   })

@@ -54,6 +54,18 @@ const mockSolution: Solution = {
       description: 'Test UIR description',
     },
   ],
+  METADATA: {
+    id: 'test-project',
+    name: 'Test Project',
+    description: 'Test project description',
+    technicalDetails: 'Test technical details',
+    createReqt: true,
+    cleanSolution: false,
+    createdAt: '2023-01-01T00:00:00.000Z',
+    integration: {
+      selectedPmoTool: 'jira',
+    },
+  },
 }
 
 // Mock fs/promises
