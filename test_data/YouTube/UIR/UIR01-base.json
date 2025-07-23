@@ -1,4 +1,4 @@
 {
-  "title": "Video Upload Feature",
-  "requirement": "The application must provide a user-friendly interface for video uploads, including a drag-and-drop area, a file selection button, and upload progress visualization."
+  "requirement": "The interface should include a video player with essential playback controls such as play, pause, volume adjustment, progress bar, fullscreen toggle, and playback speed options.",
+  "title": "Video Playback Control"
 }

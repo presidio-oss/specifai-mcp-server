@@ -1,4 +1,4 @@
 {
-  "title": "Modern Visual Design",
-  "requirement": "The app should employ a modern design aesthetic, including a clean layout, vibrant color palette, legible fonts, and consistent iconography to enhance usability and appeal."
+  "requirement": "An easy-to-navigate settings page should allow users to manage their account, subscriptions, notification preferences, and playback quality with clear labels and toggle switches.",
+  "title": "User Account Settings"
 }

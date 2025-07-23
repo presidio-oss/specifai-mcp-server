@@ -1,5 +1,4 @@
 {
-  "title": "Multi-Language Interface",
-  "requirement": "Support multiple languages, including subtitle translations and localized recommendations.  \n#### Screens:  \n- **Language Settings Screen**: Allows users to select and apply language preferences.  \n#### Personas:  \n- **International Users**: Require content tailored to their language.",
-  "linkedBRDIds": ["BRD13"]
+  "requirement": "The app should provide parental controls to restrict access to inappropriate content based on age ratings and content filters. Screens: An account settings page with parental control options. Personas: Parents who want to ensure safe viewing experiences for their children.",
+  "title": "Parental Control Features"
 }

@@ -1,4 +1,4 @@
 {
-  "title": "Settings and Customization Options",
-  "requirement": "A dedicated settings page should allow users to customize app features, including playback quality, notification preferences, and theme appearance (e.g., dark mode)."
+  "requirement": "The app must adhere to WCAG standards for color contrast, ensuring all text and interface elements are easily distinguishable for users with visual impairments.",
+  "title": "Color Contrast Accessibility"
 }

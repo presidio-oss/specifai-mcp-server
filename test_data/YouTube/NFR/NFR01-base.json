@@ -1,4 +1,4 @@
 {
-  "title": "High Uptime and Reliability",
-  "requirement": "The platform must maintain a minimum uptime of 99.9% to ensure seamless user experience and reliability."
+  "requirement": "The app must ensure smooth video playback with minimal buffering, supporting resolutions up to 4K at 60fps for users with compatible devices and internet speeds.",
+  "title": "High-Performance Video Playback"
 }

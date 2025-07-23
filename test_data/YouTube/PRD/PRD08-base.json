@@ -1,5 +1,4 @@
 {
-  "title": "Advanced Search Features",
-  "requirement": "Implement search functionality with filters for video length, upload date, category, popularity, and keywords.  \n#### Screens:  \n- **Search Screen**: Includes a search bar, filter options, and organized results.  \n#### Personas:  \n- **General Users**: Need quick, precise results for specific content.",
-  "linkedBRDIds": ["BRD08"]
+  "requirement": "The app should allow users to like, dislike, comment on videos, and share them via social media or direct links. Screens: Each video page should include options for engagement and sharing under the video player. Personas: Viewers who want to express their opinions, interact with creators, or share content with others.",
+  "title": "Engagement Features"
 }

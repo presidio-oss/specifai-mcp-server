@@ -1,4 +1,4 @@
 {
-  "title": "Dynamic Navigation Menu",
-  "requirement": "The UI should include a dynamic navigation menu enabling quick access to Home, Browse, Library, and Search sections, with clear visual indicators of the current selection."
+  "requirement": "Offline content must be clearly marked with an indicating icon, and users should have a dedicated section to view and manage their downloaded songs and podcasts.",
+  "title": "Offline Mode Design"
 }

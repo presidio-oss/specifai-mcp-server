@@ -1,5 +1,4 @@
 {
-  "title": "Channel Management Tools",
-  "requirement": "Offer creators a dashboard for managing channels, analyzing audience metrics, scheduling uploads, and customizing channel branding.  \n#### Screens:  \n- **Channel Dashboard**: Includes options for analytics, upload scheduling, revenue overview, and design customization.  \n#### Personas:  \n- **Content Creators**: Desire a centralized solution for managing and growing their channel.",
-  "linkedBRDIds": ["BRD07"]
+  "requirement": "The app should enable creators to broadcast live video streams with a live chat feature for user engagement. Screens: A live streaming screen for creators and a live video page with chat for viewers. Personas: Creators who want to engage with their audience in real-time and viewers keen to interact with creators live.",
+  "title": "Live Streaming Capability"
 }

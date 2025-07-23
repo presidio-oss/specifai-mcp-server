@@ -1,4 +1,4 @@
 {
-  "title": "Ad Placement Optimization",
-  "requirement": "Implement smart ad placement systems that balance user viewing experience with revenue generation by analyzing viewer behavior to deliver personalized, non-intrusive advertisements."
+  "requirement": "Provide accessibility options such as subtitles, screen readers support, and high-contrast interfaces to accommodate users with disabilities and enhance inclusivity on the platform.",
+  "title": "Enable Accessibility Features"
 }

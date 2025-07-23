@@ -1,5 +1,4 @@
 {
-  "title": "Intelligent Recommendations",
-  "requirement": "Develop a recommendation system that suggests videos based on user watch history, preferences, and behavior using machine learning algorithms.  \n#### Screens:  \n- **Home Page**: Displays personalized recommendations and trending content.  \n#### Personas:  \n- **General Users**: Want relevant, engaging content without having to search extensively.",
-  "linkedBRDIds": ["BRD03"]
+  "requirement": "The app should provide a seamless video player with controls for play, pause, volume, quality, subtitles, and fullscreen. Screens: A video playback screen displaying the media player, title, and related content below. Personas: Viewers looking for an intuitive way to watch and control video playback.",
+  "title": "Video Playback Interface"
 }

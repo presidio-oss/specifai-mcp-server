@@ -1,4 +1,4 @@
 {
-  "title": "Offline Listening Feature",
-  "requirement": "The UI must include a download option for songs, playlists, and podcasts, with visual indicators for download status and storage management settings for offline use."
+  "requirement": "The app should feature a bottom navigation bar with tabs for Home, Search, Library, and Settings, ensuring quick and seamless transitions between sections.",
+  "title": "Navigation Structure"
 }

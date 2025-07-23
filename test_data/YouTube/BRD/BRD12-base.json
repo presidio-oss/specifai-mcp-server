@@ -1,4 +1,4 @@
 {
-  "title": "Content Moderation System",
-  "requirement": "Build advanced moderation capabilities to automatically identify and flag inappropriate or prohibited content, complemented by manual options for reporting and reviewing questionable videos."
+  "requirement": "Offer platform functionality in multiple languages for content descriptions, captions, and interfaces, catering to diverse global audiences and increasing accessibility.",
+  "title": "Enable Multi-language Support"
 }

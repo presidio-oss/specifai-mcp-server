@@ -1,4 +1,4 @@
 {
-  "title": "Customizable User Profiles",
-  "requirement": "Enable users to set up and personalize profiles with options to display favorite genres, playlists, and listening habits, promoting a more tailored and interactive user experience."
+  "requirement": "Provide a user-friendly interface for playback controls, supporting features like repeat, shuffle, fast-forward, and backward options. Include hardware integrations for car steering controls and wireless earphones where possible.",
+  "title": "Smart Playback Controls"
 }

@@ -1,4 +1,4 @@
 {
-  "title": "Compliance with Regulations",
-  "requirement": "Ensure adherence to data privacy laws such as GDPR, CCPA, and COPPA based on the user's geographic location."
+  "requirement": "User data must be encrypted both at rest and in transit, complying with industry-standard encryption algorithms.",
+  "title": "Data Security Measures"
 }

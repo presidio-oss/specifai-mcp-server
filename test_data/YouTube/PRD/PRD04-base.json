@@ -1,5 +1,4 @@
 {
-  "title": "Live Streaming Features",
-  "requirement": "Integrate live streaming capabilities for creators, including audience interaction, comment moderation, and latency control.  \n#### Screens:  \n- **Live Setup Screen**: Customizable settings for event duration, latency, and privacy.  \n- **Live Stream Dashboard**: Real-time stats, comments, and moderation tools.  \n#### Personas:  \n- **Creators**: Need robust tools for managing live events.  \n- **Viewers**: Seek real-time connections with creators.",
-  "linkedBRDIds": ["BRD04"]
+  "requirement": "The app should have a search bar enabling users to find videos by keywords, channels, or tags, with predictive suggestions. Screens: A search results screen showing ranked video content based on relevance. Personas: Users who want to quickly find specific videos or explore new content.",
+  "title": "Search and Discovery"
 }

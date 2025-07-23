@@ -1,5 +1,4 @@
 {
-  "title": "User Playlist Creation",
-  "requirement": "Provide the ability for users to create, edit, customize, and share playlists with reordering tracks, adding descriptions, and enabling collaboration.  \n#### Screens:  \n* Playlist Editor: Allows users to add tracks, rename playlists, and manage collaboration settings.  \n* Playlist Sharing: Show options and links for sharing via social platforms or within the app.  \n#### Personas:  \n* Curator: Manages and designs playlists for specific moods or events.  \n* Collaborator: Participates in shared playlist creation and editing.",
-  "linkedBRDIds": ["BRD04"]
+  "requirement": "The app should allow users to create, edit, and share playlists with customized names and song arrangements. Screens: A playlist editor screen enabling users to add or remove tracks from their personal lists. Personas: Users curating music for occasions or personal enjoyment.",
+  "title": "Playlist Creation and Management"
 }

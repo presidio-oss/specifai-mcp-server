@@ -1,4 +1,4 @@
 {
-  "title": "Search and Discovery Tools",
-  "requirement": "Implement efficient search capabilities with filters for video length, upload date, categories, popularity, trending topics, and keywords to enhance content discoverability for users."
+  "requirement": "Integrate systems for content moderation that identify and flag inappropriate, copyrighted, or spam-like content, ensuring compliance with guidelines while maintaining a safe environment for all users.",
+  "title": "Ensure Content Moderation"
 }

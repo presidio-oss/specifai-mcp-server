@@ -1,5 +1,4 @@
 {
-  "title": "Subscription Tiers Configuration",
-  "requirement": "Create tiered subscription models offering benefits like ad-free listening, high-quality audio, and extended download limits to accommodate a diverse user base.  \n#### Screens:  \n* Subscription Page: Display subscription tiers and benefits clearly.  \n#### Personas:  \n* Premium User: Opts for advanced features and ad-free experience.  \n* Budget-Conscious User: Chooses affordable tiers with basic functionalities.",
-  "linkedBRDIds": ["BRD08"]
+  "requirement": "Users should be able to stream, download, and subscribe to podcasts to get notified about new episodes. Screens: A detailed podcast screen with episode lists and subscription toggles. Personas: Podcast enthusiasts tracking their favorite shows and episodes.",
+  "title": "Podcast Streaming and Subscriptions"
 }

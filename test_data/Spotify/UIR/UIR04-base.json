@@ -1,4 +1,4 @@
 {
-  "title": "User-Friendly Playback Controls",
-  "requirement": "An easy-to-access playback bar must provide controls for play, pause, skip, rewind, shuffle, repeat, and volume adjustment, ensuring seamless user interaction."
+  "requirement": "A persistent playback bar displaying song details, play/pause button, skip buttons, and a progress slider must be present across all screens for uninterrupted access.",
+  "title": "Playback Controls"
 }

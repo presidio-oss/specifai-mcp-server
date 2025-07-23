@@ -1,5 +1,4 @@
 {
-  "title": "Offline Content Access",
-  "requirement": "Implement offline listening by enabling downloads for songs, playlists, and podcasts while managing digital rights securely.  \n#### Screens:  \n* Offline Library: Displays all downloaded items categorized by type (songs, playlists, or podcasts).  \n#### Personas:  \n* Traveler: Prefers uninterrupted listening without internet or Wi-Fi.  \n* Data-Conscious User: Downloads content to avoid excess mobile data usage.",
-  "linkedBRDIds": ["BRD05"]
+  "requirement": "Users should be able to download songs, podcasts, and playlists for offline playback. Screens: A downloads management screen showing items available for offline use with options to delete downloads. Personas: Commuters or travelers accessing music without internet connectivity.",
+  "title": "Offline Listening"
 }

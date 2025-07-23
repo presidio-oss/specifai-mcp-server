@@ -1,4 +1,4 @@
 {
-  "title": "Platform compatibility",
-  "requirement": "Ensure the app functions uniformly across **mobile**, **desktop**, and **web** platforms without feature disparity."
+  "requirement": "The app must function seamlessly on Android, iOS, Windows, macOS, and web browsers with consistent user experience.",
+  "title": "Cross-Platform Availability"
 }

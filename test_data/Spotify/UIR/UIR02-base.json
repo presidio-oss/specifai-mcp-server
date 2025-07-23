@@ -1,4 +1,4 @@
 {
-  "title": "Personalized Recommendations",
-  "requirement": "The application should feature a prominently placed section displaying personalized song, podcast, and playlist recommendations based on user preferences and listening history."
+  "requirement": "A search bar should be located at the top of the screen, allowing users to search for songs, podcasts, playlists, and artists with auto-suggestion functionality and a clean, responsive design.",
+  "title": "Search Interface"
 }

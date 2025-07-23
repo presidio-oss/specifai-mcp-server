@@ -1,4 +1,4 @@
 {
-  "title": "Comprehensive Security Standards",
-  "requirement": "The app must implement AES-256 encryption for data storage and TLS for data transmission to protect sensitive user data."
+  "requirement": "Ensure low-latency streaming for live broadcasts with a delay not exceeding 5 seconds for real-time interactions.",
+  "title": "Low Latency Live Streaming"
 }

@@ -1,4 +1,0 @@
-{
-  "title": "Robust error handling",
-  "requirement": "Implement effective error logs and recovery mechanisms to prevent disruptions in user experience during unexpected failures."
-}

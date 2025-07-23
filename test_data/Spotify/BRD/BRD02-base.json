@@ -1,4 +1,4 @@
 {
-  "title": "Personalized Recommendations",
-  "requirement": "Develop and implement a recommendation engine that uses user preference data, listening history, and advanced algorithms to provide highly personalized music, podcast, and playlist suggestions, enhancing user engagement."
+  "requirement": "Enable users to download songs, albums, playlists, and podcasts for offline listening, ensuring uninterrupted access to their favorite content even in areas with limited or no internet connectivity.",
+  "title": "Offline Listening Support"
 }

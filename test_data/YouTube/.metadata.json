@@ -1,59 +1,9 @@
 {
-  "id": "2eda495e-ce87-4da3-a1d8-40bee93cbe59",
   "name": "YouTube",
   "description": "YouTube is a video-sharing platform where users can upload, watch, and engage with content, featuring recommendations, live streaming, and monetization for creators.",
   "technicalDetails": "Rust, Angular, GCP",
   "createReqt": true,
-  "createdAt": "2025-07-22T06:10:03.424Z",
-  "cleanSolution": false,
-  "BRD": {
-    "enabled": true,
-    "minCount": 15,
-    "count": 15
-  },
-  "PRD": {
-    "enabled": true,
-    "minCount": 15,
-    "count": 16
-  },
-  "UIR": {
-    "enabled": true,
-    "minCount": 15,
-    "count": 15
-  },
-  "NFR": {
-    "enabled": true,
-    "minCount": 15,
-    "count": 15
-  },
-  "mcpSettings": {
-    "mcpServers": {}
-  },
-  "isFailed": false,
-  "failureInfo": null,
-  "BP": {
-    "count": 0
-  },
-  "US": {
-    "count": 5
-  },
-  "TASK": {
-    "count": 39
-  },
-  "TC": {
-    "count": 0
-  },
-  "integration": {
-    "selectedPmoTool": "ado",
-    "ado": {
-      "organization": "",
-      "projectName": "",
-      "personalAccessToken": "",
-      "workItemTypeMapping": {
-        "PRD": "Feature",
-        "US": "Platform Feature",
-        "TASK": "User Story"
-      }
-    }
-  }
+  "id": "242332b2-488d-492b-8beb-aa6994898d4a",
+  "createdAt": "2025-02-20T07:33:55.279Z",
+  "cleanSolution": false
 }

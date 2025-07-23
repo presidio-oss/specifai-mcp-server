@@ -1,4 +1,4 @@
 {
-  "title": "High availability",
-  "requirement": "_Spotify_ must ensure **99.9% uptime** for the service across all platforms and regions."
+  "requirement": "Ensure end-to-end encryption for data in transit and at rest, adhering to GDPR and CCPA regulations.",
+  "title": "Data Encryption Compliance"
 }

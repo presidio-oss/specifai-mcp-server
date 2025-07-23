@@ -1,4 +1,4 @@
 {
-  "title": "Robust Moderation Tools",
-  "requirement": "Provide tools to detect and manage inappropriate content, processing flagged content within 24 hours."
+  "requirement": "Ensure robust algorithms to detect and prevent ad fraud, fake engagements, and account abuse.",
+  "title": "Fraud Prevention Mechanisms"
 }

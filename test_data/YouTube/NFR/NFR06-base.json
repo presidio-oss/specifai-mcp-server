@@ -1,4 +1,4 @@
 {
-  "title": "Data Backup and Recovery",
-  "requirement": "A regular backup and disaster recovery plan must ensure that all critical data is restorable within 4 hours in the event of data loss."
+  "requirement": "The platform must adhere to regulations such as GDPR, CCPA, and COPPA to protect user privacy and manage data responsibly.",
+  "title": "Compliance with Privacy Regulations"
 }

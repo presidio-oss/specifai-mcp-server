@@ -1,5 +1,4 @@
 {
-  "title": "Smart Device Integrations",
-  "requirement": "Ensure compatibility and connectivity with smart devices like speakers, TVs, and car systems for broader platform accessibility.  \n#### Screens:  \n* Device Connections Screen: Shows available smart devices and connection options.  \n#### Personas:  \n* Home Automation User: Prefers integrated streaming with household devices.",
-  "linkedBRDIds": ["BRD13"]
+  "requirement": "The app should enable users to view and manage their playback queue by reordering or removing items. Screens: A playback queue screen accessible during active playback. Personas: Users who want to control upcoming content without interrupting the flow.",
+  "title": "Playback Queue Management"
 }

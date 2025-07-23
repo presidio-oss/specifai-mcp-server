@@ -1,4 +1,4 @@
 {
-  "title": "Video Upload Functionality",
-  "requirement": "Enable users to upload videos to the platform with support for various file formats, resolution options, and size limits. This functionality must include options for creators to edit metadata, categorize content, and manage privacy settings prior to publishing."
+  "requirement": "Develop functionality for users to upload videos of varied file formats and resolutions, ensuring quick uploads, secure storage, and adherence to platform content policies to encourage more user-generated content.",
+  "title": "Enable Video Uploading"
 }

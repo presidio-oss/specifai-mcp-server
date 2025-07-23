@@ -1,5 +1,4 @@
 {
-  "title": "Family Plan Features",
-  "requirement": "Introduce family subscription plans with multiple profiles under one account, individualized recommendations, and shared billing framework.  \n#### Screens:  \n* Family Account Screen: Manage sub-profiles and billing details.  \n#### Personas:  \n* Family Organizer: Oversees account management for all profiles.  \n* Individual Family Members: Use individual preferences tailored to their needs.",
-  "linkedBRDIds": ["BRD14"]
+  "requirement": "The app should provide a toggle to block explicit content based on user preferences or parental controls. Screens: A settings screen with toggles for enabling or disabling explicit content. Personas: Parents or users who want to avoid explicit lyrics while streaming.",
+  "title": "Explicit Content Filter"
 }

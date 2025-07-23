@@ -1,4 +1,4 @@
 {
-  "title": "Global Accessibility",
-  "requirement": "The platform should be available in multiple regions with Content Delivery Networks (CDNs) to reduce latency for global users."
+  "requirement": "Implement automated and manual systems to detect and remove content that violates platform policies or applicable laws.",
+  "title": "Content Moderation Standards"
 }

@@ -1,4 +1,4 @@
 {
-  "title": "Offline listening capability",
-  "requirement": "Support reliable **offline mode** functionality for downloaded content without requiring constant connectivity."
+  "requirement": "User accounts must be protected with secure authentication protocols like OAuth2 and support two-factor authentication.",
+  "title": "Secure User Authentication"
 }

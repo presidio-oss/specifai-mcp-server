@@ -2,321 +2,283 @@
   "features": [
     {
       "id": "US1",
-      "name": "Video File Upload and Validation",
-      "description": "Ability to upload video files and ensure compliance with format, resolution, and size constraints.  \n#### Acceptance Criteria:  \n- Users can upload video files in supported formats (e.g., MP4, AVI, MKV).  \n- Supported resolutions include options like 720p and 1080p.  \n- Maximum file size limits are enforced with appropriate error messaging.  \n- Unsupported formats and other violations return clear feedback.",
+      "name": "Email and Password Authentication",
+      "description": "Ability to authenticate users with email and password. In order to securely access the application. As a user, I want to sign up, log in, and log out using my email and password. Acceptance Criteria: The sign-up page must include fields for email, password, and password confirmation alongside a 'Sign Up' button. The login page must include fields for email, password, and a 'Login' button. Passwords must meet security validation criteria (e.g., minimum length, special characters). On successful login, users should be redirected to their dashboard. On logout, users must be redirected to the login page. Error messages must be displayed for incorrect credentials, empty fields, or password mismatches.",
       "tasks": [
         {
-          "list": "Create backend function to handle video file upload",
-          "acceptance": "Implement a Rust backend function that receives video file uploads via an HTTP endpoint.  \n#### Acceptance Criteria:  \n- HTTP POST endpoint accepts video files as multipart data.  \n- Input files should be saved to a temporary storage location on the server.  \n- Endpoint should return a success response if the file is successfully saved.  \n- Endpoint should return a relevant error response if file upload fails (e.g., network issues, missing file).",
-          "id": "TASK1",
-          "pmoId": "955",
-          "pmoIssueType": "User Story"
+          "list": "Implement sign-up form UI in Angular",
+          "acceptance": "Create a sign-up page in Angular with fields for 'email', 'password', and 'password confirmation'. Add a 'Sign Up' button. Ensure the page structure matches the user story requirements and Angular's standard practice for component creation. Acceptance Criteria: Fields for 'email', 'password', and 'password confirmation' are present. A 'Sign Up' button is functional. Angular components should separately handle input binding and form submission logic.",
+          "id": "TASK1"
         },
         {
-          "list": "Validate video file format upon upload",
-          "acceptance": "Add validation logic in Rust to identify supported formats (MP4, AVI, MKV) for uploaded video files.  \n#### Acceptance Criteria:  \n- Validate the MIME type of the uploaded file.  \n- Return an error response if the format is unsupported with a clear message (e.g., \"Unsupported format. Supported formats: MP4, AVI, MKV.\").  \n- Proceed only if the file is in a supported format.",
-          "id": "TASK2",
-          "pmoId": "956",
-          "pmoIssueType": "User Story"
+          "list": "Add client-side validations for sign-up form",
+          "acceptance": "Integrate validations to enforce password rules (e.g., minimum length, special characters) on the client side. Ensure the form validates the 'password' and 'password confirmation' match. Acceptance Criteria: Users cannot submit the form if any fields are empty, the password is invalid, or the 'password' and 'password confirmation' do not match. Inline error messages are shown near the relevant input fields.",
+          "id": "TASK2"
         },
         {
-          "list": "Validate video file resolution upon upload",
-          "acceptance": "Add logic in Rust to check video resolution compliance based on supported resolutions (720p, 1080p).  \n#### Acceptance Criteria:  \n- Extract resolution metadata from the uploaded file using a Rust-compatible library.  \n- Return an error response if the resolution is unsupported with a clear message (e.g., \"Invalid resolution. Supported resolutions: 720p, 1080p.\").  \n- Proceed only if the resolution is supported.",
-          "id": "TASK3",
-          "pmoId": "957",
-          "pmoIssueType": "User Story"
+          "list": "Implement backend API endpoint for user sign-up in Rust",
+          "acceptance": "Create a REST API endpoint in Rust to handle user sign-up. The endpoint should receive 'email', 'password', and 'password confirmation' as input. Validate all fields, ensure the password meets security criteria, and hash the password for storage. Acceptance Criteria: Input is validated. Password is hashed securely before saving. Appropriate HTTP status codes are returned for success and failure scenarios (e.g., 400 for invalid input, 409 for email conflicts).",
+          "id": "TASK3"
         },
         {
-          "list": "Validate video file size upon upload",
-          "acceptance": "Implement validation logic in Rust to check the file size against the maximum limit.  \n#### Acceptance Criteria:  \n- Check the size of the uploaded video file against the predefined maximum size limit.  \n- Return an error response if the file exceeds the size limit with a clear message (e.g., \"File size exceeds the maximum limit.\").  \n- Proceed only if the file size is within the acceptable limit.",
-          "id": "TASK4",
-          "pmoId": "958",
-          "pmoIssueType": "User Story"
+          "list": "Integrate front-end with Rust sign-up API",
+          "acceptance": "Connect the Angular sign-up form to the Rust sign-up API endpoint. Make a POST request with the form data. Display relevant error messages for unsuccessful sign-ups (e.g., email already exists, password invalid). Redirect users to the login page after a successful sign-up. Acceptance Criteria: The sign-up flow is operational and communicates with the backend. Relevant success and error messages are displayed on the UI. Successful sign-up redirects users to the login page.",
+          "id": "TASK4"
         },
         {
-          "list": "Return consolidated validation results to front-end",
-          "acceptance": "Ensure the backend sends validation results to the Angular frontend after processing.  \n#### Acceptance Criteria:  \n- Compile all validation errors (format, resolution, size) into a single response.  \n- Return either a success response or a detailed error response indicating violations.  \n- Ensure response messages are human-readable and tied directly to the user story acceptance criteria.",
-          "id": "TASK5",
-          "pmoId": "959",
-          "pmoIssueType": "User Story"
+          "list": "Implement login form UI in Angular",
+          "acceptance": "Create a login page in Angular with fields for 'email' and 'password'. Add a 'Login' button. The page structure should follow Angular component conventions. Acceptance Criteria: Fields for 'email' and 'password' are present. A functional 'Login' button exists for form submission.",
+          "id": "TASK5"
         },
         {
-          "list": "Implement Angular UI component for video upload",
-          "acceptance": "Create a UI form in Angular to allow users to upload video files.  \n#### Acceptance Criteria:  \n- UI provides an input field for selecting video files.  \n- Include supported formats, resolutions, and size limits as guidance text in the UI.  \n- Display success or error messages based on the backend response.",
-          "id": "TASK6",
-          "pmoId": "960",
-          "pmoIssueType": "User Story"
+          "list": "Implement backend API endpoint for user login in Rust",
+          "acceptance": "Create a REST API endpoint in Rust to handle user login. The endpoint should authenticate against stored credentials. Return a 200 status and a session token after successful authentication. Return a 401 status for incorrect credentials. Acceptance Criteria: API authenticates user credentials against stored credentials. Returns a session token on success. Returns correct error codes and messages for invalid input or authentication failure.",
+          "id": "TASK6"
         },
         {
-          "list": "Display validation errors in Angular UI",
-          "acceptance": "Update the Angular UI to show error messages returned from the backend.  \n#### Acceptance Criteria:  \n- Errors such as unsupported format, invalid resolution, and oversized files should be displayed clearly to the user.  \n- Error messages should match the descriptions provided by the backend.  \n- Ensure the error display is non-intrusive and user-friendly.",
-          "id": "TASK7",
-          "pmoId": "961",
-          "pmoIssueType": "User Story"
+          "list": "Integrate front-end with Rust login API",
+          "acceptance": "Connect the Angular login form to the Rust login API endpoint. Handle form submission and send the user credentials. Store the session token securely on successful login. Display relevant error messages for unsuccessful attempts. Redirect authenticated users to the dashboard. Acceptance Criteria: Login form communicates with the backend. Relevant success and error messages are displayed. Successful login stores the session token securely and redirects the user to the dashboard.",
+          "id": "TASK7"
         },
         {
-          "list": "Test backend functionality for video validation",
-          "acceptance": "Write unit tests in Rust to test the file validation logic for format, resolution, and size constraints.  \n#### Acceptance Criteria:  \n- Tests cover supported and unsupported formats, resolutions, and sizes.  \n- Ensure incorrect inputs return appropriate error responses.  \n- Validate that correct inputs are processed successfully without errors.",
-          "id": "TASK8",
-          "pmoId": "962",
-          "pmoIssueType": "User Story"
+          "list": "Implement password validation helper function in Rust",
+          "acceptance": "Create a reusable Rust function to validate password criteria (minimum length, special characters). Use this function in both sign-up and login APIs. Acceptance Criteria: Function checks password rules correctly. Returns clear error descriptions for invalid passwords. Passes unit tests with various valid and invalid inputs.",
+          "id": "TASK8"
         },
         {
-          "list": "Test Angular frontend behavior for video upload",
-          "acceptance": "Write unit tests in Angular to verify front-end behavior for video upload and error display.  \n#### Acceptance Criteria:  \n- Test successful video upload and display of success messages.  \n- Test error handling and display of backend validation messages.  \n- Validate UI matches the user story by guiding users on supported formats, resolutions, and size.",
-          "id": "TASK9",
-          "pmoId": "963",
-          "pmoIssueType": "User Story"
+          "list": "Implement logout functionality in Angular",
+          "acceptance": "Add a logout mechanism on the front-end to clear the session token and redirect users to the login page. Acceptance Criteria: Session token is cleared on logout. Users are redirected to the login page immediately.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Add error handling for incorrect login credentials",
+          "acceptance": "Display error messages on the Angular login page for incorrect credentials or empty fields. Ensure the UI reflects backend responses accurately. Acceptance Criteria: Incorrect login attempts display error messages on the page. Empty fields show inline form validation errors. Errors align with backend error codes.",
+          "id": "TASK10"
         }
-      ],
-      "pmoId": "950",
-      "pmoIssueType": "Platform Feature"
+      ]
     },
     {
       "id": "US2",
-      "name": "Video Metadata Definition and Editing",
-      "description": "Ability to input, verify, and update video metadata, including title, description, and category.  \n#### Acceptance Criteria:  \n- Users can input and edit metadata fields such as title and description.  \n- Users can choose video categories from predefined options.  \n- Metadata is validated for required fields and character limits.  \n- Changes to metadata are successfully saved.",
+      "name": "Third-Party OAuth Login",
+      "description": "Ability to log in and sign up using third-party OAuth services. In order to simplify the login experience. As a user, I want to authenticate using Google or Facebook accounts. Acceptance Criteria: The authentication page must display 'Login with Google' and 'Login with Facebook' buttons. Clicking the buttons must redirect users to the respective OAuth login pages. After successful login, new accounts must be created if they do not exist, and users must be redirected to the dashboard. Failed OAuth authentication must display error messages. OAuth-based sessions must adhere to provider token validity periods.",
       "tasks": [
         {
-          "list": "Create Rust API endpoint to input video metadata",
-          "acceptance": "Develop a Rust API endpoint to receive video metadata fields (title, description, and category) from the frontend. Ensure data is structured as JSON with exact field names and data types mentioned in the user story. Implement logic to capture and store metadata fields.  \n#### Acceptance Criteria:  \n- API accepts JSON payload with 'title', 'description', and 'category' fields.  \n- Metadata fields are passed into the backend in the correct format.  \n- Endpoint correctly stores metadata object in a predefined, temporary in-memory data structure.",
-          "id": "TASK10",
-          "pmoId": "964",
-          "pmoIssueType": "User Story"
+          "list": "Add 'Login with Google' and 'Login with Facebook' buttons to the authentication page in Angular",
+          "acceptance": "Develop UI components in Angular for 'Login with Google' and 'Login with Facebook' buttons on the authentication page with proper styling and placement. Acceptance Criteria: Buttons must be visible on the authentication page. Buttons must trigger their respective event handlers when clicked.",
+          "id": "TASK1"
         },
         {
-          "list": "Implement metadata field validation in the Rust backend",
-          "acceptance": "Add validation logic in Rust for metadata fields within the API. Ensure the title and description are required and enforce character length limits. Validate that the category field matches one of the predefined options. Return specific error responses for invalid data.  \n#### Acceptance Criteria:  \n- 'title' and 'description' fields must not be empty and should adhere to character limits (e.g., 100 for title, 500 for description).  \n- 'category' must match one of the predefined options.  \n- API returns a 400 error with clear error messages for any invalid data.",
-          "id": "TASK11",
-          "pmoId": "965",
-          "pmoIssueType": "User Story"
+          "list": "Implement event handlers for 'Login with Google' and 'Login with Facebook' buttons in Angular",
+          "acceptance": "Create Angular event handlers for button clicks that redirect users to Google or Facebook OAuth login pages. Acceptance Criteria: Clicking 'Login with Google' must redirect to Google's OAuth login URL. Clicking 'Login with Facebook' must redirect to Facebook's OAuth login URL. Ensure proper URL encoding for redirection.",
+          "id": "TASK2"
         },
         {
-          "list": "Create Angular UI components for video metadata input",
-          "acceptance": "Develop Angular UI components to allow users to input video metadata. Include text fields for 'title' and 'description', and a dropdown for 'category' populated with predefined options. Bind the input fields to the backend API.  \n#### Acceptance Criteria:  \n- UI displays correctly labeled input fields for 'title' and 'description'.  \n- Dropdown field displays a list of predefined video category options.  \n- User inputs are captured and bound to metadata fields.  \n- User interactions trigger API calls to save metadata.",
-          "id": "TASK12",
-          "pmoId": "966",
-          "pmoIssueType": "User Story"
+          "list": "Create Rust backend endpoint to generate OAuth URLs for Google authentication",
+          "acceptance": "Develop a Rust REST API endpoint that generates and returns the Google OAuth URL with the necessary parameters (client ID, redirect URI, scope, response type, etc.). Acceptance Criteria: Endpoint must return a correctly formatted Google OAuth URL. Endpoint must return a 400 error if any required parameters are missing or invalid. Endpoint must log errors appropriately.",
+          "id": "TASK3"
         },
         {
-          "list": "Implement metadata editing functionality in Angular",
-          "acceptance": "Enhance the Angular UI to allow users to edit existing video metadata. Fetch current metadata from the backend API, populate editable fields in the UI, and enable users to submit updates back to the Rust backend.  \n#### Acceptance Criteria:  \n- Existing metadata fields are displayed in editable form.  \n- UI calls Rust API endpoint to fetch current metadata.  \n- Updated metadata is validated and submitted to the backend successfully.",
-          "id": "TASK13",
-          "pmoId": "967",
-          "pmoIssueType": "User Story"
+          "list": "Create Rust backend endpoint to generate OAuth URLs for Facebook authentication",
+          "acceptance": "Develop a Rust REST API endpoint that generates and returns the Facebook OAuth URL with the necessary parameters (app ID, redirect URI, scope, response type, etc.). Acceptance Criteria: Endpoint must return a correctly formatted Facebook OAuth URL. Endpoint must return a 400 error if any required parameters are missing or invalid. Endpoint must log errors appropriately.",
+          "id": "TASK4"
         },
         {
-          "list": "Develop Rust API endpoint to update metadata",
-          "acceptance": "Create a new Rust API endpoint to update video metadata. Ensure updates are properly validated using the same rules as input validation. Implement logic to overwrite the existing metadata in the backend's in-memory data structure.  \n#### Acceptance Criteria:  \n- Endpoint accepts JSON payload for metadata update.  \n- Validations are applied to ensure the completeness and correctness of updated metadata.  \n- API successfully overwrites the existing metadata fields with the new values and returns a success message.",
-          "id": "TASK14",
-          "pmoId": "968",
-          "pmoIssueType": "User Story"
+          "list": "Handle successful OAuth redirection for Google in Rust",
+          "acceptance": "Implement a Rust REST API endpoint to handle redirection post Google OAuth login. Parse the authorization code and exchange it for an access token using Google's Token API. Validate the received token. Acceptance Criteria: Endpoint must exchange authorization code for a token and validate it. On successful validation, an access token and Google user profile must be extracted. Return a 500 error if token exchange or validation fails. Log all errors appropriately.",
+          "id": "TASK5"
         },
         {
-          "list": "Integrate metadata category validation in Angular UI",
-          "acceptance": "Implement client-side validation in the Angular UI to check for required fields and enforce character limits. Ensure 'category' field validation matches predefined options before submitting metadata to the Rust backend.  \n#### Acceptance Criteria:  \n- UI validation ensures 'title' and 'description' are non-empty and meet character limits.  \n- Dropdown validation prevents invalid category selection.  \n- Invalid inputs trigger clear error messages in the UI.",
-          "id": "TASK15",
-          "pmoId": "969",
-          "pmoIssueType": "User Story"
+          "list": "Handle successful OAuth redirection for Facebook in Rust",
+          "acceptance": "Implement a Rust REST API endpoint to handle redirection post Facebook OAuth login. Parse the authorization code and exchange it for an access token using Facebook's Token API. Validate the received token. Acceptance Criteria: Endpoint must exchange authorization code for a token and validate it. On successful validation, an access token and Facebook user profile must be extracted. Return a 500 error if token exchange or validation fails. Log all errors appropriately.",
+          "id": "TASK6"
         },
         {
-          "list": "Save changes to metadata in GCP backend using Rust",
-          "acceptance": "Enhance the Rust API to persist metadata changes to a GCP-based backend. Use GCP's native storage options for saving metadata and ensure the data structure is compliant with the required feature set.  \n#### Acceptance Criteria:  \n- Metadata changes are saved in the GCP backend successfully.  \n- API implements fault-tolerant error handling for failed save operations.  \n- Data integrity is ensured during save operations.",
-          "id": "TASK16",
-          "pmoId": "970",
-          "pmoIssueType": "User Story"
+          "list": "Create or update user accounts based on OAuth provider data in Rust",
+          "acceptance": "Develop a Rust function to create a new user account if one does not exist, or update an existing user account with the received Google/Facebook profile information (e.g., email, name). Acceptance Criteria: If a user with the given email exists, update the account with the latest profile data. If no user exists, create a new user record with information from the OAuth profile. Return a 500 error if database operations fail. Ensure email uniqueness validation.",
+          "id": "TASK7"
         },
         {
-          "list": "Implement unit testing for Rust APIs",
-          "acceptance": "Create unit tests in Rust to validate the functionality of metadata input, update, and validation API endpoints. Ensure tests cover all business rules and validation scenarios.  \n#### Acceptance Criteria:  \n- Unit tests verify input API functionality, validations, and update behavior.  \n- All validation error scenarios are tested thoroughly.  \n- Tests confirm correct saving and updating of metadata in memory and on GCP.",
-          "id": "TASK17",
-          "pmoId": "971",
-          "pmoIssueType": "User Story"
+          "list": "Set up session management in Rust for OAuth-based logins",
+          "acceptance": "Implement session handling in Rust to manage authenticated users using tokens from Google/Facebook. Enforce session expiry based on provider token expiration. Acceptance Criteria: Successfully authenticated users must have a session created. Sessions must expire according to the token validity period from the OAuth providers. Return a 401 error if the session expires or tokens are invalid. Log relevant session events.",
+          "id": "TASK8"
         },
         {
-          "list": "Add Angular UI component tests for metadata input and editing",
-          "acceptance": "Develop unit tests for the Angular UI components to confirm correct rendering, user interaction handling, and validation logic. Ensure all functionality for inputting and editing metadata meets acceptance criteria.  \n#### Acceptance Criteria:  \n- Tests confirm correct rendering of input fields, dropdowns, and error messages.  \n- User interaction tests verify metadata binding and validation.  \n- Edited metadata submissions are validated and tested against Rust API responses.",
-          "id": "TASK18",
-          "pmoId": "972",
-          "pmoIssueType": "User Story"
+          "list": "Implement Angular client-side logic to process OAuth redirection response",
+          "acceptance": "Develop Angular logic to handle redirection from Google/Facebook after OAuth login. Extract authorization codes from the URL and send them to the backend for token exchange. Acceptance Criteria: Redirection must correctly parse authorization code from the URL. Authorization code must be sent to the appropriate backend endpoint. Display loader/spinner during processing.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Display error messages for failed OAuth authentication in Angular",
+          "acceptance": "Implement Angular UI logic to display error messages if OAuth authentication fails, based on errors returned by the backend. Acceptance Criteria: Ensure user sees relevant error messages (e.g., 'Login failed, please try again.'). Error messages must adapt to different failure cases (network failure, invalid token, etc.). Test UI behavior for each failure scenario.",
+          "id": "TASK10"
+        },
+        {
+          "list": "Redirect authenticated users to the dashboard post-login",
+          "acceptance": "Implement Angular navigation logic to redirect authenticated users to the dashboard upon successful OAuth login. Acceptance Criteria: Successfully authenticated users must be redirected to the dashboard route. Unauthenticated users must remain on the login page.",
+          "id": "TASK11"
         }
-      ],
-      "pmoId": "951",
-      "pmoIssueType": "Platform Feature"
+      ]
     },
     {
       "id": "US3",
-      "name": "Video Privacy Configuration",
-      "description": "Ability to set and modify privacy preferences and preview the impact before publishing.  \n#### Acceptance Criteria:  \n- Users can set privacy options including Public, Private, and Unlisted modes.  \n- A preview is available showing visibility based on the chosen settings.  \n- Privacy preferences can be adjusted before publishing the video.  \n- Privacy settings are respected post-publication.",
+      "name": "Profile Management",
+      "description": "Ability to update user profile information. In order to manage personalized account details. As a user, I want to update my name, email, and profile picture in account settings. Acceptance Criteria: The account settings screen must include editable fields for name, email, and a profile picture upload option. 'Save' and 'Cancel' buttons must be provided to submit or discard changes. Name and email fields must adhere to mandatory presence and proper format validation (e.g., valid email structure). A success message must appear upon successful saving of data. Errors must display for invalid inputs or backend failures.",
       "tasks": [
         {
-          "list": "Create backend Rust module for managing video privacy settings",
-          "acceptance": "Implement a Rust module to manage video privacy settings with options for Public, Private, and Unlisted modes. The module should include functions to set, update, and retrieve the privacy setting of a video using predefined enums or constants.  \n#### Acceptance Criteria:  \n- The module must allow setting a privacy mode (Public, Private, or Unlisted) for a given video ID.  \n- The module must allow updating the privacy mode for a given video ID.  \n- The module must include error handling for invalid privacy modes and invalid video IDs.  \n- All operations must support proper unit testing.",
-          "id": "TASK19",
-          "pmoId": "973",
-          "pmoIssueType": "User Story"
+          "list": "Create editable fields for name, email, and profile picture in the account settings UI",
+          "acceptance": "Add input fields for 'name' and 'email', and an upload component for 'profile picture' in the account settings Angular component. Ensure fields are visible and properly labeled. Acceptance Criteria: Input fields for name and email must be editable. A file upload option for profile pictures must be present. Form controls must link to Angular form binding for data handling.",
+          "id": "TASK1"
         },
         {
-          "list": "Integrate GCP storage for video privacy data persistence",
-          "acceptance": "Store and retrieve video privacy preferences in a GCP storage solution (e.g., Cloud Firestore or Cloud Storage), ensuring data consistency and retrieval by video ID.  \n#### Acceptance Criteria:  \n- Video privacy preferences must be stored using a unique video ID and associated privacy mode.  \n- Privacy data must be retrievable for any given video ID from GCP.  \n- Ensure error handling for failed storage or retrieval operations.  \n- Implement and validate with automated tests.",
-          "id": "TASK20",
-          "pmoId": "974",
-          "pmoIssueType": "User Story"
+          "list": "Implement validation for name and email fields",
+          "acceptance": "Add Angular form validators to ensure presence for the 'name' and 'email' fields. Email must conform to a valid email format (e.g., regex validation). Acceptance Criteria: Form must prevent submission if 'name' or 'email' is empty. An error message must display below the field for invalid or empty entries. Email must pass standard regex format validation.",
+          "id": "TASK2"
         },
         {
-          "list": "Develop API endpoints in Rust for managing video privacy preferences",
-          "acceptance": "Expose REST API endpoints for clients to set, update, and retrieve video privacy preferences. Implement the API logic in Rust to connect with the backend privacy module and GCP storage.  \n#### Acceptance Criteria:  \n- API must include endpoints for: POST (set privacy), PUT (update privacy), and GET (retrieve privacy).  \n- Validate request inputs (e.g., valid video IDs, valid privacy modes).  \n- Return appropriate HTTP status codes (e.g., 400 for invalid requests, 404 for missing video, 200 for success).  \n- Ensure endpoints are tested with automated integration tests.  \n- Properly document the API error responses.",
-          "id": "TASK21",
-          "pmoId": "975",
-          "pmoIssueType": "User Story"
+          "list": "Create a service for profile updates integration with backend",
+          "acceptance": "Develop an Angular service to interface with the backend for sending profile update requests. Use the HTTP client and define a method that accepts 'name', 'email', and 'profile picture' as parameters. Acceptance Criteria: The service must make an HTTP PUT/POST request to the backend API with the updated data in a JSON format. The service must include proper error handling for backend failures with descriptive response messages.",
+          "id": "TASK3"
         },
         {
-          "list": "Create Angular UI component for privacy settings",
-          "acceptance": "Develop a privacy settings UI component in Angular where users can set and modify the privacy mode for a video. The component must interface with the provided backend API endpoints.  \n#### Acceptance Criteria:  \n- The component must display the current privacy mode (Public, Private, or Unlisted).  \n- Users must be able to modify the privacy mode through dropdown or radio button inputs.  \n- Validate user input and display error messages for invalid actions.  \n- The component must use the REST API endpoints to fetch and update privacy preferences.  \n- Include unit tests for the component logic.",
-          "id": "TASK22",
-          "pmoId": "976",
-          "pmoIssueType": "User Story"
+          "list": "Design a UI mechanism for 'Save' and 'Cancel' buttons",
+          "acceptance": "Add 'Save' and 'Cancel' buttons to the account settings UI. Bind the 'Save' button to submit the form changes using the Angular service. Bind the 'Cancel' button to reset changes to the initial state. Acceptance Criteria: 'Save' button must submit the validated form data to the backend. 'Cancel' button must clear changes and restore initial field values.",
+          "id": "TASK4"
         },
         {
-          "list": "Develop Angular preview component to show the visibility impact of privacy preferences",
-          "acceptance": "Implement a dynamic preview component in Angular to display the visibility impact of the selected privacy mode (Public, Private, or Unlisted).  \n#### Acceptance Criteria:  \n- The preview component must update in real-time as users modify privacy settings.  \n- Logical preview messages must map to privacy states (e.g., 'Visible to everyone' for Public).  \n- The component must handle fallback logic if visibility cannot be determined (e.g., API failures or unavailable data).  \n- Include unit tests for the component logic and state transitions.",
-          "id": "TASK23",
-          "pmoId": "977",
-          "pmoIssueType": "User Story"
+          "list": "Display success message for data saved successfully",
+          "acceptance": "Implement a mechanism to show a success message overlay using Angular Material components (e.g., Snackbar/Toast) when the backend confirms data is saved. Acceptance Criteria: A success notification must display upon successful backend response. The message must disappear automatically after a few seconds.",
+          "id": "TASK5"
         },
         {
-          "list": "Ensure Angular UI respects privacy settings post-publication",
-          "acceptance": "Validate and enforce that the privacy settings on the UI correctly reflect the application's video visibility post-publication, using the set privacy state.  \n#### Acceptance Criteria:  \n- Ensure the privacy mode displayed aligns with the API's stored state for any published video.  \n- Validate that published videos maintain their configured privacy settings on page reload or API call refresh.  \n- Include end-to-end tests to ensure published video privacy preferences are accurately enforced.",
-          "id": "TASK24",
-          "pmoId": "978",
-          "pmoIssueType": "User Story"
+          "list": "Handle errors for invalid inputs or backend failures",
+          "acceptance": "Develop error-handling logic to display descriptive error messages for form validation failures and backend errors. Use Angular message components to show error notifications. Acceptance Criteria: Validation errors must display inline, adjacent to problematic fields. Backend errors must appear as a global notification. Invalid or incomplete form inputs must prevent data submission.",
+          "id": "TASK6"
         },
         {
-          "list": "Implement end-to-end tests for privacy preferences workflow",
-          "acceptance": "Develop end-to-end tests to ensure all facets of the privacy preferences feature function as expected, from setting privacy preferences to ensuring they are respected post-publication.  \n#### Acceptance Criteria:  \n- E2E tests must cover the setting, updating, and retrieval of privacy preferences via the frontend and backend.  \n- Ensure that API-level errors are correctly propagated to the UI.  \n- Verify that visibility preview updates match all possible privacy states.  \n- Confirm that set privacy preferences are reflected correctly post-publication.",
-          "id": "TASK25",
-          "pmoId": "979",
-          "pmoIssueType": "User Story"
+          "list": "Integrate profile picture upload functionality",
+          "acceptance": "Implement file upload logic in the Angular component. Accept image files only and integrate them into the form submission payload. Use a preview mechanism to display the uploaded image. Acceptance Criteria: The file input must allow selecting image files only. Preview of the selected image must display before form submission. Upon submission, the image file must send to the backend as part of the payload.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Implement backend profile update API in Rust",
+          "acceptance": "Develop a REST API endpoint in Rust to handle profile updates. Endpoint must accept 'name', 'email', and a profile picture file as a multipart request. Save the updated data to the database and return appropriate success or error responses. Acceptance Criteria: API must validate presence and format of 'name' and 'email'. Profile picture must handle file type validation and be saved via GCP storage. Return 200 status upon success and appropriate error codes upon failure.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Integrate GCP storage for profile picture uploads",
+          "acceptance": "Use GCP SDK in the Rust backend to upload the profile picture file to cloud storage. Return the file URL as part of the success response. Acceptance Criteria: Profile pictures must be saved to a designated GCP bucket. Bucket paths must follow a consistent naming convention, e.g., '/user-profiles/<user-id>/profile.jpg'. Successful upload must return the file URL in the response.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Unit test and integration test profile management functionality",
+          "acceptance": "Write unit tests for Angular form validation and backend API functions. Perform integration tests to validate end-to-end functionality for saving user profiles. Acceptance Criteria: Test cases must cover valid and invalid inputs for both frontend and backend. Ensure successful data updates and proper error handling through automated tests.",
+          "id": "TASK10"
         }
-      ],
-      "pmoId": "952",
-      "pmoIssueType": "Platform Feature"
+      ]
     },
     {
       "id": "US4",
-      "name": "Video Upload Progress Tracking",
-      "description": "Ability to monitor the upload progress and handle errors effectively.  \n#### Acceptance Criteria:  \n- A progress bar displays the percentage uploaded and estimated remaining time.  \n- Clear error messages are shown for upload failures with troubleshooting tips.  \n- Users can retry or cancel uploads during the process.",
+      "name": "Password Reset and Recovery",
+      "description": "Ability to reset a forgotten password. In order to regain access to the application. As a user, I want to recover my account by resetting my password. Acceptance Criteria: A 'Forgot Password?' link must be present on the login page, navigating users to a password recovery screen. The recovery screen must prompt users to enter their registered email, triggering a password recovery email. Clicking the secure reset link in the email must navigate users to a password reset form. The reset form must prompt users to enter and confirm a new password with validation for security requirements (e.g., minimum length, special characters). Users must see a success notification after successfully resetting passwords. Errors must appear for invalid or expired reset links.",
       "tasks": [
         {
-          "list": "Implement backend function to calculate upload progress percentage",
-          "acceptance": "Create a Rust function that calculates the upload progress percentage based on uploaded and total file size.  \n#### Acceptance Criteria:  \n- The function must take `uploaded_size` and `total_size` as inputs.  \n- Output must be a float representing the percentage of upload completion.  \n- The function must validate that the `total_size` is non-zero.  \n- Return an error if inputs are invalid (e.g., `uploaded_size` > `total_size` or negative values).  \n- Unit tests must be written for this function to cover valid and invalid input scenarios.",
-          "id": "TASK26",
-          "pmoId": "980",
-          "pmoIssueType": "User Story"
+          "list": "Add 'Forgot Password?' link to login screen",
+          "acceptance": "Implement a 'Forgot Password?' link on the login page in the Angular frontend. The link must navigate users to the password recovery screen. Acceptance Criteria: The 'Forgot Password?' link must be viewable on the login page. Clicking the link must navigate the user to the recovery screen.",
+          "id": "TASK1"
         },
         {
-          "list": "Implement backend function to estimate remaining upload time",
-          "acceptance": "Create a Rust function to estimate the remaining upload time based on the current upload speed.  \n#### Acceptance Criteria:  \n- The function must take `uploaded_size`, `total_size`, and `elapsed_time` as inputs.  \n- Calculate the upload speed as `uploaded_size / elapsed_time`.  \n- Estimate remaining time as `(total_size - uploaded_size) / upload_speed`.  \n- Return an error if `elapsed_time` is zero or if inputs are invalid (e.g., negative values or `uploaded_size > total_size`).  \n- Unit tests must validate the correctness of the remaining time for different inputs, including edge cases (e.g., very large or small files).",
-          "id": "TASK27",
-          "pmoId": "981",
-          "pmoIssueType": "User Story"
+          "list": "Create password recovery screen with email input",
+          "acceptance": "Develop a password recovery screen in the Angular frontend that includes an input field for users to provide their registered email address. Add a button to submit the email. Acceptance Criteria: The recovery screen must display an input field for email and a submit button. Submission of the email triggers the password recovery process as described in subsequent tasks.",
+          "id": "TASK2"
         },
         {
-          "list": "Create Angular service to fetch and process upload progress data",
-          "acceptance": "Develop an Angular service to fetch upload progress from the backend and process it for the UI.  \n#### Acceptance Criteria:  \n- The service must provide a method to periodically request `upload_progress` and `remaining_time` data from the backend API.  \n- The service must handle valid responses and relay the data to subscribed components.  \n- In case of backend errors, log the error and relay a user-friendly error state.  \n- Write unit tests for the service to validate API integration and data-processing correctness.",
-          "id": "TASK28",
-          "pmoId": "982",
-          "pmoIssueType": "User Story"
+          "list": "Implement backend API endpoint to handle password recovery requests",
+          "acceptance": "In the Rust backend, create a POST API endpoint (e.g., '/api/password-recovery') that validates the provided email address against the user database (in GCP). If valid, generate a secure one-time-use reset token and store it with an expiration timestamp. Trigger an email containing the reset link with the token. Acceptance Criteria: The endpoint must accept a JSON payload with the user's email. If the email is valid, generate a reset token and associate it with the user account in the database. Trigger a password recovery email containing a secure reset link formatted as '/reset-password?token={tokenValue}'. Return a response indicating success or failure.",
+          "id": "TASK3"
         },
         {
-          "list": "Design and implement UI progress bar component in Angular",
-          "acceptance": "Develop a progress bar component in Angular to display the upload progress percentage.  \n#### Acceptance Criteria:  \n- The component must receive the `upload_progress` as an input from its parent component or service.  \n- Dynamically render the progress percentage and visually update the progress bar to match the completion percentage.  \n- Include tooltip support to display the `remaining_time` in a human-readable format.  \n- Validate that the progress bar updates in real time during the upload process.  \n- Write unit tests to confirm that the progress bar correctly updates for different inputs and scenarios.",
-          "id": "TASK29",
-          "pmoId": "983",
-          "pmoIssueType": "User Story"
+          "list": "Design password recovery email with secure reset link",
+          "acceptance": "Create an email template for the password recovery email in the Rust backend. Include a secure reset link that navigates users to the password reset form. Acceptance Criteria: Email must contain a secure link in the format '/reset-password?token={tokenValue}'. The reset link must include the token generated by the backend and must be unique per request.",
+          "id": "TASK4"
         },
         {
-          "list": "Implement Angular UI to display upload error messages",
-          "acceptance": "Develop a UI component in Angular to show descriptive error messages when an upload error occurs.  \n#### Acceptance Criteria:  \n- Create a reusable, styled component to display error messages received from the service.  \n- Include space to display troubleshooting tips provided by the backend in the error response.  \n- Test the component to ensure proper rendering of different error types and messages.  \n- Validate that the error messages are only displayed when an error state is set, and ensure the error is dismissed on retry or cancel.",
-          "id": "TASK30",
-          "pmoId": "984",
-          "pmoIssueType": "User Story"
+          "list": "Add frontend logic to parse the reset token from URL",
+          "acceptance": "On the password reset form, implement Angular logic to parse the 'token' query parameter from the URL. Pass the parsed token to the backend when submitting the new password. Acceptance Criteria: The password reset form must parse the 'token' query parameter and display the input fields to reset the password. Ensure the token is validated against error scenarios.",
+          "id": "TASK5"
         },
         {
-          "list": "Add retry and cancel upload functionality in backend",
-          "acceptance": "Implement retry and cancel mechanisms for uploads in the backend written in Rust.  \n#### Acceptance Criteria:  \n- Add a `retry` endpoint to reset the upload progress for a specific upload ID.  \n- Add a `cancel` endpoint to terminate an ongoing upload and clear any partial data.  \n- Validate that retry resets progress data but retains previous metadata.  \n- Validate that cancel completely removes all upload-related data for the file.  \n- Write API-level tests to confirm correctness of retry and cancel functionality under different scenarios (e.g., retry after network errors, cancel in mid-upload).",
-          "id": "TASK31",
-          "pmoId": "985",
-          "pmoIssueType": "User Story"
+          "list": "Create password reset form with validations",
+          "acceptance": "Develop the password reset form in the Angular frontend with fields for 'new password' and 'confirm new password'. Add validation for passwords (minimum length, special characters, and matching values). Acceptance Criteria: The form must require input of 'new password' and 'confirm new password'. Both fields must validate the input based on security requirements, and an error must appear if the fields do not match.",
+          "id": "TASK6"
         },
         {
-          "list": "Integrate retry and cancel functionality in Angular UI",
-          "acceptance": "Add retry and cancel buttons in the Angular component to allow users to control the upload process.  \n#### Acceptance Criteria:  \n- The retry button must trigger a retry request to the backend and reset the UI progress components.  \n- The cancel button must trigger a cancel request to the backend and prevent further UI updates.  \n- Buttons must be dynamically enabled or disabled based on the current upload state (e.g., disabled during an active upload).  \n- Confirm that retry restarts the upload process and updates the progress bar from zero.  \n- Write unit tests for the button click handlers to verify API calls and state updates.",
-          "id": "TASK32",
-          "pmoId": "986",
-          "pmoIssueType": "User Story"
+          "list": "Implement password reset API endpoint in backend",
+          "acceptance": "Create a POST API endpoint in the Rust backend (e.g., '/api/reset-password') to handle password reset requests. Validate the reset token, ensure it has not expired, and update the user password in the GCP database. Invalidate the token after use. Acceptance Criteria: The endpoint accepts a JSON payload with 'token' and 'newPassword' fields. It must validate the token and update the user's password upon success. Expired or invalid tokens must return an error response with appropriate error codes.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Display success notification after password reset",
+          "acceptance": "Add frontend logic to display a success notification after successfully resetting the password. Acceptance Criteria: On successful response from the reset password API, display a clear success message to the user on the Angular frontend.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Add error handling for invalid or expired reset tokens",
+          "acceptance": "Implement frontend error handling to display error messages for invalid or expired tokens when submitting the password reset form. Backend must also validate and return appropriate errors for these scenarios. Acceptance Criteria: Errors for invalid or expired tokens must be handled gracefully in the Angular frontend, displaying user-friendly messages. Rust backend must ensure expired or invalid tokens trigger appropriate error responses.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write unit tests for password reset and recovery components",
+          "acceptance": "Create Angular unit tests for the 'Forgot Password?' link, recovery screen, and password reset form components. Write Rust unit tests for the password recovery and reset API endpoints. Acceptance Criteria: All primary components in both frontend (Angular) and backend (Rust) must have unit tests covering success scenarios, validation failures, and error conditions for expired/invalid tokens.",
+          "id": "TASK10"
         }
-      ],
-      "pmoId": "953",
-      "pmoIssueType": "Platform Feature"
+      ]
     },
     {
       "id": "US5",
-      "name": "Video Categorization and Publishing",
-      "description": "Ability to organize video content using tags and finalize the publishing process.  \n#### Acceptance Criteria:  \n- Users can apply tags to categorize videos appropriately.  \n- Published videos are sorted based on metadata and privacy configurations.  \n- Users receive a confirmation upon successful publishing.  \n- Published content reflects configured privacy settings accurately.",
+      "name": "User Session Management",
+      "description": "Ability to manage and secure user sessions. In order to maintain account security. As a user, I want to stay logged in during activity and be logged out based on timeout policies or manual logout. Acceptance Criteria: Users must stay logged in for an active session duration but be logged out automatically after a configurable idle timeout. On session timeout, a prompt must notify users before logging them out, requiring re-authentication. Secure cookies must be used to manage sessions with encryption. A 'Logout' button must be available on all pages and must log out users and redirect them to the login page. Users attempting to access restricted pages without authentication must be redirected to the login screen.",
       "tasks": [
         {
-          "list": "Implement backend function to apply tags for video categorization",
-          "acceptance": "Create a Rust backend function to add tags to video metadata. The function should accept video ID and a list of tags as input, update the video metadata with the provided tags, and store the updated metadata in the designated GCP storage or database. Ensure validations for maximum number of tags and disallow duplicate tags.  \n#### Acceptance Criteria:  \n- The function receives video ID and a list of tags as input.  \n- The function updates the video metadata with the provided tags in GCP storage/database.  \n- Prevent duplicate tags for the same video.  \n- Add validation for a maximum number of tags per video (e.g., 10).  \n- Return appropriate error messages for invalid inputs (e.g., video ID not found, invalid tag format).  \n- Verify updated metadata is stored securely in GCP.",
-          "id": "TASK33",
-          "pmoId": "987",
-          "pmoIssueType": "User Story"
+          "list": "Implement secure session creation using encrypted secure cookies",
+          "acceptance": "A function must be implemented in Rust to create a new user session upon successful authentication. The session ID must be encrypted and stored in a secure HTTP-only cookie. The cookie must have the Secure and SameSite attributes set. Acceptance Criteria: (1) Only users with valid credentials can receive a session cookie; (2) The cookie must be encrypted and follow secure standards; (3) The cookie must not be accessible via JavaScript.",
+          "id": "TASK1"
         },
         {
-          "list": "Develop Angular frontend component for tagging videos",
-          "acceptance": "Implement an Angular component to allow users to add and remove tags for videos. The component should provide a user interface to input tags, display already added tags, and validate input with the rules specified (e.g., no duplicate tags, max 10 tags).  \n#### Acceptance Criteria:  \n- The component allows users to input new tags and view existing ones.  \n- Tag input is validated: no duplicates and maximum of 10 tags allowed.  \n- Displays error messages for invalid inputs (e.g., duplicate tags or exceeding the tag limit).  \n- Sends API requests to the backend to persist changes.  \n- Updates the UI in real-time after successful backend updates.",
-          "id": "TASK34",
-          "pmoId": "988",
-          "pmoIssueType": "User Story"
+          "list": "Implement session validation mechanism",
+          "acceptance": "A middleware in Rust must validate the session cookie for every incoming request by decrypting the session ID and checking its validity in the session store. If the session is invalid or expired, the user must be redirected to the login page. Acceptance Criteria: (1) Middleware must validate session cookies for all secured API endpoints; (2) Each request with an invalid or absent session token must result in a redirection to the login page.",
+          "id": "TASK2"
         },
         {
-          "list": "Implement backend function to publish videos",
-          "acceptance": "Create a Rust backend function to finalize the publishing process of a video. It should accept video ID, metadata, and privacy configurations, validate the data, and update the video status to 'published' in the GCP storage or database.  \n#### Acceptance Criteria:  \n- The function changes the video status to 'published' in GCP storage or database.  \n- Accepts video ID, metadata, and privacy settings as input, ensuring all required fields are present and valid.  \n- Validates privacy configurations (e.g., public, private, or restricted visibility).  \n- Return appropriate error messages if input is invalid or video ID is not found.  \n- Ensure the video’s metadata and privacy settings are correctly saved during publishing.",
-          "id": "TASK35",
-          "pmoId": "989",
-          "pmoIssueType": "User Story"
+          "list": "Create configurable idle timeout functionality",
+          "acceptance": "A function must track user activity to reset the idle timer on interaction. If the idle timer exceeds the configured timeout limit, the session must be flagged for timeout and the user notified via a prompt. Acceptance Criteria: (1) Idle timeout duration must be configurable via an environment variable or configuration file; (2) Idle timeout must be accurately reset on user activity; (3) Session timeout prompt must trigger only after exceeding the idle limit and must require user action to either re-authenticate or confirm logout.",
+          "id": "TASK3"
         },
         {
-          "list": "Develop Angular frontend component to initiate video publishing",
-          "acceptance": "Create an Angular component that allows users to finalize the publishing process by configuring metadata and privacy settings for videos. The component should send this data to the backend API for processing and provide real-time feedback to the user, including a confirmation message upon successful publishing.  \n#### Acceptance Criteria:  \n- The component allows users to edit metadata, configure privacy settings, and initiate publishing.  \n- Sends API requests to the backend with the required data (video ID, metadata, and privacy settings).  \n- Displays confirmation message upon successful publishing.  \n- Shows error messages for any failed operations (e.g., validation errors or backend issues).",
-          "id": "TASK36",
-          "pmoId": "990",
-          "pmoIssueType": "User Story"
+          "list": "Implement session timeout handling and auto logout mechanism",
+          "acceptance": "When the session timeout prompt appears and the user does not confirm activity within a given timeframe, the session must be invalidated on the server, and the user must be logged out. Acceptance Criteria: (1) User must be logged out automatically after idle timeout is reached and the prompt times out without user interaction; (2) The session must be deleted from the session store upon logout; (3) The user must be redirected to the login page after auto logout.",
+          "id": "TASK4"
         },
         {
-          "list": "Sort published videos based on metadata and privacy settings in backend",
-          "acceptance": "Implement a Rust backend function to sort published videos based on their metadata and configured privacy settings. This function should retrieve published videos from GCP storage or database and return a sorted list according to predefined criteria (e.g., metadata fields like date, category, or visibility).  \n#### Acceptance Criteria:  \n- Function retrieves only published videos from GCP.  \n- Sorts videos based on metadata (e.g., date, category) and privacy configurations (e.g., public videos first).  \n- Returns a sorted list of videos.  \n- Handles and logs errors if data retrieval or sorting fails.  \n- Validates that only published videos are retrieved in the results.",
-          "id": "TASK37",
-          "pmoId": "991",
-          "pmoIssueType": "User Story"
+          "list": "Implement 'Logout' button for manual session termination",
+          "acceptance": "A 'Logout' button must be added to the Angular front-end and associated with a backend endpoint in Rust to handle manual session termination. Clicking the button must invalidate the corresponding session and redirect the user to the login page. Acceptance Criteria: (1) 'Logout' button must be present on all pages; (2) Clicking 'Logout' must send a request to the backend to invalidate the session; (3) Upon successful logout, the user must be redirected to the login page.",
+          "id": "TASK5"
         },
         {
-          "list": "Confirm privacy settings are accurately applied for published videos",
-          "acceptance": "Implement validation logic in the backend to ensure the privacy settings of videos are enforced upon publishing. The function should validate the configured privacy options (e.g., public, private) and verify that only users with appropriate access can view the video.  \n#### Acceptance Criteria:  \n- Validate and enforce privacy settings for public, private, and restricted videos.  \n- Ensure published videos respect the privacy settings when accessed.  \n- Log errors for any failed validation or mismatched privacy configurations.  \n- Return appropriate permissions metadata for each video to guide video visibility settings in the frontend.",
-          "id": "TASK38",
-          "pmoId": "992",
-          "pmoIssueType": "User Story"
+          "list": "Restrict access to secured pages for unauthenticated users",
+          "acceptance": "A middleware in Rust must ensure that access to restricted API endpoints is allowed only for authenticated sessions. If a request is unauthenticated, it must return a 401 Unauthorized status and trigger the front-end to redirect to the login page. Acceptance Criteria: (1) All restricted API endpoints must verify session authenticity through middleware; (2) Unauthenticated users requesting restricted resources must receive a 401 response; (3) The front-end must redirect unauthenticated users to the login page when a 401 error occurs.",
+          "id": "TASK6"
         },
         {
-          "list": "Implement confirmation notification logic for successful video publishing",
-          "acceptance": "Develop backend and frontend logic to send a confirmation notification to the user upon successful video publishing. The confirmation should include the video ID and a success status.  \n#### Acceptance Criteria:  \n- Backend sends a success response with the video ID and status after publishing.  \n- Frontend displays a notification with the video's publishing information (e.g., title, ID, success message).  \n- Ensure notifications are displayed in real-time after successful backend response.  \n- Verify no notification is sent for failed publishing attempts.",
-          "id": "TASK39",
-          "pmoId": "993",
-          "pmoIssueType": "User Story"
+          "list": "Add session timeout notification on the Angular front-end",
+          "acceptance": "Implement a UI component to display a session timeout warning prompt in Angular. The prompt must notify the user before automatic logout, offering an option to extend the session by re-authenticating. Acceptance Criteria: (1) The UI prompt must appear when session timeout is imminent; (2) The prompt must provide options to either extend the session or log out; (3) If no action is taken within the specified timeframe, the user must be logged out automatically.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Create integration tests for session management features",
+          "acceptance": "Automated integration tests must be created for all session management features to verify functionalities such as login, session validation, idle timeout, auto logout, manual logout, and secure page access. Acceptance Criteria: (1) Integration tests must verify secure cookie creation and validation; (2) Tests must validate configurable idle timeout settings; (3) Auto logout and manual logout behaviors must be tested; (4) Restricted page access for unauthenticated users must be verified.",
+          "id": "TASK8"
         }
-      ],
-      "pmoId": "954",
-      "pmoIssueType": "Platform Feature"
+      ]
     }
   ]
 }

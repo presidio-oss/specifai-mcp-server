@@ -1,5 +1,4 @@
 {
-  "title": "User Account Personalization",
-  "requirement": "Allow users to manage profiles with playlists, saved videos, subscriptions, and history for easy access to relevant content.  \n#### Screens:  \n- **Profile Screen**: Displays user information and personalized features.  \n#### Personas:  \n- **Active Users**: Seek personalized platforms to enhance experience.",
-  "linkedBRDIds": ["BRD14"]
+  "requirement": "The app should allow users to download videos for offline viewing on mobile devices. Screens: A download manager screen for users to manage offline content. Personas: Users with limited internet access who want to watch content offline.",
+  "title": "Offline Viewing Support"
 }

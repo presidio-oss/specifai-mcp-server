@@ -1,4 +1,4 @@
 {
-  "title": "High-Quality Audio Streaming",
-  "requirement": "Offer multiple audio quality settings, including high-definition streaming, to cater to users with diverse bandwidth capabilities and preferences, ensuring consistent playback experiences."
+  "requirement": "Ensure compatibility with various operating systems and devices, including iOS, Android, Windows, macOS, web browsers, smart TVs, gaming consoles, and in-car systems, for a seamless experience across platforms.",
+  "title": "Multi-Platform Compatibility"
 }

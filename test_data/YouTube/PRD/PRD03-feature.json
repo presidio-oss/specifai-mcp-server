@@ -1,1 +1,274 @@
-{ "features": [] }
+{
+  "features": [
+    {
+      "id": "US1",
+      "name": "Seamless Video Playback with Basic Controls",
+      "description": "Ability to play, pause, and control the volume of a video. In order to provide smooth and responsive video playback. As a viewer, I want to easily manage basic playback functionality without any confusion or delay. Acceptance Criteria: The video player must include a play/pause toggle button. Users must be able to adjust the volume using a responsive slider or mute/unmute the video with a single click. The controls should be visually prominent and responsive. If the play/pause button is used, the video must resume or pause without delay. If the video fails to load, an error message must guide the user with retry instructions.",
+      "tasks": [
+        {
+          "list": "Implement play/pause toggle functionality",
+          "acceptance": "Implement a play/pause toggle functionality inside the Angular component with a button. The button should change its state based on the current playback status of the video. Use Angular click event binding to tie the button's action to a method in the PlayPauseController. Acceptance Criteria: The button must toggle between 'play' and 'pause' states based on the playback status. The video playback should start or pause immediately when the button is clicked.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create a responsive volume control slider",
+          "acceptance": "Add a volume slider to control the video volume through the Angular component. Use Angular two-way data binding to connect the slider value with a VolumeController method. The slider value must dynamically update the video element's volume property. Acceptance Criteria: The slider must adjust the volume smoothly and show responsiveness to user input in real-time. The volume property change must take effect immediately on the video player.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement mute/unmute toggle functionality",
+          "acceptance": "Add a single-click mute/unmute button to the video controls. The button must toggle between mute and unmute states using the Angular click event, and its status should reflect the video element's mute property. Acceptance Criteria: The mute button must immediately mute/unmute the video and visually indicate its status. If mute is toggled while the volume slider is non-zero, unmuting must restore the last volume setting.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Handle video load failure with error message",
+          "acceptance": "Add error handling logic for video load failures in the Rust-backed service. Display a visually prominent error message in the Angular component if the video fails to load. Include a 'Retry' button to reload the video when clicked, tied to an Angular method. Acceptance Criteria: The error message must appear immediately if the video fails to load. The retry button must attempt to reload the video, and the error message must persist until the video loads successfully.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Design and style the control elements for responsiveness",
+          "acceptance": "Use Angular's CSS rendering to design the play/pause toggle button, volume slider, and mute/unmute button to be visually prominent and responsive. Ensure the controls adjust seamlessly to changes in screen size and are easily interactable. Acceptance Criteria: Controls must be clearly visible, functional on all screen sizes, and retain responsiveness on resizing. The buttons should have hover and toggle state styles for improved UX.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Link play/pause functionality to the video playback state",
+          "acceptance": "Using Angular's data binding and event listeners, link the play/pause button to accurately reflect and control the video element's playback state. Acceptance Criteria: The play/pause button must always display the correct state ('Play' when paused and 'Pause' when playing). The video state must synchronize accurately with button interactions.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Write unit tests for all control elements",
+          "acceptance": "Write Angular unit tests to validate the functionality of the play/pause toggle, volume slider, and mute/unmute button. Test for all edge cases such as rapid button clicks, volume slider boundaries, and video load failures. Acceptance Criteria: All unit tests must pass successfully and validate correct behavior for all control interactions and failure conditions.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Integrate video controls with backend retry mechanism for load error",
+          "acceptance": "Enhance the retry button functionality to communicate with the existing Rust-based backend service for loading the video. Ensure the retry button invokes the backend and attempts to reload the video in case of failure. Acceptance Criteria: The retry button must trigger a backend call in Rust to fetch the video. It must refresh the video element and remove the error message if the video loads successfully. Failure scenarios must continue to display the error message.",
+          "id": "TASK8"
+        }
+      ]
+    },
+    {
+      "id": "US2",
+      "name": "Support for Video Quality Adjustment",
+      "description": "Ability to adjust video quality during playback. In order to provide viewers with flexibility based on their preferences or network conditions. As a viewer, I want to switch between different video quality options seamlessly. Acceptance Criteria: The video player must display available quality options (e.g., 240p, 720p, 1080p) in a dropdown or clickable menu. Selecting a quality option should apply immediately without interrupting playback. The system must default to an optimized quality based on the viewer's network. A visible label must indicate the current quality. If a specific quality is unavailable, the system should display a message notifying the viewer.",
+      "tasks": [
+        {
+          "list": "Implement video quality options dropdown/menu in Angular UI",
+          "acceptance": "Create a dropdown or clickable menu in the Angular UI component of the video player for selecting video quality. Populate the options (e.g., 240p, 720p, 1080p) dynamically based on available quality sources. The UI must clearly display the current quality label. Acceptance Criteria: The dropdown/menu should list all available quality options dynamically and highlight the currently selected quality.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Create Rust API to fetch available quality options",
+          "acceptance": "Develop an API endpoint in Rust to retrieve available video quality options for a given video. The API should return an array of available quality options (e.g., [240, 720, 1080]). Handle errors for cases where quality options cannot be retrieved. Acceptance Criteria: The API returns the available options as JSON with a success status. On error, it returns an error message indicating the failure.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Wire up Rust API with Angular service to fetch available quality options",
+          "acceptance": "Create an Angular service to call the Rust API and retrieve available quality options. Handle responses and pass the data to the video quality dropdown/menu component. Provide error messaging to the UI if the quality options are unavailable. Acceptance Criteria: The dropdown is populated with options fetched from the API. If fetch fails, display a message in the UI indicating the unavailable quality options.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Implement seamless video quality switching in Rust backend",
+          "acceptance": "Extend the Rust backend to handle requests for changing video quality dynamically during playback. Ensure the quality switch is applied without interrupting the video stream. Validate requested quality against available options. Acceptance Criteria: The backend switches video quality dynamically without interrupting the stream. If the requested quality is invalid or unavailable, return an error response.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Update Angular video player to send quality switch requests",
+          "acceptance": "Enhance the Angular video player to trigger a Rust API call when a new quality option is selected from the dropdown/menu. Update the player to handle immediate quality changes during playback based on the response. Acceptance Criteria: Selecting a new quality option makes an API call to the backend and switches the video quality immediately without playback interruption.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Implement network-based quality optimization in Rust backend",
+          "acceptance": "Develop a mechanism in the Rust backend to detect the viewer's network condition and determine an optimized initial video quality. Return this quality as the default setting when the video player loads. Acceptance Criteria: The backend determines an optimized video quality based on network conditions and sends it as the default during the initial player setup.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Display current quality label in Angular video player",
+          "acceptance": "Add a visible label to the Angular video player interface to indicate the current video quality. Update the label dynamically whenever the quality changes. Acceptance Criteria: The current quality label is always accurate and dynamically updates when the quality changes.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Handle unavailable quality options in Angular UI",
+          "acceptance": "Implement error handling in the Angular UI to display a message in the dropdown/menu when a specific video quality option is unavailable during selection. Acceptance Criteria: If a viewer selects an unavailable quality option, display a clear message in the dropdown/menu without interrupting playback.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write unit tests for the Rust API endpoints",
+          "acceptance": "Develop unit tests for the Rust API endpoints to validate the retrieval of available quality options, seamless quality switching, and default quality determination based on network conditions. Test cases should include error scenarios for invalid quality options or network-based failures. Acceptance Criteria: All Rust API endpoints should have comprehensive unit tests with at least 90% test coverage. Tests should pass in expected and error scenarios.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Write unit tests for Angular components and services",
+          "acceptance": "Write unit tests for Angular video quality dropdown/menu component and video player service. Ensure proper tests are written for quality option fetching, API interactions, and UI updates like current quality label and error messaging. Acceptance Criteria: Angular components and services should have at least 90% test coverage. All implemented features, including error handling, should be validated by the tests.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US3",
+      "name": "Subtitles and Closed Captions Support",
+      "description": "Ability to enable or disable subtitles or closed captions for video playback. In order to make the content accessible to all audiences. As a viewer, I want to toggle subtitles and choose my preferred language option (if available). Acceptance Criteria: The video player must include a subtitles toggle button/icon. Users must be able to select a language for subtitles (if multiple options are available). Enabled subtitles must be displayed clearly over the video. If subtitles are unavailable for a video, the toggle must be disabled, and a tooltip or message must inform the user.",
+      "tasks": [
+        {
+          "list": "Add a toggle button for subtitles in the Angular video player component",
+          "acceptance": "Modify the existing Angular video player component to include a subtitles toggle button/icon. Ensure the button is visually aligned with the player UI. Acceptance Criteria: The subtitles toggle button must appear in the video player's control bar. When subtitles are unavailable, the button must be disabled. A tooltip should inform the user that subtitles are unavailable.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement click handling for the subtitles toggle button in Angular",
+          "acceptance": "Write Angular component logic to enable or disable subtitles when the toggle button is clicked. Use a boolean state variable to track whether subtitles are enabled or disabled. Acceptance Criteria: Clicking the toggle button must change the state of subtitles. The icon displayed on the button must visually indicate the current state (enabled/disabled).",
+          "id": "TASK2"
+        },
+        {
+          "list": "Add a dropdown menu for language selection in the video player component",
+          "acceptance": "Integrate a dropdown menu in the video player UI for subtitles language selection. Bind it to a list of available subtitle languages. Acceptance Criteria: The dropdown must display available subtitles languages. If only one language is available, the dropdown must default to that language and be disabled. If subtitles are unavailable, no languages should appear in the dropdown.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Fetch available subtitles metadata for a video",
+          "acceptance": "Create a service function using Angular to fetch subtitles metadata (e.g., language options) for a video from a backend API. Acceptance Criteria: Must fetch and return a list of subtitle languages (if available) or an empty list (if none). Handle errors gracefully, displaying an appropriate error message in the UI if the fetch fails.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Update the video playback component to render subtitles over the video",
+          "acceptance": "Use Angular bindings to dynamically render subtitles text over the video. Fetch and display subtitle content from the backend when subtitles are enabled. Acceptance Criteria: Subtitles must render in user-selected language or the default language if no selection is made. Text must appear clearly, adhering to accessibility guidelines (e.g., appropriate font size and color contrast).",
+          "id": "TASK5"
+        },
+        {
+          "list": "Disable toggle when no subtitles are available",
+          "acceptance": "Add logic to automatically disable the subtitles toggle button if no subtitles are available for a video after fetching metadata. Acceptance Criteria: The toggle button must be disabled, and a tooltip must display 'No subtitles available' if metadata indicates no subtitles. The UI must update appropriately after metadata is fetched.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle subtitle errors in video playback",
+          "acceptance": "Add error handling for scenarios where subtitles fail to load during playback. Display an error message over the video if subtitles cannot be displayed. Acceptance Criteria: If subtitles fail to load, display a clear non-intrusive message indicating 'Subtitles unavailable.' Playback must not be interrupted under error conditions.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Optimize performance for switching subtitle languages during playback",
+          "acceptance": "Implement logic to preload subtitle data for user-selected language when switching. Avoid redundant API calls if the same language is reselected. Acceptance Criteria: Switching subtitle languages during playback must happen seamlessly without noticeable delays. Only required subtitle data must be fetched to minimize API overhead.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Create unit tests for subtitles toggle button functionality",
+          "acceptance": "Write Angular unit tests to cover the subtitles toggle button component and state changes. Test all user interactions, including enabling/disabling subtitles and handling unavailable subtitles. Acceptance Criteria: All tests must pass, including edge cases like enabling subtitles when none are available, and visual updates must match the functionality.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Create integration tests for subtitles rendering and language selection",
+          "acceptance": "Write integration tests for rendering subtitles and language selection during video playback. Test scenarios where subtitles are available and unavailable. Acceptance Criteria: Integration tests must validate subtitles rendering over the video, correct handling of language changes during playback, and proper behavior when subtitles aren't available.",
+          "id": "TASK10"
+        }
+      ]
+    },
+    {
+      "id": "US4",
+      "name": "Fullscreen Video Playback Experience",
+      "description": "Ability to watch videos in fullscreen mode. In order to provide an immersive and distraction-free viewing experience. As a viewer, I want to toggle fullscreen for the video player and return to normal mode easily. Acceptance Criteria: The video player must include a fullscreen button. Clicking the fullscreen button must expand the video to occupy the entire screen. The exit fullscreen button must remain visible in fullscreen mode. Video quality, subtitles, and controls must remain functional in fullscreen. If fullscreen is unsupported, the system must notify the viewer.",
+      "tasks": [
+        {
+          "list": "Add fullscreen toggle button to video player UI in Angular",
+          "acceptance": "Add a fullscreen toggle button to the video player UI using Angular. Ensure the button has proper styling and placement. Acceptance Criteria: The fullscreen button must be visible on the video player interface and is styled correctly. The button should exist as a clickable element within the video player component.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Implement Angular click event for toggling fullscreen mode",
+          "acceptance": "Define a click event handler in the Angular video player component that invokes fullscreen toggle logic. Acceptance Criteria: Upon clicking the fullscreen button, the fullscreen mode logic is triggered successfully. Ensure no errors are introduced when the click event is invoked.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Write logic for entering fullscreen mode using Rust backend",
+          "acceptance": "Implement Rust logic to handle requests for fullscreen activation. Verify that the video player element is expanded to occupy the full screen using the appropriate fullscreen API. Acceptance Criteria: Clicking the fullscreen button triggers an API interaction with the Rust backend and transitions the video player element to fullscreen. Check for fullscreen API compatibility and handle any errors properly.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Write logic for exiting fullscreen mode using Rust backend",
+          "acceptance": "Implement Rust logic to handle requests for exiting fullscreen mode. Ensure the video player returns to its original size and interface state. Acceptance Criteria: Clicking the exit fullscreen button triggers an API interaction with the Rust backend and transitions the video player out of fullscreen. Check for fullscreen API compatibility and handle any errors properly.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Implement fullscreen state synchronization in Angular",
+          "acceptance": "Modify the Angular video player component to track the current fullscreen state dynamically. Synchronize the UI elements (buttons, controls) to reflect whether the player is in fullscreen or normal mode. Acceptance Criteria: The UI reflects the fullscreen state dynamically, and the correct button (fullscreen toggle or exit fullscreen) remains visible at any point. The state remains consistent even after user interactions.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Ensure video controls and features remain functional in fullscreen mode",
+          "acceptance": "Verify that controls such as play/pause, volume, and subtitles remain functional when the video player is in fullscreen mode. Adjust their styles or positions if required. Acceptance Criteria: All video controls must function properly without any degradation of usability in fullscreen mode.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Design and display error notifications if fullscreen is unsupported",
+          "acceptance": "Implement error handling in Rust to detect unsupported fullscreen environments and return appropriate error messages. Display a notification message on the Angular UI if fullscreen cannot be activated. Acceptance Criteria: If fullscreen is unsupported, users are notified with a clear message on the UI.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Write unit tests for Angular component functionality",
+          "acceptance": "Write unit tests in Angular to verify that the fullscreen button click event works, the state synchronization logic functions correctly, and error notifications display as expected. Acceptance Criteria: All Angular UI tests must pass, and ensure code coverage for the defined scenarios.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Write integration tests for backend fullscreen logic",
+          "acceptance": "Add integration tests in Rust to validate the API logic for entering and exiting fullscreen mode. Ensure error handling for unsupported environments is tested. Acceptance Criteria: All Rust integration tests must pass and verify correct behavior in entering, exiting, and error cases for fullscreen.",
+          "id": "TASK9"
+        }
+      ]
+    },
+    {
+      "id": "US5",
+      "name": "Display Video Title and Recommend Related Content",
+      "description": "Ability to display the video's title and related content on the playback screen. In order to provide informative context and additional viewing options. As a viewer, I want to view the video title and explore related videos below the player. Acceptance Criteria: The video title must be displayed prominently above or below the player. A grid or list of related videos with thumbnails and titles must appear below the player. Clicking on a related video must pause the current video and navigate to the selected one. If no related content is available, the system must display a placeholder message indicating no suggestions are available.",
+      "tasks": [
+        {
+          "list": "Create a component to display video title",
+          "acceptance": "Implement an Angular component to render the video's title above or below the video player. Acceptance Criteria: The video title must appear prominently, above or below the player, as specified in the user interface design. The title must accurately reflect the current video's metadata.",
+          "id": "TASK1"
+        },
+        {
+          "list": "Fetch and display video metadata",
+          "acceptance": "Fetch video metadata (including title) from the backend using the appropriate GCP API endpoint and display it within the title component. Acceptance Criteria: The API response must be correctly parsed and displayed. If the API call fails, an error message or fallback mechanism must be implemented.",
+          "id": "TASK2"
+        },
+        {
+          "list": "Implement grid/list component for related videos",
+          "acceptance": "Develop an Angular component to display a grid or list of related videos below the player. This includes rendering thumbnails and titles for each related video. Acceptance Criteria: The related videos component must appear below the video player and display each related video's thumbnail and title accurately.",
+          "id": "TASK3"
+        },
+        {
+          "list": "Fetch and display related video data",
+          "acceptance": "Fetch data for related videos using the appropriate API endpoint from GCP and render it in the related video component. Acceptance Criteria: The related videos must dynamically populate the component upon API response. In the absence of related content, display a placeholder message.",
+          "id": "TASK4"
+        },
+        {
+          "list": "Enable navigation to a related video with pause functionality",
+          "acceptance": "Implement functionality to pause the current video playback when a related video thumbnail is clicked and navigate to the selected video's details. Acceptance Criteria: Navigating to a related video must pause the current video. The application must update the video player and metadata with details of the selected video.",
+          "id": "TASK5"
+        },
+        {
+          "list": "Placeholder messaging for empty related content",
+          "acceptance": "In the absence of related videos, display a fallback placeholder message in the related videos section. Acceptance Criteria: If no related content is available, a user-friendly placeholder message is displayed. This must cover all error or empty response scenarios.",
+          "id": "TASK6"
+        },
+        {
+          "list": "Handle errors for API interactions",
+          "acceptance": "Add error handling for the metadata and related video API requests. Log errors and display appropriate error messages in the UI if a request fails. Acceptance Criteria: Error states for both metadata and related video API calls are handled gracefully with user-friendly messages displayed.",
+          "id": "TASK7"
+        },
+        {
+          "list": "Unit test video title component",
+          "acceptance": "Write unit tests for the video title component to validate title rendering and error handling. Acceptance Criteria: Unit tests must achieve 100% coverage for displaying titles and error fallback scenarios.",
+          "id": "TASK8"
+        },
+        {
+          "list": "Unit test related videos component",
+          "acceptance": "Create unit tests for the related videos component to validate accurate rendering of related video data, navigation functionality, and placeholder messaging. Acceptance Criteria: Unit tests must validate the component's behavior and error handling with at least 95% coverage.",
+          "id": "TASK9"
+        },
+        {
+          "list": "Integration test for video player and related videos flow",
+          "acceptance": "Write integration tests to ensure that video metadata, related video navigation, and placeholder behavior work seamlessly together. Acceptance Criteria: Integration tests must confirm that all components interact correctly and meet the requirements of the user story.",
+          "id": "TASK10"
+        }
+      ]
+    }
+  ]
+}

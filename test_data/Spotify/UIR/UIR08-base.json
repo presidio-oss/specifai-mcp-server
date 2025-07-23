@@ -1,4 +1,4 @@
 {
-  "title": "Intuitive User Sign-In Process",
-  "requirement": "A clean and straightforward sign-in page must support multiple login options such as email, social media logins, and password retrieval or reset workflows."
+  "requirement": "Each song, podcast, or playlist should have a dedicated details page with options to play, add to playlists, share, and download, along with related content suggestions.",
+  "title": "Content Details Page"
 }

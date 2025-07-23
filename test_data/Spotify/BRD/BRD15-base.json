@@ -1,4 +1,4 @@
 {
-  "title": "Parental Control Features",
-  "requirement": "Introduce robust parental control settings to restrict explicit content and manage accessibility for younger users, ensuring a safe and family-friendly experience."
+  "requirement": "Develop a backend analytics platform to track user behavior, trends, and engagement metrics, enabling data-driven decision-making for continuous improvement of the service.",
+  "title": "Real-Time Analytics Dashboard"
 }

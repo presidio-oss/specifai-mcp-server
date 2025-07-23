@@ -1,4 +1,4 @@
 {
-  "title": "Scalable Infrastructure",
-  "requirement": "The app must handle peak traffic, with scalability to support millions of concurrent users while maintaining optimal performance."
+  "requirement": "The system must handle millions of concurrent users globally, with elastic scaling to adapt to spikes in traffic such as during live events.",
+  "title": "Scalable Content Infrastructure"
 }

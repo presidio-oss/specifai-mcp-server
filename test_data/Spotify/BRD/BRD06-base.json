@@ -1,4 +1,4 @@
 {
-  "title": "Advanced Search Functionality",
-  "requirement": "Incorporate an advanced search mechanism that includes filters for genre, mood, artist, album, and song title, providing users with quick and accurate results based on their input."
+  "requirement": "Ensure seamless synchronization of user accounts across multiple devices, so users can access their playlists, favorite tracks, and playback history from any device, including smartphones, tablets, desktops, and smart speakers.",
+  "title": "Cross-Device Synchronization"
 }

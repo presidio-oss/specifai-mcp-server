@@ -1,4 +1,4 @@
 {
-  "title": "Responsive Design Elements",
-  "requirement": "The UI should adapt seamlessly across devices, including mobile, tablet, and desktop, with optimized layouts for small and large screens."
+  "requirement": "All UI components should be compatible with screen readers and include meaningful ARIA labels to support users with visual impairments.",
+  "title": "Screen Reader Accessibility"
 }

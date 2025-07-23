@@ -1,4 +1,4 @@
 {
-  "title": "User Profile Management",
-  "requirement": "Profiles should have editable sections for username, email, password, and personalized preferences such as watch history visibility."
+  "requirement": "The interface must work seamlessly across various devices and screen sizes, employing a responsive layout with touch-friendly elements for mobile users.",
+  "title": "Responsive Design Support"
 }

@@ -1,4 +1,4 @@
 {
-  "title": "Fast streaming performance",
-  "requirement": "Ensure **low latency** for song and playlist playback to deliver seamless user experience."
+  "requirement": "The system should scale seamlessly to accommodate millions of concurrent users without degradation in performance.",
+  "title": "Scalability for Growth"
 }
