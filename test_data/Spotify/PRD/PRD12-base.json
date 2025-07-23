@@ -1,7 +1,5 @@
 {
   "title": "High-Definition Audio Options",
   "requirement": "Offer varied audio quality settings, including high-definition streaming, addressing diverse bandwidth capabilities globally.  \n#### Screens:  \n* Audio Preferences Screen: Allows adjustment of audio quality in playback settings.  \n#### Personas:  \n* Audiophile: Prefers superior audio quality with high fidelity.  \n* Standard User: Chooses quality based on bandwidth availability.",
-  "linkedBRDIds": [
-    "BRD12"
-  ]
+  "linkedBRDIds": ["BRD12"]
 }

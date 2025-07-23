@@ -1,7 +1,5 @@
 {
   "title": "Family Plan Features",
   "requirement": "Introduce family subscription plans with multiple profiles under one account, individualized recommendations, and shared billing framework.  \n#### Screens:  \n* Family Account Screen: Manage sub-profiles and billing details.  \n#### Personas:  \n* Family Organizer: Oversees account management for all profiles.  \n* Individual Family Members: Use individual preferences tailored to their needs.",
-  "linkedBRDIds": [
-    "BRD14"
-  ]
+  "linkedBRDIds": ["BRD14"]
 }

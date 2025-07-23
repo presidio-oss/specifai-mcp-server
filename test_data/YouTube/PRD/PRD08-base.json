@@ -1,7 +1,5 @@
 {
   "title": "Advanced Search Features",
   "requirement": "Implement search functionality with filters for video length, upload date, category, popularity, and keywords.  \n#### Screens:  \n- **Search Screen**: Includes a search bar, filter options, and organized results.  \n#### Personas:  \n- **General Users**: Need quick, precise results for specific content.",
-  "linkedBRDIds": [
-    "BRD08"
-  ]
+  "linkedBRDIds": ["BRD08"]
 }

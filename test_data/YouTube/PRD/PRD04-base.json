@@ -1,7 +1,5 @@
 {
   "title": "Live Streaming Features",
   "requirement": "Integrate live streaming capabilities for creators, including audience interaction, comment moderation, and latency control.  \n#### Screens:  \n- **Live Setup Screen**: Customizable settings for event duration, latency, and privacy.  \n- **Live Stream Dashboard**: Real-time stats, comments, and moderation tools.  \n#### Personas:  \n- **Creators**: Need robust tools for managing live events.  \n- **Viewers**: Seek real-time connections with creators.",
-  "linkedBRDIds": [
-    "BRD04"
-  ]
+  "linkedBRDIds": ["BRD04"]
 }

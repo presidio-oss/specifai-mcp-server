@@ -1,7 +1,5 @@
 {
   "title": "Recommendation Engine Design",
   "requirement": "Develop a personalized recommendation system based on user preferences, listening history, and advanced algorithms to suggest songs, playlists, and podcasts.  \n#### Screens:  \n* Suggestions Screen: Highlight daily recommendations categorized into songs, podcasts, and playlists.  \n#### Personas:  \n* Algorithm Enthusiast: Actively interacts with suggestions to enhance personalization.  \n* General User: Receives curated content without manual input.",
-  "linkedBRDIds": [
-    "BRD02"
-  ]
+  "linkedBRDIds": ["BRD02"]
 }

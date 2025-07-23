@@ -1,7 +1,5 @@
 {
   "title": "Parental Control Mechanisms",
   "requirement": "Add parental control settings to restrict explicit content and manage accessibility for child accounts, ensuring a family-friendly experience.  \n#### Screens:  \n* Parental Settings Screen: Allows control over explicit content and account permissions.  \n#### Personas:  \n* Concerned Parent: Prioritizes safety and control for child users.",
-  "linkedBRDIds": [
-    "BRD15"
-  ]
+  "linkedBRDIds": ["BRD15"]
 }

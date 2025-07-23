@@ -1,9 +1,7 @@
 {
   "title": "Video Upload Options",
   "requirement": "Enable users to upload videos with support for various file formats, resolution options, and size limits. Include tools for editing metadata, categorizing content, and managing privacy settings prior to publishing.  \n#### Screens:  \n- **Video Upload Screen**: Allows users to choose files, define video properties (e.g., title, description, category), and set privacy settings.  \n- **Upload Progress Screen**: Displays upload status, estimated time, and error handling for failed uploads.  \n#### Personas:  \n- **Content Creators**: Wish to upload quality content in a seamless manner with flexibility in privacy and metadata settings.",
-  "linkedBRDIds": [
-    "BRD01"
-  ],
+  "linkedBRDIds": ["BRD01"],
   "pmoId": "949",
   "pmoIssueType": "Feature",
   "updatedAt": "2025-07-22T06:17:41.906Z"

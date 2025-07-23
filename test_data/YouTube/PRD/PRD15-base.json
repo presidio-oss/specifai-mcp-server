@@ -1,7 +1,5 @@
 {
   "title": "Ad Placement Optimization",
   "requirement": "Deploy an intelligent ad placement system that ensures minimal user disruption while maximizing revenue.  \n#### Screens:  \n- **Ad Performance Dashboard**: Allows creators to manage and optimize ad placements.  \n#### Personas:  \n- **Advertisers**: Interested in maximizing ad performance.  \n- **Creators**: Seek revenue without alienating users.",
-  "linkedBRDIds": [
-    "BRD15"
-  ]
+  "linkedBRDIds": ["BRD15"]
 }

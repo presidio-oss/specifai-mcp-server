@@ -1,7 +1,5 @@
 {
   "title": "Scalable Infrastructure",
   "requirement": "Ensure the platform can scale dynamically to handle growing user activity with cloud infrastructure.  \n#### Screens:  \n- Not user-facing (back-end optimization).  \n#### Personas:  \n- **Administrators**: Ensure platform stability under varying loads.",
-  "linkedBRDIds": [
-    "BRD10"
-  ]
+  "linkedBRDIds": ["BRD10"]
 }

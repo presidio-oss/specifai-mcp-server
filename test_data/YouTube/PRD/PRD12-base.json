@@ -1,7 +1,5 @@
 {
   "title": "Content Moderation System",
   "requirement": "Develop advanced tools to flag inappropriate content, with options for manual reporting and review.  \n#### Screens:  \n- **Moderation Dashboard**: Includes flagged content review and reporting tools.  \n#### Personas:  \n- **Platform Moderators**: Need effective tools to identify and act on violations.",
-  "linkedBRDIds": [
-    "BRD12"
-  ]
+  "linkedBRDIds": ["BRD12"]
 }

@@ -1,7 +1,5 @@
 {
   "title": "High-Quality Video Playback",
   "requirement": "Provide a seamless video streaming experience across multiple resolutions (480p to 4K) with autoplay, subtitles, and adjustable playback speed.  \n#### Screens:  \n- **Video Player Screen**: Includes resolution selectors, speed controls, and subtitle support.  \n#### Personas:  \n- **Viewers**: Seek a high-quality and customizable playback experience.",
-  "linkedBRDIds": [
-    "BRD02"
-  ]
+  "linkedBRDIds": ["BRD02"]
 }

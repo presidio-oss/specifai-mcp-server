@@ -1,7 +1,5 @@
 {
   "title": "Channel Management Tools",
   "requirement": "Offer creators a dashboard for managing channels, analyzing audience metrics, scheduling uploads, and customizing channel branding.  \n#### Screens:  \n- **Channel Dashboard**: Includes options for analytics, upload scheduling, revenue overview, and design customization.  \n#### Personas:  \n- **Content Creators**: Desire a centralized solution for managing and growing their channel.",
-  "linkedBRDIds": [
-    "BRD07"
-  ]
+  "linkedBRDIds": ["BRD07"]
 }

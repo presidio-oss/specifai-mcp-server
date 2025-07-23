@@ -1,7 +1,5 @@
 {
   "title": "Profile Customization",
   "requirement": "Provide features for customizable user profiles, allowing users to showcase favorite genres, playlists, and listening habits interactively.  \n#### Screens:  \n* Profile Settings Screen: Enables editing displayed preferences, playlists, and genres.  \n#### Personas:  \n* Personalized User: Enjoys curating profile for tailored engagement.  \n* Casual User: Prefers simple self-expression through favorite genres.",
-  "linkedBRDIds": [
-    "BRD11"
-  ]
+  "linkedBRDIds": ["BRD11"]
 }

@@ -1,7 +1,5 @@
 {
   "title": "User Account Personalization",
   "requirement": "Allow users to manage profiles with playlists, saved videos, subscriptions, and history for easy access to relevant content.  \n#### Screens:  \n- **Profile Screen**: Displays user information and personalized features.  \n#### Personas:  \n- **Active Users**: Seek personalized platforms to enhance experience.",
-  "linkedBRDIds": [
-    "BRD14"
-  ]
+  "linkedBRDIds": ["BRD14"]
 }

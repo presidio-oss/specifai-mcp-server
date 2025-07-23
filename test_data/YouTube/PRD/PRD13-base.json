@@ -1,7 +1,5 @@
 {
   "title": "Multi-Language Interface",
   "requirement": "Support multiple languages, including subtitle translations and localized recommendations.  \n#### Screens:  \n- **Language Settings Screen**: Allows users to select and apply language preferences.  \n#### Personas:  \n- **International Users**: Require content tailored to their language.",
-  "linkedBRDIds": [
-    "BRD13"
-  ]
+  "linkedBRDIds": ["BRD13"]
 }

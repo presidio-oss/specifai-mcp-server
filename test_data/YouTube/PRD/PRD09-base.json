@@ -1,7 +1,5 @@
 {
   "title": "Mobile-Friendly Experience",
   "requirement": "Optimize the platform for mobile use with Android/iOS apps featuring offline viewing, gesture navigation, and mobile-first design.  \n#### Screens:  \n- **Mobile Homepage**: Tailored for compact screens with intuitive navigation.  \n#### Personas:  \n- **Mobile Users**: Expect streamlined, user-friendly mobile experiences.",
-  "linkedBRDIds": [
-    "BRD09"
-  ]
+  "linkedBRDIds": ["BRD09"]
 }

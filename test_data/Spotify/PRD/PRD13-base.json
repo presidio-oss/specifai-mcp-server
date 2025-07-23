@@ -1,7 +1,5 @@
 {
   "title": "Smart Device Integrations",
   "requirement": "Ensure compatibility and connectivity with smart devices like speakers, TVs, and car systems for broader platform accessibility.  \n#### Screens:  \n* Device Connections Screen: Shows available smart devices and connection options.  \n#### Personas:  \n* Home Automation User: Prefers integrated streaming with household devices.",
-  "linkedBRDIds": [
-    "BRD13"
-  ]
+  "linkedBRDIds": ["BRD13"]
 }

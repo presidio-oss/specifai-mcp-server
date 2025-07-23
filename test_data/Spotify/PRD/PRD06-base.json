@@ -1,7 +1,5 @@
 {
   "title": "Enhanced Search Tools",
   "requirement": "Incorporate advanced search functionality with filters for genre, mood, artist, album, and song title for accurate and fast results.  \n#### Screens:  \n* Advanced Search UI: Provide sections for applying multiple filters simultaneously.  \n#### Personas:  \n* Detail-Oriented User: Finds specific songs/albums efficiently using defined filters.  \n* Browsing Listener: Uses mood or general filters to explore new music.",
-  "linkedBRDIds": [
-    "BRD06"
-  ]
+  "linkedBRDIds": ["BRD06"]
 }

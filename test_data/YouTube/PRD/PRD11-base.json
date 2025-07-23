@@ -1,7 +1,5 @@
 {
   "title": "User and Creator Analytics",
   "requirement": "Provide creators with insights on viewer demographics, engagement, and revenue, while allowing viewers to track their personal watch habits.  \n#### Screens:  \n- **Analytics Dashboard (Creators)**: Offers data visualizations on audience behavior.  \n- **User Activity Screen (Viewers)**: Summarizes viewing and subscription history.  \n#### Personas:  \n- **Creators**: Need actionable insights to optimize content.  \n- **Viewers**: Interested in tracking their activity patterns.",
-  "linkedBRDIds": [
-    "BRD11"
-  ]
+  "linkedBRDIds": ["BRD11"]
 }

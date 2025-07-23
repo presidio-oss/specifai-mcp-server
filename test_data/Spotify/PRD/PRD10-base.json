@@ -1,7 +1,5 @@
 {
   "title": "Analytics Dashboard",
   "requirement": "Develop insights dashboard for analyzing user behavior, listening trends, and preference data, enabling business optimization and algorithm refinements.  \n#### Screens:  \n* Admin Panel: Provides visualization of aggregated user data across various metrics.  \n#### Personas:  \n* Business Analyst: Studies data to enhance app features and recommendations.",
-  "linkedBRDIds": [
-    "BRD10"
-  ]
+  "linkedBRDIds": ["BRD10"]
 }

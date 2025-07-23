@@ -1,7 +1,5 @@
 {
   "title": "Podcast Streaming Feature",
   "requirement": "Provide functionality for streaming thousands of podcasts with options to browse categories, search by topics/hosts, and save preferences for future listening.  \n#### Screens:  \n* Podcast Home: Show curated podcast categories.  \n* Search Results: Display user-specific search results based on host/topic/genre.  \n#### Personas:  \n* Podcast Lover: Searches for niche or detailed content in specific categories.  \n* Casual Explorer: Browses general podcast recommendations without precise intent.",
-  "linkedBRDIds": [
-    "BRD03"
-  ]
+  "linkedBRDIds": ["BRD03"]
 }

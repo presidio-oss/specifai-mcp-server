@@ -1,7 +1,5 @@
 {
   "title": "Social Sharing Integration",
   "requirement": "Introduce social features for playlist sharing, collaborative creation, following friends/artists, and viewing user activity feeds.  \n#### Screens:  \n* Social Dashboard: Displays user activity and shared playlists.  \n* Friends List: Allows users to manage connections and follow artists easily.  \n#### Personas:  \n* Community Builder: Enjoys connecting with others and sharing activities.  \n* Music Influencer: Uses collaborative playlists to grow influence.",
-  "linkedBRDIds": [
-    "BRD09"
-  ]
+  "linkedBRDIds": ["BRD09"]
 }
