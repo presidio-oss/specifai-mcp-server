@@ -51,21 +51,20 @@ export interface UIR extends BaseDocument {}
  */
 export interface BP extends BaseDocument {}
 
-
 /**
- * project metadata 
+ * project metadata
  */
 export interface ProjectMetadata {
-  id: string;
-  name: string;
-  description: string;
-  technicalDetails: string;
-  createReqt?: boolean;
-  cleanSolution?: boolean;
-  createdAt: string;
+  id: string
+  name: string
+  description: string
+  technicalDetails: string
+  createReqt?: boolean
+  cleanSolution?: boolean
+  createdAt: string
   integration?: {
-    selectedPmoTool?: string;
-  };
+    selectedPmoTool?: string
+  }
 }
 
 /**
