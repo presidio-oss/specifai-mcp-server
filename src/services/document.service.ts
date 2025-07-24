@@ -60,12 +60,14 @@ export class DocumentService {
             title: feature.name,
             description: feature.description,
             ...(feature.pmoId && { pmoId: feature.pmoId }),
+            ...(feature.pmoIssueType && { pmoIssueType: feature.pmoIssueType }),
             tasks: feature.tasks.map(
               (task: any): Task => ({
                 id: task.id,
                 title: task.list,
                 description: task.acceptance,
                 ...(task.pmoId && { pmoId: task.pmoId }),
+                ...(task.pmoIssueType && { pmoIssueType: task.pmoIssueType }),
               })
             ),
           }))
@@ -80,6 +82,7 @@ export class DocumentService {
             title: obj.content.title,
             description: obj.content.requirement,
             ...(obj.content.pmoId && { pmoId: obj.content.pmoId }),
+            ...(obj.content.pmoIssueType && { pmoIssueType: obj.content.pmoIssueType }),
             userStories,
             ...(obj.content.linkedBRDIds && { linkedBRDIds: obj.content.linkedBRDIds }),
           }

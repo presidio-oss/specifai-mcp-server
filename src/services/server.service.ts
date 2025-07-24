@@ -115,8 +115,8 @@ export class ServerService {
     this.documentService = new DocumentService()
     this.fileService = new FileService()
     this.miniSearch = new MiniSearch({
-      fields: ['id', 'title', 'description', 'type', 'pmoId'],
-      storeFields: ['id', 'title', 'description', 'type', 'pmoId', 'linkedBRDIds'],
+      fields: ['id', 'title', 'description', 'type', 'pmoId', 'pmoIssueType'],
+      storeFields: ['id', 'title', 'description', 'type', 'pmoId', 'pmoIssueType', 'linkedBRDIds'],
       searchOptions: {
         fuzzy: true,
       },
@@ -143,15 +143,21 @@ export class ServerService {
    */
   private getPmoToolName(): string {
     return this.solution?.METADATA?.integration?.selectedPmoTool
-      ? `${this.solution.METADATA.integration.selectedPmoTool.replace(/^./, (c) => c.toUpperCase())} ID`
-      : 'PMO ID'
+      ? `${this.solution.METADATA.integration.selectedPmoTool.replace(/^./, (c) => c.toUpperCase())}`
+      : 'PMO'
   }
 
   /**
    * Format document array into text output
    */
   private formatDocuments(
-    docs: Array<{ id: string; title: string; description: string; pmoId?: string }>
+    docs: Array<{
+      id: string
+      title: string
+      description: string
+      pmoId?: string
+      pmoIssueType?: string
+    }>
   ): string {
     return docs
       .map((doc) =>
@@ -159,7 +165,8 @@ export class ServerService {
           `ID: ${doc.id}`,
           `Title: ${doc.title}`,
           `Description: ${doc.description}`,
-          ...(doc.pmoId ? [`${this.getPmoToolName()}: ${doc.pmoId}`] : []),
+          ...(doc.pmoId ? [`${this.getPmoToolName()} ID: ${doc.pmoId}`] : []),
+          ...(doc.pmoIssueType ? [`${this.getPmoToolName()} Issue Type: ${doc.pmoIssueType}`] : []),
           '--------------',
         ].join('\n')
       )
@@ -293,7 +300,7 @@ export class ServerService {
           {
             name: 'get-prds',
             description:
-              'Get Product Requirement Documents for this project, returns ID, Title, Description(not included by default), Pmo ID (when available), and LinkedBRDIds (when available)',
+              'Get Product Requirement Documents for this project, returns ID, Title, Description(not included by default), Ado Id (When PRD/US/Task is linked to ADO), Jira Id (When PRD/US/Task is linked to JIRA), PMO Id(when available), Ado Issue Type(when available), Jira Issue Type(when available), and LinkedBRDIds (when available)',
             inputSchema: {
               type: 'object',
               properties: {
@@ -502,7 +509,7 @@ export class ServerService {
           {
             name: 'get-task-by-id',
             description:
-              "Retrieves complete information about a specific task when you know its exact ID. This tool provides direct access to a single task's details without having to retrieve and filter through all tasks., returns full task object, ID, Title, Description, and Pmo ID (when available)",
+              "Retrieves complete information about a specific task when you know its exact ID. This tool provides direct access to a single task's details without having to retrieve and filter through all tasks., returns full task object, ID, Title, Description, Ado Id (When Task is linked to ADO), Jira Id (When Task is linked to JIRA), PMO Id(when available), Ado Issue Type(when available), Jira Issue Type(when available)",
             inputSchema: {
               type: 'object',
               required: ['taskId', 'cwd'],
@@ -523,7 +530,7 @@ export class ServerService {
           {
             name: 'list-all-tasks',
             description:
-              'List all the tasks available across all PRDs and User Stories, without task description, only return ID, Title, and Pmo ID (when available)',
+              'List all the tasks available across all PRDs and User Stories, without task description, only return ID, Title, Ado Id (When Task is linked to ADO), Jira Id (When Task is linked to JIRA), PMO Id(when available), Ado Issue Type(when available), Jira Issue Type(when available)',
             inputSchema: {
               type: 'object',
               required: ['cwd'],
@@ -546,7 +553,7 @@ export class ServerService {
           {
             name: 'search',
             description:
-              'Search documents by text content or Pmo ID across all documents, returns document ID, Title, Description, Type, and Pmo ID (when available)',
+              'Search documents by text content or Pmo ID across all documents, returns document ID, Title, Description, Type, Ado Id (When PRD/US/Task is linked to ADO), Jira Id (When PRD/US/Task is linked to JIRA), PMO Id(when available), Ado Issue Type(when available), Jira Issue Type(when available)',
             inputSchema: {
               type: 'object',
               required: ['searchTerm', 'cwd'],
@@ -688,7 +695,10 @@ export class ServerService {
                   `ID: ${prd.id}`,
                   `Title: ${prd.title}`,
                   ...(includeDescription ? [`Description: ${prd.description}`] : []),
-                  ...(prd.pmoId ? [`${this.getPmoToolName()}: ${prd.pmoId}`] : []),
+                  ...(prd.pmoId ? [`${this.getPmoToolName()} ID: ${prd.pmoId}`] : []),
+                  ...(prd.pmoIssueType
+                    ? [`${this.getPmoToolName()} Issue Type: ${prd.pmoIssueType}`]
+                    : []),
                   ...(prd.linkedBRDIds && prd.linkedBRDIds.length > 0
                     ? [`LinkedBRDIds: ${prd.linkedBRDIds.join(', ')}`]
                     : []),
@@ -703,7 +713,12 @@ export class ServerService {
                       lines.push(`  US ID: ${userStory.id}`)
                       lines.push(`  US Title: ${userStory.title}`)
                       if (userStory.pmoId) {
-                        lines.push(`  US ${this.getPmoToolName()}: ${userStory.pmoId}`)
+                        lines.push(`  US ${this.getPmoToolName()} ID: ${userStory.pmoId}`)
+                      }
+                      if (userStory.pmoIssueType) {
+                        lines.push(
+                          `  US ${this.getPmoToolName()} Issue Type: ${userStory.pmoIssueType}`
+                        )
                       }
 
                       if (includeTasks) {
@@ -715,7 +730,12 @@ export class ServerService {
                             lines.push(`      TASK ID: ${task.id}`)
                             lines.push(`      TASK Title: ${task.title}`)
                             if (task.pmoId) {
-                              lines.push(`      TASK ${this.getPmoToolName()}: ${task.pmoId}`)
+                              lines.push(`      TASK ${this.getPmoToolName()} ID: ${task.pmoId}`)
+                            }
+                            if (task.pmoIssueType) {
+                              lines.push(
+                                `      TASK ${this.getPmoToolName()} Issue Type: ${task.pmoIssueType}`
+                              )
                             }
                           })
                         }
@@ -931,7 +951,10 @@ export class ServerService {
                 tasks.map((task) => ({
                   ID: task.id,
                   Title: task.title,
-                  ...(task.pmoId && { [this.getPmoToolName()]: task.pmoId }),
+                  ...(task.pmoId && { [`${this.getPmoToolName()} ID`]: task.pmoId }),
+                  ...(task.pmoIssueType && {
+                    [`${this.getPmoToolName()} Issue Type`]: task.pmoIssueType,
+                  }),
                 }))
               )
             )
@@ -1000,7 +1023,10 @@ export class ServerService {
                   `Title: ${doc.title}`,
                   `Description: ${doc.description}`,
                   `Type: ${doc.type}`,
-                  ...(doc.pmoId ? [`${this.getPmoToolName()}: ${doc.pmoId}`] : []),
+                  ...(doc.pmoId ? [`${this.getPmoToolName()} ID: ${doc.pmoId}`] : []),
+                  ...(doc.pmoIssueType
+                    ? [`${this.getPmoToolName()} Issue Type: ${doc.pmoIssueType}`]
+                    : []),
                 ]
 
                 if (doc.type === 'PRD' && doc.linkedBRDIds && doc.linkedBRDIds.length > 0) {

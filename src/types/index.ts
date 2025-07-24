@@ -12,6 +12,7 @@ export interface BaseDocument {
  */
 export interface Task extends BaseDocument {
   pmoId?: string
+  pmoIssueType?: string
 }
 
 /**
@@ -20,6 +21,7 @@ export interface Task extends BaseDocument {
 export interface UserStory extends BaseDocument {
   tasks: Task[]
   pmoId?: string
+  pmoIssueType?: string
 }
 
 /**
@@ -28,6 +30,7 @@ export interface UserStory extends BaseDocument {
 export interface PRD extends BaseDocument {
   userStories: UserStory[]
   pmoId?: string
+  pmoIssueType?: string
   linkedBRDIds?: string[]
 }
 

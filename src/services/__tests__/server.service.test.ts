@@ -3,7 +3,7 @@ import { ConsoleManager } from './test-utils'
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js'
 import type { Solution, PRD, UserStory } from '../../types'
 
-// Mock test data
+// Mock Jira test data
 const mockSolution: Solution = {
   BRD: [
     {
@@ -17,16 +17,22 @@ const mockSolution: Solution = {
       id: 'PRD01',
       title: 'Test PRD',
       description: 'Test PRD description',
+      pmoId: 'HB-1001',
+      pmoIssueType: 'Feature',
       userStories: [
         {
           id: 'US1',
           title: 'User Story 1',
           description: 'Test user story',
+          pmoId: 'HB-2001',
+          pmoIssueType: 'Platform Feature',
           tasks: [
             {
               id: 'T1',
               title: 'Task 1',
               description: 'Test task',
+              pmoId: 'HB-3001',
+              pmoIssueType: 'User Story',
             },
           ],
         },
@@ -68,6 +74,77 @@ const mockSolution: Solution = {
   },
 }
 
+// Mock ADO solution data
+const mockAdoSolution: Solution = {
+  BRD: [
+    {
+      id: 'BRD01',
+      title: 'ADO Test BRD',
+      description: 'ADO Test BRD description',
+    },
+  ],
+  PRD: [
+    {
+      id: 'PRD01',
+      title: 'ADO Test PRD',
+      description: 'ADO Test PRD description',
+      pmoId: '12345',
+      pmoIssueType: 'Feature',
+      userStories: [
+        {
+          id: 'US1',
+          title: 'ADO User Story 1',
+          description: 'ADO Test user story',
+          pmoId: '67890',
+          pmoIssueType: 'User Story',
+          tasks: [
+            {
+              id: 'T1',
+              title: 'ADO Task 1',
+              description: 'ADO Test task',
+              pmoId: '11111',
+              pmoIssueType: 'Task',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  NFR: [
+    {
+      id: 'NFR01',
+      title: 'ADO Test NFR',
+      description: 'ADO Test NFR description',
+    },
+  ],
+  BP: [
+    {
+      id: 'BP01',
+      title: 'ADO Test BP',
+      description: 'ADO Test BP description',
+    },
+  ],
+  UIR: [
+    {
+      id: 'UIR01',
+      title: 'ADO Test UIR',
+      description: 'ADO Test UIR description',
+    },
+  ],
+  METADATA: {
+    id: 'test-ado-project',
+    name: 'Test ADO Project',
+    description: 'Test ADO project description',
+    technicalDetails: 'Test ADO technical details',
+    createReqt: true,
+    cleanSolution: false,
+    createdAt: '2023-01-01T00:00:00.000Z',
+    integration: {
+      selectedPmoTool: 'ado',
+    },
+  },
+}
+
 // Mock fs/promises
 jest.mock('fs/promises', () => ({
   readdir: jest.fn(),
@@ -95,6 +172,9 @@ jest.mock('../document.service', () => ({
     loadSolution: jest.fn().mockImplementation((path) => {
       if (path === '/test/path' || path === '/inferred/path') {
         return Promise.resolve(mockSolution)
+      }
+      if (path === '/test/ado/path') {
+        return Promise.resolve(mockAdoSolution)
       }
       if (path === '/test/malformed/path') {
         return Promise.resolve({
@@ -1404,6 +1484,141 @@ describe('ServerService', () => {
     test('should start server successfully', async () => {
       await serverService.start()
       expect(mockServer.connect).toHaveBeenCalled()
+    })
+  })
+
+  describe('PMO Tool Integration', () => {
+    test('should correctly identify JIRA PMO tool and format output', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'get-prds',
+          arguments: { cwd: '/test/path', includeUserStories: true, includeTasks: true },
+        },
+      })
+
+      expect(response.content[0].text).toContain('Jira ID: HB-1001')
+      expect(response.content[0].text).toContain('Jira Issue Type: Feature')
+      expect(response.content[0].text).toContain('US Jira ID: HB-2001')
+      expect(response.content[0].text).toContain('US Jira Issue Type: Platform Feature')
+      expect(response.content[0].text).toContain('TASK Jira ID: HB-3001')
+      expect(response.content[0].text).toContain('TASK Jira Issue Type: User Story')
+    })
+
+    test('should correctly identify ADO PMO tool and format output', async () => {
+      mockRequestHandlers.clear()
+      const adoServerService = new ServerService()
+      const adoHandler = mockRequestHandlers.get('call-tool')
+      
+      await adoHandler({
+        params: {
+          name: 'set-project-path',
+          arguments: { path: '/test/ado/path' },
+        },
+      })
+
+      const response = await adoHandler({
+        params: {
+          name: 'get-prds',
+          arguments: { cwd: '/test/ado/path', includeUserStories: true, includeTasks: true },
+        },
+      })
+
+      expect(response.content[0].text).toContain('Ado ID: 12345')
+      expect(response.content[0].text).toContain('Ado Issue Type: Feature')
+      expect(response.content[0].text).toContain('US Ado ID: 67890')
+      expect(response.content[0].text).toContain('US Ado Issue Type: User Story')
+      expect(response.content[0].text).toContain('TASK Ado ID: 11111')
+      expect(response.content[0].text).toContain('TASK Ado Issue Type: Task')
+    })
+
+    test('should handle PMO tool name method correctly', () => {
+      const jiraPmoToolName = (serverService as any).getPmoToolName()
+      expect(jiraPmoToolName).toBe('Jira')
+
+      const originalSolution = (serverService as any).solution
+      ;(serverService as any).solution = {
+        ...originalSolution,
+        METADATA: {
+          ...originalSolution.METADATA,
+          integration: {},
+        },
+      }
+      const fallbackPmoToolName = (serverService as any).getPmoToolName()
+      expect(fallbackPmoToolName).toBe('PMO')
+      ;(serverService as any).solution = originalSolution
+    })
+
+    test('should format documents with PMO IDs and issue types correctly', () => {
+      const docs = [
+        {
+          id: 'test1',
+          title: 'Test 1',
+          description: 'Description 1',
+          pmoId: 'HB-1001',
+          pmoIssueType: 'Feature',
+        },
+        {
+          id: 'test2',
+          title: 'Test 2',
+          description: 'Description 2',
+          pmoId: 'HB-2001',
+          pmoIssueType: 'User Story',
+        },
+      ]
+
+      const formatted = (serverService as any).formatDocuments(docs)
+      expect(formatted).toContain('Jira ID: HB-1001')
+      expect(formatted).toContain('Jira Issue Type: Feature')
+      expect(formatted).toContain('Jira ID: HB-2001')
+      expect(formatted).toContain('Jira Issue Type: User Story')
+    })
+
+    test('should handle search with PMO ID and issue type', async () => {
+      const mockMiniSearchLocal = {
+        search: jest.fn(),
+        addAll: jest.fn(),
+        removeAll: jest.fn(),
+      }
+      ;(serverService as any).miniSearch = mockMiniSearchLocal
+
+      mockMiniSearchLocal.search.mockReturnValue([
+        {
+          id: 'T1',
+          title: 'Task 1',
+          description: 'Test task',
+          type: 'TASK',
+          pmoId: 'HB-3001',
+          pmoIssueType: 'User Story',
+          score: 1,
+          match: {},
+          terms: [],
+        },
+      ])
+
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'search',
+          arguments: { searchTerm: 'HB-3001', cwd: '/test/path' },
+        },
+      })
+
+      expect(response.content[0].text).toContain('Jira ID: HB-3001')
+      expect(response.content[0].text).toContain('Jira Issue Type: User Story')
+    })
+
+    test('should handle list-all-tasks with PMO information', async () => {
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
+        params: {
+          name: 'list-all-tasks',
+          arguments: { cwd: '/test/path' },
+        },
+      })
+
+      expect(response.content[0].text).toContain('Jira ID: HB-3001')
+      expect(response.content[0].text).toContain('Jira Issue Type: User Story')
     })
   })
 })
