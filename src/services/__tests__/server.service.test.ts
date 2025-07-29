@@ -276,20 +276,9 @@ describe('ServerService', () => {
     })
 
     test('should infer project path from directory with .specifai-path file', async () => {
-      // Create a new server service instance to avoid state from previous tests
-      mockRequestHandlers.clear()
-      const newServerService = new ServerService()
-      const newHandler = mockRequestHandlers.get('call-tool')
-
-      // Reset the mocks to ensure clean state
-      mockAccess.mockReset()
-      mockReadFile.mockReset()
-
-      // Set up mock behavior
-      mockAccess.mockResolvedValue(undefined)
-      mockReadFile.mockResolvedValue('/inferred/path')
-
-      const response = await newHandler({
+      const server = new ServerService()
+      const handler = mockRequestHandlers.get('call-tool')
+      const response = await handler({
         params: {
           name: 'get-brds',
           arguments: { cwd: '/with/specifai-path' },
