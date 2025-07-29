@@ -214,19 +214,19 @@ describe('ServerService', () => {
       const userStoriesSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'get-user-stories'
       )
-      expect(userStoriesSchema?.inputSchema.required).toEqual(['prdId', 'cwd'])
+      expect(userStoriesSchema?.inputSchema.required).toEqual(['prdId'])
 
       // Verify schema for get-tasks
       const tasksSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'get-tasks'
       )
-      expect(tasksSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId', 'cwd'])
+      expect(tasksSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId'])
 
       // Verify schema for get-task
       const taskSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'get-task'
       )
-      expect(taskSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId', 'taskId', 'cwd'])
+      expect(taskSchema?.inputSchema.required).toEqual(['prdId', 'userStoryId', 'taskId'])
 
       // Verify schema for set-project-path
       const setProjectPathSchema = response.tools.find(
@@ -238,19 +238,19 @@ describe('ServerService', () => {
       const getTaskByIdSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'get-task-by-id'
       )
-      expect(getTaskByIdSchema?.inputSchema.required).toEqual(['taskId', 'cwd'])
+      expect(getTaskByIdSchema?.inputSchema.required).toEqual(['taskId'])
 
       // Verify schema for list-all-tasks
       const listAllTasksSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'list-all-tasks'
       )
-      expect(listAllTasksSchema?.inputSchema.required).toEqual(['cwd'])
+      expect(listAllTasksSchema?.inputSchema.required).toEqual([])
 
       // Verify schema for search
       const searchSchema = response.tools.find(
         (t: { name: string; inputSchema: any }) => t.name === 'search'
       )
-      expect(searchSchema?.inputSchema.required).toEqual(['searchTerm', 'cwd'])
+      expect(searchSchema?.inputSchema.required).toEqual(['searchTerm'])
     })
   })
 
@@ -276,8 +276,20 @@ describe('ServerService', () => {
     })
 
     test('should infer project path from directory with .specifai-path file', async () => {
-      const handler = mockRequestHandlers.get('call-tool')
-      const response = await handler({
+      // Create a new server service instance to avoid state from previous tests
+      mockRequestHandlers.clear()
+      const newServerService = new ServerService()
+      const newHandler = mockRequestHandlers.get('call-tool')
+
+      // Reset the mocks to ensure clean state
+      mockAccess.mockReset()
+      mockReadFile.mockReset()
+
+      // Set up mock behavior
+      mockAccess.mockResolvedValue(undefined)
+      mockReadFile.mockResolvedValue('/inferred/path')
+
+      const response = await newHandler({
         params: {
           name: 'get-brds',
           arguments: { cwd: '/with/specifai-path' },
@@ -1045,7 +1057,9 @@ describe('ServerService', () => {
             arguments: { prdId: 'PRD01' }, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle get-brds before project path is set', async () => {
@@ -1059,7 +1073,9 @@ describe('ServerService', () => {
             arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle get-prds before project path is set', async () => {
@@ -1073,7 +1089,9 @@ describe('ServerService', () => {
             arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle get-nfrs before project path is set', async () => {
@@ -1087,7 +1105,9 @@ describe('ServerService', () => {
             arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle get-uirs before project path is set', async () => {
@@ -1101,7 +1121,9 @@ describe('ServerService', () => {
             arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle get-bpds before project path is set', async () => {
@@ -1115,7 +1137,9 @@ describe('ServerService', () => {
             arguments: {}, // Deliberately omit cwd
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle get-tasks before project path is set', async () => {
@@ -1133,7 +1157,9 @@ describe('ServerService', () => {
             },
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle get-task before project path is set', async () => {
@@ -1152,7 +1178,9 @@ describe('ServerService', () => {
             },
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle set-project-path with invalid path', async () => {
@@ -1337,7 +1365,9 @@ describe('ServerService', () => {
             arguments: { searchTerm: 'test' },
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle get-task-by-id request before project path is set', async () => {
@@ -1351,7 +1381,9 @@ describe('ServerService', () => {
             arguments: { taskId: 'T1' },
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
 
     test('should handle list-all-tasks request before project path is set', async () => {
@@ -1365,7 +1397,9 @@ describe('ServerService', () => {
             arguments: {},
           },
         })
-      ).rejects.toThrow('Invalid arguments: cwd: Required')
+      ).rejects.toThrow(
+        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
+      )
     })
   })
 
@@ -1392,6 +1426,42 @@ describe('ServerService', () => {
     test('should start server successfully', async () => {
       await serverService.start()
       expect(mockServer.connect).toHaveBeenCalled()
+    })
+  })
+
+  describe('Project Path via Constructor (--project-path arg)', () => {
+    test('should initialize with project path from constructor', async () => {
+      const projectPathService = new ServerService('/test/path')
+
+      expect((projectPathService as any).projectPath).toBe('/test/path')
+    })
+
+    test('should load solution from constructor path during start', async () => {
+      mockRequestHandlers.clear()
+      const projectPathService = new ServerService('/test/path')
+
+      const loadSolutionSpy = jest.spyOn(projectPathService as any, 'loadSolutionFromPath')
+
+      await projectPathService.start()
+
+      expect(loadSolutionSpy).toHaveBeenCalledWith('/test/path')
+    })
+
+    test('should handle tools without needing to set path when constructor path is provided', async () => {
+      mockRequestHandlers.clear()
+      const projectPathService = new ServerService('/test/path')
+
+      const handler = mockRequestHandlers.get('call-tool')
+      await projectPathService.start()
+
+      const response = await handler({
+        params: {
+          name: 'get-brds',
+          arguments: {},
+        },
+      })
+
+      expect(response.content[0].text).toContain('BRD01')
     })
   })
 })
