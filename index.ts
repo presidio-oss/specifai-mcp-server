@@ -28,19 +28,48 @@ function printHelp() {
   console.error(`
 ${pkg.name} - v${process.env.SP_VERSION}
 
-Usage: ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name}
+Usage: ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name} [options]
 
 Options:
-  -h, --help      Display this help message
-  -v, --version   Display version information
+  -h, --help               Display this help message
+  -v, --version            Display version information
+  -p, --project-path PATH  Specify the Specifai project path
 
 Example:
   ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name}
+  ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name} --project-path /path/to/project
 
   npx --yes ${pkg.name}
-
   bunx ${pkg.name}
 `)
+}
+
+/**
+ * Parse command line arguments
+ */
+function parseArgs() {
+  const args = process.argv.slice(2)
+  const result = {
+    help: false,
+    version: false,
+    projectPath: null as string | null,
+  }
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i]
+
+    if (arg === '--help' || arg === '-h') {
+      result.help = true
+    } else if (arg === '--version' || arg === '-v') {
+      result.version = true
+    } else if (arg === '--project-path' || arg === '-p') {
+      if (i + 1 < args.length) {
+        result.projectPath = args[++i]
+      }
+    }
+  }
+
+  return result
 }
 
 /**
@@ -48,25 +77,33 @@ Example:
  */
 async function main() {
   try {
-    logger.info(
-      { version: process.env.SP_VERSION, pwd: process.env.PWD, ...process.env },
-      'Starting Specifai MCP Server'
-    )
+    const parsedArgs = parseArgs()
 
-    const args = process.argv.slice(2)
-
-    if (args[0] === '--help' || args[0] === '-h') {
+    if (parsedArgs.help) {
       printHelp()
-      process.exit(args.length === 0 ? 1 : 0)
+      process.exit(0)
     }
 
-    if (args[0] === '--version' || args[0] === '-v') {
+    if (parsedArgs.version) {
       printVersion()
       process.exit(0)
     }
 
+    // Determine project path from arguments or fall back to current directory
+    const projectPath = parsedArgs.projectPath || process.env.PWD
+
+    logger.info(
+      {
+        version: process.env.SP_VERSION,
+        projectPath,
+        pwd: process.env.PWD,
+        ...process.env,
+      },
+      'Starting Specifai MCP Server'
+    )
+
     // Initialize and start server
-    const serverService = new ServerService(process.env.PWD)
+    const serverService = new ServerService(projectPath)
     await serverService.start()
 
     logger.info('Specifai MCP Server running on stdio')

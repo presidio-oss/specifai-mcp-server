@@ -15,7 +15,7 @@ import MiniSearch from 'minisearch'
  */
 const GetUserStoriesRequestSchema = object({
   prdId: z.string(),
-  cwd: z.string(),
+  cwd: z.string().optional(),
 })
 
 /**
@@ -24,7 +24,7 @@ const GetUserStoriesRequestSchema = object({
 const GetTasksRequestSchema = object({
   prdId: z.string(),
   userStoryId: z.string(),
-  cwd: z.string(),
+  cwd: z.string().optional(),
 })
 
 /**
@@ -34,36 +34,36 @@ const GetTaskRequestSchema = object({
   prdId: z.string(),
   userStoryId: z.string(),
   taskId: z.string(),
-  cwd: z.string(),
+  cwd: z.string().optional(),
 })
 
 /**
  * Schema for tools that only need an optional project path
  */
 const OptionalProjectPathSchema = object({
-  cwd: z.string(),
+  cwd: z.string().optional(),
 })
 
 const GetTaskByIdRequestSchema = object({
   taskId: z.string(),
-  cwd: z.string(),
+  cwd: z.string().optional(),
 })
 
 const SearchRequestSchema = object({
   searchTerm: z.string(),
-  cwd: z.string(),
+  cwd: z.string().optional(),
   type: z.enum(['PRD', 'BRD', 'NFR', 'UIR', 'BP', 'US', 'TASK']).optional(),
 })
 
 const GetBRsRequestSchema = object({
-  cwd: z.string(),
+  cwd: z.string().optional(),
   includeDescription: z.boolean().optional().default(false),
   limit: z.number().optional().default(10),
   offset: z.number().optional().default(0),
 })
 
 const GetPRDsRequestSchema = object({
-  cwd: z.string(),
+  cwd: z.string().optional(),
   includeDescription: z.boolean().optional().default(false),
   limit: z.number().optional().default(10),
   offset: z.number().optional().default(0),
@@ -72,28 +72,28 @@ const GetPRDsRequestSchema = object({
 })
 
 const GetNFRsRequestSchema = object({
-  cwd: z.string(),
+  cwd: z.string().optional(),
   includeDescription: z.boolean().optional().default(false),
   limit: z.number().optional().default(10),
   offset: z.number().optional().default(0),
 })
 
 const GetUIRsRequestSchema = object({
-  cwd: z.string(),
+  cwd: z.string().optional(),
   includeDescription: z.boolean().optional().default(false),
   limit: z.number().optional().default(10),
   offset: z.number().optional().default(0),
 })
 
 const GetBPsRequestSchema = object({
-  cwd: z.string(),
+  cwd: z.string().optional(),
   includeDescription: z.boolean().optional().default(false),
   limit: z.number().optional().default(10),
   offset: z.number().optional().default(0),
 })
 
 const GetListAllTasksRequestSchema = object({
-  cwd: z.string(),
+  cwd: z.string().optional(),
   limit: z.number().optional().default(10),
   offset: z.number().optional().default(0),
 })
@@ -136,6 +136,38 @@ export class ServerService {
     logger.info('Initializing MCP server...')
     this.setupRequestHandlers()
     logger.info('MCP server initialized')
+  }
+
+  private async loadSolutionFromPath(path: string): Promise<boolean> {
+    try {
+      if (!path) {
+        logger.error('No project path provided')
+        return false
+      }
+
+      if (!(await this.fileService.isDirectory(path))) {
+        logger.error({ projectPath: path }, 'Project path is not a valid directory')
+        return false
+      }
+
+      logger.info({ projectPath: path }, 'Loading solution from provided path')
+      this.solution = await this.documentService.loadSolution(path)
+
+      if (!this.solution) {
+        logger.error(
+          { projectPath: path },
+          'Failed to load solution - documentService returned null'
+        )
+        return false
+      }
+
+      this.updateMiniSearchIndex()
+      logger.info({ projectPath: path }, 'Solution loaded successfully')
+      return true
+    } catch (error) {
+      logger.error({ error, projectPath: path }, 'Failed to load solution from provided path')
+      return false
+    }
   }
 
   /**
@@ -275,7 +307,7 @@ export class ServerService {
                   description: 'Offset the number of documents to return, default is 0',
                 },
               },
-              required: ['cwd'],
+              required: [],
             },
           },
           {
@@ -312,7 +344,7 @@ export class ServerService {
                     'Include tasks in the output each task will include ID and Title, Description will not be included, default is false',
                 },
               },
-              required: ['cwd'],
+              required: [],
             },
           },
           {
@@ -339,7 +371,7 @@ export class ServerService {
                   description: 'Offset the number of documents to return, default is 0',
                 },
               },
-              required: ['cwd'],
+              required: [],
             },
           },
           {
@@ -366,7 +398,7 @@ export class ServerService {
                   description: 'Offset the number of documents to return, default is 0',
                 },
               },
-              required: ['cwd'],
+              required: [],
             },
           },
           {
@@ -393,7 +425,7 @@ export class ServerService {
                 type: 'number',
                 description: 'Offset the number of documents to return, default is 0',
               },
-              required: ['cwd'],
+              required: [],
             },
           },
           {
@@ -401,7 +433,7 @@ export class ServerService {
             description: 'Get User Stories for a particular PRD',
             inputSchema: {
               type: 'object',
-              required: ['prdId', 'cwd'],
+              required: ['prdId'],
               properties: {
                 prdId: {
                   type: 'string',
@@ -421,7 +453,7 @@ export class ServerService {
             description: 'Get Tasks for a particular User Story',
             inputSchema: {
               type: 'object',
-              required: ['prdId', 'userStoryId', 'cwd'],
+              required: ['prdId', 'userStoryId'],
               properties: {
                 prdId: {
                   type: 'string',
@@ -446,7 +478,7 @@ export class ServerService {
             description: 'Get list of Tasks for a particular User Story in a particular PRD',
             inputSchema: {
               type: 'object',
-              required: ['prdId', 'userStoryId', 'taskId', 'cwd'],
+              required: ['prdId', 'userStoryId', 'taskId'],
               properties: {
                 prdId: {
                   type: 'string',
@@ -493,7 +525,7 @@ export class ServerService {
               "Retrieves complete information about a specific task when you know its exact ID. This tool provides direct access to a single task's details without having to retrieve and filter through all tasks., returns full task object, ID, Title, Description",
             inputSchema: {
               type: 'object',
-              required: ['taskId', 'cwd'],
+              required: ['taskId'],
               properties: {
                 taskId: {
                   type: 'string',
@@ -514,7 +546,7 @@ export class ServerService {
               'List all the tasks available across all PRDs and User Stories, without task description, only return ID and Title',
             inputSchema: {
               type: 'object',
-              required: ['cwd'],
+              required: [],
               properties: {
                 cwd: {
                   type: 'string',
@@ -537,7 +569,7 @@ export class ServerService {
               'Full text search across all documents, returns an array of document ID, Title, Description',
             inputSchema: {
               type: 'object',
-              required: ['searchTerm', 'cwd'],
+              required: ['searchTerm'],
               properties: {
                 searchTerm: {
                   type: 'string',
@@ -590,20 +622,6 @@ export class ServerService {
    * Setup handler for tool calls
    */
   private setupCallToolHandler(): void {
-    if (this.projectPath) {
-      logger.info({ projectPath: this.projectPath }, 'Project path is found from process.env.PWD')
-      this.inferProjectPath(this.projectPath).then((inferredPath) => {
-        if (inferredPath) {
-          logger.info({ inferredPath }, 'Project path auto-inferred')
-          this.projectPath = inferredPath
-          this.documentService.loadSolution(inferredPath).then((solution) => {
-            this.solution = solution
-            this.updateMiniSearchIndex()
-            logger.info('Solution loaded from auto-inferred project path')
-          })
-        }
-      })
-    }
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params
       logger.info({ tool: name, args }, 'Handling tool call')
@@ -621,12 +639,15 @@ export class ServerService {
           case 'get-brds': {
             const { cwd, includeDescription, limit, offset } = GetBRsRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -653,12 +674,15 @@ export class ServerService {
             const { cwd, includeDescription, includeTasks, includeUserStories, limit, offset } =
               GetPRDsRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -711,12 +735,15 @@ export class ServerService {
           case 'get-nfrs': {
             const { cwd, includeDescription, limit, offset } = GetNFRsRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -742,12 +769,15 @@ export class ServerService {
           case 'get-uirs': {
             const { cwd, includeDescription, limit, offset } = GetUIRsRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -773,12 +803,15 @@ export class ServerService {
           case 'get-bpds': {
             const { cwd, includeDescription, limit, offset } = GetBPsRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -804,12 +837,15 @@ export class ServerService {
           case 'get-user-stories': {
             const { prdId, cwd } = GetUserStoriesRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -825,12 +861,15 @@ export class ServerService {
           case 'get-tasks': {
             const { prdId, userStoryId, cwd } = GetTasksRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -851,12 +890,15 @@ export class ServerService {
           case 'get-task': {
             const { prdId, userStoryId, taskId, cwd } = GetTaskRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -886,12 +928,15 @@ export class ServerService {
           case 'list-all-tasks': {
             const { cwd, limit, offset } = GetListAllTasksRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -921,12 +966,15 @@ export class ServerService {
           case 'get-task-by-id': {
             const { taskId, cwd } = GetTaskByIdRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -948,12 +996,15 @@ export class ServerService {
           case 'search': {
             const { searchTerm, cwd, type } = SearchRequestSchema.parse(args)
 
-            // Try to infer project path if provided
-            if (cwd) {
-              await this.loadSolutionByAutoInference(cwd)
+            if (!this.solution) {
+              if (this.projectPath) {
+                await this.loadSolutionFromPath(this.projectPath)
+              } else if (cwd) {
+                await this.loadSolutionByAutoInference(cwd)
+              }
             }
 
-            if (!this.solution || !cwd) {
+            if (!this.solution) {
               throw new Error(
                 'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
               )
@@ -1020,7 +1071,47 @@ export class ServerService {
    * Start the server
    */
   async start(): Promise<void> {
-    logger.info('Starting MCP server...')
+    logger.info(
+      {
+        projectPathFromConstructor: this.projectPath,
+      },
+      'Starting MCP server with project path info...'
+    )
+
+    if (this.projectPath) {
+      logger.info(
+        { projectPath: this.projectPath },
+        'Loading solution from specified path before starting server...'
+      )
+      const success = await this.loadSolutionFromPath(this.projectPath)
+      if (!success) {
+        logger.warn(
+          { projectPath: this.projectPath },
+          'Failed to load solution from specified path'
+        )
+      } else {
+        logger.info(
+          { projectPath: this.projectPath },
+          'Solution successfully loaded from specified path'
+        )
+      }
+    }
+
+    if (!this.solution) {
+      logger.warn(
+        'No solution loaded. MCP tools will require set-project-path or will try to infer from cwd.'
+      )
+    } else {
+      logger.info(
+        {
+          projectPath: this.projectPath,
+          solutionHasBRDs: !!this.solution.BRD.length,
+          solutionHasPRDs: !!this.solution.PRD.length,
+        },
+        'Solution loaded successfully, MCP tools are ready to use.'
+      )
+    }
+
     const transport = new StdioServerTransport()
     await this.server.connect(transport)
     logger.info('MCP server started successfully')
