@@ -1509,7 +1509,7 @@ describe('ServerService', () => {
       mockRequestHandlers.clear()
       const adoServerService = new ServerService()
       const adoHandler = mockRequestHandlers.get('call-tool')
-      
+
       await adoHandler({
         params: {
           name: 'set-project-path',
