@@ -21,6 +21,46 @@ class MockFileService {
   }
 
   async readAllJsonFiles(dir: string): Promise<JsonFileContent[]> {
+    // Handle Jira metadata file
+    if (dir === '/test/path') {
+      return [
+        {
+          name: '.metadata.json',
+          content: {
+            id: 'test-project',
+            name: 'Test Project',
+            description: 'Test project description',
+            technicalDetails: 'Test technical details',
+            createReqt: true,
+            cleanSolution: false,
+            createdAt: '2023-01-01T00:00:00.000Z',
+            integration: {
+              selectedPmoTool: 'jira',
+            },
+          },
+        },
+      ]
+    }
+    // Handle ADO metadata file
+    if (dir === '/test/ado/path') {
+      return [
+        {
+          name: '.metadata.json',
+          content: {
+            id: 'test-ado-project',
+            name: 'Test ADO Project',
+            description: 'Test ADO project description',
+            technicalDetails: 'Test ADO technical details',
+            createReqt: true,
+            cleanSolution: false,
+            createdAt: '2023-01-01T00:00:00.000Z',
+            integration: {
+              selectedPmoTool: 'ado',
+            },
+          },
+        },
+      ]
+    }
     // Test empty directory case
     if (dir.endsWith('NFR')) {
       return []
@@ -43,6 +83,9 @@ class MockFileService {
           content: {
             title: 'Test PRD',
             requirement: 'Test requirement',
+            pmoId: 'HB-1001',
+            pmoIssueType: 'Feature',
+            linkedBRDIds: ['BRD01', 'BRD02'],
           },
         },
         {
@@ -53,11 +96,69 @@ class MockFileService {
                 id: 'US1',
                 name: 'User Story 1',
                 description: 'Test user story',
+                pmoId: 'HB-2001',
+                pmoIssueType: 'Platform Feature',
                 tasks: [
                   {
                     id: 'T1',
                     list: 'Task 1',
                     acceptance: 'Test acceptance',
+                    pmoId: 'HB-3001',
+                    pmoIssueType: 'User Story',
+                  },
+                  {
+                    id: 'T2',
+                    list: 'Task 2',
+                    acceptance: 'Test acceptance 2',
+                    // No Pmo ID for this task
+                  },
+                ],
+              },
+              {
+                id: 'US2',
+                name: 'User Story 2',
+                description: 'Test user story 2',
+                // No Pmo ID for this user story
+                tasks: [
+                  {
+                    id: 'T3',
+                    list: 'Task 3',
+                    acceptance: 'Test acceptance 3',
+                    pmoId: 'HB-3003',
+                    pmoIssueType: 'User Story',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: 'PRD04-base.json',
+          content: {
+            title: 'ADO Test PRD',
+            requirement: 'ADO Test requirement',
+            pmoId: '12345',
+            pmoIssueType: 'Feature',
+            linkedBRDIds: ['BRD03'],
+          },
+        },
+        {
+          name: 'PRD04-feature.json',
+          content: {
+            features: [
+              {
+                id: 'US4',
+                name: 'ADO User Story',
+                description: 'ADO test user story',
+                pmoId: '67890',
+                pmoIssueType: 'User Story',
+                tasks: [
+                  {
+                    id: 'T4',
+                    list: 'ADO Task',
+                    acceptance: 'ADO Test acceptance',
+                    pmoId: '11111',
+                    pmoIssueType: 'Task',
                   },
                 ],
               },
@@ -146,21 +247,74 @@ describe('DocumentService', () => {
         description: 'Test requirement',
       })
 
-      // Check PRDs with user stories
-      expect(solution.PRD).toHaveLength(1) // Only one valid PRD (with both base and feature)
+      // Check PRDs with user stories and Pmo IDs
+      expect(solution.PRD).toHaveLength(2) // Two valid PRDs (with both base and feature)
       const prd = solution.PRD[0]
       expect(prd.id).toBe('PRD01')
-      expect(prd.userStories).toHaveLength(1)
-      expect(prd.userStories[0].tasks).toHaveLength(1)
+      expect(prd.pmoId).toBe('HB-1001')
+      expect(prd.pmoIssueType).toBe('Feature')
+      expect(prd.linkedBRDIds).toEqual(['BRD01', 'BRD02'])
+      expect(prd.userStories).toHaveLength(2)
+
+      // Check first user story with Pmo ID and Issue Type
       expect(prd.userStories[0]).toEqual({
         id: 'US1',
         title: 'User Story 1',
         description: 'Test user story',
+        pmoId: 'HB-2001',
+        pmoIssueType: 'Platform Feature',
         tasks: [
           {
             id: 'T1',
             title: 'Task 1',
             description: 'Test acceptance',
+            pmoId: 'HB-3001',
+            pmoIssueType: 'User Story',
+          },
+          {
+            id: 'T2',
+            title: 'Task 2',
+            description: 'Test acceptance 2',
+          },
+        ],
+      })
+
+      // Check second user story without Pmo ID
+      expect(prd.userStories[1]).toEqual({
+        id: 'US2',
+        title: 'User Story 2',
+        description: 'Test user story 2',
+        tasks: [
+          {
+            id: 'T3',
+            title: 'Task 3',
+            description: 'Test acceptance 3',
+            pmoId: 'HB-3003',
+            pmoIssueType: 'User Story',
+          },
+        ],
+      })
+
+      const adoPrd = solution.PRD[1]
+      expect(adoPrd.id).toBe('PRD04')
+      expect(adoPrd.pmoId).toBe('12345')
+      expect(adoPrd.pmoIssueType).toBe('Feature')
+      expect(adoPrd.linkedBRDIds).toEqual(['BRD03'])
+      expect(adoPrd.userStories).toHaveLength(1)
+
+      expect(adoPrd.userStories[0]).toEqual({
+        id: 'US4',
+        title: 'ADO User Story',
+        description: 'ADO test user story',
+        pmoId: '67890',
+        pmoIssueType: 'User Story',
+        tasks: [
+          {
+            id: 'T4',
+            title: 'ADO Task',
+            description: 'ADO Test acceptance',
+            pmoId: '11111',
+            pmoIssueType: 'Task',
           },
         ],
       })
@@ -212,7 +366,34 @@ describe('DocumentService', () => {
         PRD: [],
         NFR: [],
         UIR: [],
+        METADATA: null,
       })
+    })
+
+    test('should load and process ADO documents with correct PMO tool detection', async () => {
+      const solution = await documentService.loadSolution('/test/ado/path')
+
+      expect(solution.METADATA?.integration?.selectedPmoTool).toBe('ado')
+
+      expect(solution.PRD).toHaveLength(2)
+      const adoPrd = solution.PRD.find((p) => p.id === 'PRD04')
+      expect(adoPrd).toBeTruthy()
+      expect(adoPrd?.pmoId).toBe('12345')
+      expect(adoPrd?.pmoIssueType).toBe('Feature')
+    })
+
+    test('should process PMO issue types correctly for both JIRA and ADO', async () => {
+      const solution = await documentService.loadSolution('/test/path')
+
+      const jiraPrd = solution.PRD.find((p) => p.id === 'PRD01')
+      expect(jiraPrd?.pmoIssueType).toBe('Feature')
+      expect(jiraPrd?.userStories[0].pmoIssueType).toBe('Platform Feature')
+      expect(jiraPrd?.userStories[0].tasks[0].pmoIssueType).toBe('User Story')
+
+      const adoPrd = solution.PRD.find((p) => p.id === 'PRD04')
+      expect(adoPrd?.pmoIssueType).toBe('Feature')
+      expect(adoPrd?.userStories[0].pmoIssueType).toBe('User Story')
+      expect(adoPrd?.userStories[0].tasks[0].pmoIssueType).toBe('Task')
     })
   })
 

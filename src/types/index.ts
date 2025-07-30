@@ -10,13 +10,18 @@ export interface BaseDocument {
 /**
  * Task within a user story
  */
-export interface Task extends BaseDocument {}
+export interface Task extends BaseDocument {
+  pmoId?: string
+  pmoIssueType?: string
+}
 
 /**
  * User story containing tasks
  */
 export interface UserStory extends BaseDocument {
   tasks: Task[]
+  pmoId?: string
+  pmoIssueType?: string
 }
 
 /**
@@ -24,6 +29,9 @@ export interface UserStory extends BaseDocument {
  */
 export interface PRD extends BaseDocument {
   userStories: UserStory[]
+  pmoId?: string
+  pmoIssueType?: string
+  linkedBRDIds?: string[]
 }
 
 /**
@@ -47,6 +55,22 @@ export interface UIR extends BaseDocument {}
 export interface BP extends BaseDocument {}
 
 /**
+ * project metadata
+ */
+export interface ProjectMetadata {
+  id: string
+  name: string
+  description: string
+  technicalDetails: string
+  createReqt?: boolean
+  cleanSolution?: boolean
+  createdAt: string
+  integration?: {
+    selectedPmoTool?: string
+  }
+}
+
+/**
  * Complete solution containing all document types
  */
 export interface Solution {
@@ -55,6 +79,7 @@ export interface Solution {
   NFR: NFR[]
   BP: BP[]
   UIR: UIR[]
+  METADATA: ProjectMetadata | null
 }
 
 /**

@@ -10,6 +10,7 @@ import type {
   BP,
   UserStory,
   Task,
+  ProjectMetadata,
 } from '../types'
 import { FileService } from './file.service'
 import { logger } from '../utils/logger'
@@ -58,11 +59,15 @@ export class DocumentService {
             id: feature.id,
             title: feature.name,
             description: feature.description,
+            ...(feature.pmoId && { pmoId: feature.pmoId }),
+            ...(feature.pmoIssueType && { pmoIssueType: feature.pmoIssueType }),
             tasks: feature.tasks.map(
               (task: any): Task => ({
                 id: task.id,
                 title: task.list,
                 description: task.acceptance,
+                ...(task.pmoId && { pmoId: task.pmoId }),
+                ...(task.pmoIssueType && { pmoIssueType: task.pmoIssueType }),
               })
             ),
           }))
@@ -76,12 +81,37 @@ export class DocumentService {
             id: obj.name.replace('.json', '').replace('-base', ''),
             title: obj.content.title,
             description: obj.content.requirement,
+            ...(obj.content.pmoId && { pmoId: obj.content.pmoId }),
+            ...(obj.content.pmoIssueType && { pmoIssueType: obj.content.pmoIssueType }),
             userStories,
+            ...(obj.content.linkedBRDIds && { linkedBRDIds: obj.content.linkedBRDIds }),
           }
         }
         return null
       })
       .filter((obj): obj is PRD => obj !== null)
+  }
+
+  /**
+   * Load metadata from project directory
+   * @param projectPath - Path to the project directory
+   * @returns Project metadata
+   */
+  private async loadMetadata(projectPath: string): Promise<ProjectMetadata> {
+    try {
+      const metadataFiles = await this.fileService.readAllJsonFiles(projectPath)
+      const metadataFile = metadataFiles.find((file) => file.name === '.metadata.json')
+
+      if (metadataFile && metadataFile.content) {
+        logger.debug({ projectPath }, 'Metadata loaded successfully')
+        return metadataFile.content as ProjectMetadata
+      }
+
+      throw new Error('No metadata file found')
+    } catch (error) {
+      logger.error({ error, projectPath }, 'Error loading metadata')
+      throw error
+    }
   }
 
   /**
@@ -98,20 +128,22 @@ export class DocumentService {
     }
 
     try {
-      const [bps, brds, prds, nfrs, uirs] = await Promise.all([
+      const [bps, brds, prds, nfrs, uirs, metadata] = await Promise.all([
         this.fileService.readAllJsonFiles(join(projectPath, 'BP')),
         this.fileService.readAllJsonFiles(join(projectPath, 'BRD')),
         this.fileService.readAllJsonFiles(join(projectPath, 'PRD')),
         this.fileService.readAllJsonFiles(join(projectPath, 'NFR')),
         this.fileService.readAllJsonFiles(join(projectPath, 'UIR')),
+        this.loadMetadata(projectPath),
       ])
 
-      const solution = {
+      const solution: Solution = {
         BP: this.normalize(bps) as BP[],
         BRD: this.normalize(brds) as BRD[],
         PRD: this.processPRDs(prds),
         NFR: this.normalize(nfrs) as NFR[],
         UIR: this.normalize(uirs) as UIR[],
+        METADATA: metadata,
       }
 
       logger.info(
@@ -121,6 +153,7 @@ export class DocumentService {
           prdsCount: solution.PRD.length,
           nfrsCount: solution.NFR.length,
           uirsCount: solution.UIR.length,
+          hasMetadata: !!metadata,
         },
         'Solution loaded successfully'
       )
@@ -134,6 +167,7 @@ export class DocumentService {
         PRD: [],
         NFR: [],
         UIR: [],
+        METADATA: null,
       }
     }
   }
