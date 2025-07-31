@@ -111,7 +111,7 @@ export class DocumentService {
           { tcPath },
           'No user story directories found, reading directly from TC directory'
         )
-        return await this.fileService.readAllJsonFiles(tcPath)
+        return []
       }
 
       // Read test cases from each user story directory
