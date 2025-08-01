@@ -433,9 +433,6 @@ describe('DocumentService', () => {
     })
 
     test('should load test cases from user story subdirectories', async () => {
-      // Since we can't access the private normalize method, let's directly mock the return value
-      // of loadTestCases in the DocumentService class
-
       // Create test cases that we expect to see in the solution
       const expectedTCs = [
         {
