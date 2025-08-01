@@ -21,6 +21,38 @@ function printVersion() {
 }
 
 /**
+ * Parse command line arguments
+ */
+function parseArguments(args: string[]): {
+  projectPath?: string
+  showHelp: boolean
+  showVersion: boolean
+} {
+  let projectPath: string | undefined
+  let showHelp = false
+  let showVersion = false
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i]
+
+    if (arg === '--help' || arg === '-h') {
+      showHelp = true
+    } else if (arg === '--version' || arg === '-v') {
+      showVersion = true
+    } else if (arg === '--project-path' || arg === '-p') {
+      if (i + 1 < args.length) {
+        projectPath = args[i + 1]
+        i++
+      } else {
+        throw new Error('--project-path option requires a value')
+      }
+    }
+  }
+
+  return { projectPath, showHelp, showVersion }
+}
+
+/**
  * Print usage instructions
  */
 function printHelp() {
@@ -28,18 +60,31 @@ function printHelp() {
   console.error(`
 ${pkg.name} - v${process.env.SP_VERSION}
 
-Usage: ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name}
+Usage: ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name} [options] [project-path]
+
+Arguments:
+  project-path    Absolute path to the Specifai project directory (optional)
 
 Options:
   -h, --help      Display this help message
   -v, --version   Display version information
+  -p, --project-path      Specify project path (same as positional argument)
 
-Example:
+Path Resolution Priority:
+  1. Command line argument (--path or positional)
+  2. .specifai-path file in current working directory
+  3. Prompt user if neither is available
+
+Examples:
   ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name}
+  ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name} /path/to/project
+  ${pkg.bin ? Object.keys(pkg.bin)[0] : pkg.name} --path /path/to/project
 
   npx --yes ${pkg.name}
+  npx --yes ${pkg.name} /path/to/project
 
   bunx ${pkg.name}
+  bunx ${pkg.name} /path/to/project
 `)
 }
 
@@ -54,19 +99,20 @@ async function main() {
     )
 
     const args = process.argv.slice(2)
+    const { projectPath, showHelp, showVersion } = parseArguments(args)
 
-    if (args[0] === '--help' || args[0] === '-h') {
+    if (showHelp) {
       printHelp()
       process.exit(args.length === 0 ? 1 : 0)
     }
 
-    if (args[0] === '--version' || args[0] === '-v') {
+    if (showVersion) {
       printVersion()
       process.exit(0)
     }
 
-    // Initialize and start server
-    const serverService = new ServerService(process.env.PWD)
+    // Initialize and start server with project path from arguments (if provided)
+    const serverService = new ServerService(projectPath)
     await serverService.start()
 
     logger.info('Specifai MCP Server running on stdio')

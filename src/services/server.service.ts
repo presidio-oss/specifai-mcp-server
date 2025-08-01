@@ -9,6 +9,7 @@ import { DocumentService } from './document.service'
 import { FileService } from './file.service'
 import { logger } from '../utils/logger'
 import MiniSearch from 'minisearch'
+import { NO_PROJECT_PATH_ERROR } from '../constants/constants'
 
 /**
  * Schema for get-user-stories request
@@ -107,11 +108,12 @@ export class ServerService {
   private fileService: FileService
   private solution: Solution | null
   private projectPath: string | null
+  private projectPathFromArguments: boolean = false
   private miniSearch: MiniSearch
 
   constructor(projectPath?: string) {
     this.solution = null
-    this.projectPath = projectPath || null
+    this.projectPath = null
     this.documentService = new DocumentService()
     this.fileService = new FileService()
     this.miniSearch = new MiniSearch({
@@ -135,7 +137,57 @@ export class ServerService {
 
     logger.info('Initializing MCP server...')
     this.setupRequestHandlers()
+
+    // Initialize project path with precedence logic
+    this.initializeProjectPath(projectPath).catch((error) => {
+      logger.error({ error }, 'Failed to initialize project path')
+    })
+
     logger.info('MCP server initialized')
+  }
+
+  /**
+   * Initialize project path with precedence logic:
+   * 1. Command line argument (highest precedence)
+   * 2. .specifai-path file in current working directory
+   * 3. Ask user if neither is available
+   */
+  private async initializeProjectPath(argumentPath?: string): Promise<void> {
+    try {
+      // Priority 1: Command line argument
+      if (argumentPath) {
+        logger.info({ argumentPath }, 'Using project path from command line argument')
+        if (await this.fileService.isDirectory(argumentPath)) {
+          this.projectPath = argumentPath
+          this.projectPathFromArguments = true
+          this.solution = await this.documentService.loadSolution(argumentPath)
+          this.updateMiniSearchIndex()
+          logger.info('Solution loaded from command line argument path')
+          return
+        } else {
+          logger.warn({ argumentPath }, 'Command line argument path is not a valid directory')
+        }
+      }
+
+      // Priority 2: .specifai-path file in current working directory
+      const currentDir = process.cwd()
+      const inferredPath = await this.inferProjectPath(currentDir)
+      if (inferredPath) {
+        logger.info({ inferredPath }, 'Using project path from .specifai-path file')
+        this.projectPath = inferredPath
+        this.projectPathFromArguments = false
+        this.solution = await this.documentService.loadSolution(inferredPath)
+        this.updateMiniSearchIndex()
+        logger.info('Solution loaded from .specifai-path file')
+        return
+      }
+
+      logger.info(
+        'No project path found from arguments or .specifai-path file. Will be determined when tools are called.'
+      )
+    } catch (error) {
+      logger.error({ error }, 'Error initializing project path')
+    }
   }
 
   /**
@@ -198,9 +250,16 @@ export class ServerService {
    * @param projectPath - The project path to load the solution from
    * */
   private async loadSolutionByAutoInference(projectPath: string): Promise<void> {
+    // Only infer if project path is not already set from command line arguments
+    if (this.projectPathFromArguments && this.projectPath && this.solution) {
+      logger.debug('Project path already set from command line arguments, skipping auto-inference')
+      return
+    }
+
     const inferredPath = await this.inferProjectPath(projectPath)
     if (inferredPath) {
       this.projectPath = inferredPath
+      this.projectPathFromArguments = false
       this.solution = await this.documentService.loadSolution(inferredPath)
       this.updateMiniSearchIndex()
       logger.info({ inferredPath }, 'Project path auto-inferred')
@@ -609,20 +668,6 @@ export class ServerService {
    * Setup handler for tool calls
    */
   private setupCallToolHandler(): void {
-    if (this.projectPath) {
-      logger.info({ projectPath: this.projectPath }, 'Project path is found from process.env.PWD')
-      this.inferProjectPath(this.projectPath).then((inferredPath) => {
-        if (inferredPath) {
-          logger.info({ inferredPath }, 'Project path auto-inferred')
-          this.projectPath = inferredPath
-          this.documentService.loadSolution(inferredPath).then((solution) => {
-            this.solution = solution
-            this.updateMiniSearchIndex()
-            logger.info('Solution loaded from auto-inferred project path')
-          })
-        }
-      })
-    }
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params
       logger.info({ tool: name, args }, 'Handling tool call')
@@ -632,6 +677,7 @@ export class ServerService {
           case 'set-project-path': {
             const { path } = object({ path: z.string() }).parse(args)
             this.projectPath = path
+            this.projectPathFromArguments = true
             this.solution = await this.documentService.loadSolution(path)
             this.updateMiniSearchIndex()
             return this.createTextResponse(`Project path set to: ${path}`)
@@ -646,9 +692,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
 
             const docs = this.paginate(
@@ -678,9 +722,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
 
             const docs = this.paginate(this.solution.PRD, limit, offset)
@@ -759,9 +801,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
 
             const docs = this.paginate(
@@ -790,9 +830,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
 
             const docs = this.paginate(
@@ -821,9 +859,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
 
             const docs = this.paginate(
@@ -852,9 +888,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
@@ -873,9 +907,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
@@ -899,9 +931,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
             const prd = this.documentService.findPRD(this.solution, prdId)
             if (!prd) {
@@ -930,9 +960,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
             const tasks = this.paginate(
               this.solution.PRD.map((prd) =>
@@ -969,9 +997,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
             const task = this.solution.PRD.flatMap((prd) =>
               prd.userStories.flatMap((userStory) => userStory.tasks)
@@ -992,9 +1018,7 @@ export class ServerService {
             }
 
             if (!this.solution || !cwd) {
-              throw new Error(
-                'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-              )
+              throw new Error(NO_PROJECT_PATH_ERROR)
             }
 
             const ispmoId = /^[A-Z][A-Z0-9_]+-\d+$/i.test(searchTerm) || /^\d+$/.test(searchTerm)
