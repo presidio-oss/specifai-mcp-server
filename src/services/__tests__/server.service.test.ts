@@ -60,6 +60,13 @@ const mockSolution: Solution = {
       description: 'Test UIR description',
     },
   ],
+  TC: [
+    {
+      id: 'TC01',
+      title: 'Test TC',
+      description: 'Test TC description',
+    },
+  ],
   METADATA: {
     id: 'test-project',
     name: 'Test Project',
@@ -143,6 +150,13 @@ const mockAdoSolution: Solution = {
       selectedPmoTool: 'ado',
     },
   },
+  TC: [
+    {
+      id: 'TC01',
+      title: 'ADO Test TC',
+      description: 'ADO Test TC description',
+    },
+  ],
 }
 
 // Mock fs/promises
@@ -286,13 +300,14 @@ describe('ServerService', () => {
       const handler = mockRequestHandlers.get('list-tools')
       const response = await handler()
 
-      expect(response.tools).toHaveLength(12)
+      expect(response.tools).toHaveLength(13)
       expect(response.tools.map((t: { name: string }) => t.name)).toEqual([
         'get-brds',
         'get-prds',
         'get-nfrs',
         'get-uirs',
         'get-bpds',
+        'get-tcs',
         'get-user-stories',
         'get-tasks',
         'get-task',

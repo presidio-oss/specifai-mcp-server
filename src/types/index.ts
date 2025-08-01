@@ -55,6 +55,11 @@ export interface UIR extends BaseDocument {}
 export interface BP extends BaseDocument {}
 
 /**
+ * Test case document
+ */
+export interface TC extends BaseDocument {}
+
+/**
  * project metadata
  */
 export interface ProjectMetadata {
@@ -79,6 +84,7 @@ export interface Solution {
   NFR: NFR[]
   BP: BP[]
   UIR: UIR[]
+  TC: TC[]
   METADATA: ProjectMetadata | null
 }
 

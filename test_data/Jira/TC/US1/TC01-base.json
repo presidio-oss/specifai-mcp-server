@@ -1,0 +1,33 @@
+{
+  "id": "TC01",
+  "title": "Jira User Authentication and Dashboard Access Test",
+  "description": "Verify that users can successfully create a Jira account, log in, and access the main dashboard. The test should confirm that all UI elements are properly displayed and functional across different browsers and devices.",
+  "preConditions": [
+    "Jira instance is accessible via web browser.",
+    "User has a valid email address for registration."
+  ],
+  "steps": [
+    {
+      "stepNumber": 1,
+      "action": "Navigate to Jira's login page.",
+      "expectedResult": "The login page loads successfully with all form fields visible."
+    },
+    {
+      "stepNumber": 2,
+      "action": "Enter valid credentials and submit the form.",
+      "expectedResult": "The system accepts the credentials and logs the user in."
+    },
+    {
+      "stepNumber": 3,
+      "action": "Verify that the user is redirected to the main dashboard.",
+      "expectedResult": "Dashboard loads successfully with all projects and recent items visible."
+    },
+    {
+      "stepNumber": 4,
+      "action": "Verify that all UI elements on the dashboard are properly displayed.",
+      "expectedResult": "All UI elements are visible, properly aligned, and functional."
+    }
+  ],
+  "priority": "High",
+  "type": "Functional"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "TC02",
+  "title": "Spotify Playlist Creation and Management Test",
+  "description": "Verify that users can successfully create, edit, and manage playlists. The test should confirm that all playlist management features work as expected.",
+  "preConditions": [
+    "User has a valid Spotify account and is logged in.",
+    "User has appropriate permissions to create and manage playlists."
+  ],
+  "steps": [
+    {
+      "stepNumber": 1,
+      "action": "Navigate to the 'Your Library' section and click 'Create Playlist'.",
+      "expectedResult": "A new playlist is created and the playlist edit view is displayed."
+    },
+    {
+      "stepNumber": 2,
+      "action": "Enter playlist details (name, description) and save changes.",
+      "expectedResult": "The system saves the playlist details and displays the updated information."
+    },
+    {
+      "stepNumber": 3,
+      "action": "Search for songs and add them to the playlist.",
+      "expectedResult": "Songs are successfully added to the playlist and appear in the playlist view."
+    },
+    {
+      "stepNumber": 4,
+      "action": "Reorder songs in the playlist using drag and drop.",
+      "expectedResult": "Songs are reordered according to the user's actions and the new order is saved."
+    }
+  ],
+  "priority": "High",
+  "type": "Functional"
+}

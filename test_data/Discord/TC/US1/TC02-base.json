@@ -1,0 +1,39 @@
+{
+  "id": "TC02",
+  "title": "Messaging Functionality Test",
+  "description": "Test the messaging functionality to ensure that users can send text messages, images, and files to other users and channels. Verify that messages are delivered in real-time and that message history is properly stored and displayed.",
+  "preConditions": [
+    "User is logged into Discord.",
+    "User has access to at least one channel.",
+    "Another test user is available for message exchange."
+  ],
+  "steps": [
+    {
+      "stepNumber": 1,
+      "action": "Navigate to a channel and type a text message.",
+      "expectedResult": "The message input field accepts text input."
+    },
+    {
+      "stepNumber": 2,
+      "action": "Send the text message by pressing Enter.",
+      "expectedResult": "The message appears in the channel and is visible to all users."
+    },
+    {
+      "stepNumber": 3,
+      "action": "Upload and send an image file.",
+      "expectedResult": "The image is uploaded and displayed in the channel."
+    },
+    {
+      "stepNumber": 4,
+      "action": "Upload and send a document file.",
+      "expectedResult": "The document is uploaded and appears as a downloadable attachment."
+    },
+    {
+      "stepNumber": 5,
+      "action": "Close and reopen the application.",
+      "expectedResult": "Message history is preserved and displayed correctly."
+    }
+  ],
+  "priority": "High",
+  "type": "Functional"
+}

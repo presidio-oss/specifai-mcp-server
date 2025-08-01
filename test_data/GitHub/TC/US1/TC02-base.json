@@ -1,0 +1,33 @@
+{
+  "id": "TC02",
+  "title": "GitHub Repository Creation and Management Test",
+  "description": "Verify that users can successfully create a new repository, configure its settings, and manage its content. The test should confirm that all repository management features work as expected.",
+  "preConditions": [
+    "User has a valid GitHub account and is logged in.",
+    "User has appropriate permissions to create repositories."
+  ],
+  "steps": [
+    {
+      "stepNumber": 1,
+      "action": "Navigate to the 'New repository' page.",
+      "expectedResult": "The repository creation page loads successfully with all form fields visible."
+    },
+    {
+      "stepNumber": 2,
+      "action": "Enter repository details (name, description, visibility) and create the repository.",
+      "expectedResult": "The system creates the repository and redirects to the repository page."
+    },
+    {
+      "stepNumber": 3,
+      "action": "Navigate to repository settings and modify configuration options.",
+      "expectedResult": "Settings are saved successfully and reflected in the repository configuration."
+    },
+    {
+      "stepNumber": 4,
+      "action": "Add a new file to the repository.",
+      "expectedResult": "File is successfully added and visible in the repository file list."
+    }
+  ],
+  "priority": "High",
+  "type": "Functional"
+}
