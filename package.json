@@ -1,6 +1,6 @@
 {
   "name": "@presidio-dev/specifai-mcp-server",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Specifai MCP Server that runs over stdio",
   "type": "module",
   "license": "MIT",

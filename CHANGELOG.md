@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>0.5.1 (2025-08-01)</small>
+
+* Feature: Added tool to get test cases (#32) ([a5db037](https://github.com/presidio-oss/specifai-mcp-server/commit/a5db037)), closes [#32](https://github.com/presidio-oss/specifai-mcp-server/issues/32)
+
 ## 0.5.0 (2025-07-30)
 
 * feat: integrate Pmo ID support across MCP document tools (#31) ([f587590](https://github.com/presidio-oss/specifai-mcp-server/commit/f587590)), closes [#31](https://github.com/presidio-oss/specifai-mcp-server/issues/31)
