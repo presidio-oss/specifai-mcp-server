@@ -171,6 +171,7 @@ jest.mock('fs/promises', () => ({
 
 // Import mocked fs/promises to access mock functions
 import { readdir, readFile, access } from 'fs/promises'
+import { NO_PROJECT_PATH_ERROR } from '../../constants/constants'
 
 const mockMiniSearch = {
   search: jest.fn(),
@@ -383,7 +384,11 @@ describe('ServerService', () => {
     })
 
     test('should infer project path from directory with .specifai-path file', async () => {
+      // Create a new server service instance without pre-set project path
+      mockRequestHandlers.clear()
+      const newServerService = new ServerService()
       const handler = mockRequestHandlers.get('call-tool')
+
       const response = await handler({
         params: {
           name: 'get-brds',
@@ -393,6 +398,33 @@ describe('ServerService', () => {
 
       expect(mockAccess).toHaveBeenCalled()
       expect(mockReadFile).toHaveBeenCalled()
+      expect(response.content[0].text).toContain('BRD01')
+    })
+
+    test('should not infer project path when already set from command line arguments', async () => {
+      // Create a server service instance with project path from command line
+      mockRequestHandlers.clear()
+      const serverWithArgPath = new ServerService('/test/path')
+
+      // Wait for initialization to complete
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      const handler = mockRequestHandlers.get('call-tool')
+
+      // Clear previous calls to mocks after initialization
+      mockAccess.mockClear()
+      mockReadFile.mockClear()
+
+      const response = await handler({
+        params: {
+          name: 'get-brds',
+          arguments: { cwd: '/with/specifai-path' },
+        },
+      })
+
+      // Should not call inference methods when project path is already set
+      expect(mockAccess).not.toHaveBeenCalled()
+      expect(mockReadFile).not.toHaveBeenCalled()
       expect(response.content[0].text).toContain('BRD01')
     })
 
@@ -409,7 +441,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/non/existent/dir' },
           },
         })
-      ).rejects.toThrow('No project path set')
+      ).rejects.toThrow('No project path available')
     })
 
     test('should handle directory without .specifai-path file', async () => {
@@ -427,7 +459,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/valid/dir' },
           },
         })
-      ).rejects.toThrow('No project path set')
+      ).rejects.toThrow('No project path available')
     })
 
     test('should handle invalid inferred path', async () => {
@@ -445,7 +477,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/with/specifai-path' },
           },
         })
-      ).rejects.toThrow('No project path set')
+      ).rejects.toThrow('No project path available')
     })
 
     test('should handle error during inference', async () => {
@@ -463,7 +495,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/with/specifai-path' },
           },
         })
-      ).rejects.toThrow('No project path set')
+      ).rejects.toThrow('No project path available')
     })
 
     test('should directly access inferProjectPath method', async () => {
@@ -727,9 +759,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/some/path' },
           },
         })
-      ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-      )
+      ).rejects.toThrow(NO_PROJECT_PATH_ERROR)
 
       // Test with get-prds
       await expect(
@@ -739,9 +769,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/some/path' },
           },
         })
-      ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-      )
+      ).rejects.toThrow(NO_PROJECT_PATH_ERROR)
 
       // Test with get-nfrs
       await expect(
@@ -751,9 +779,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/some/path' },
           },
         })
-      ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-      )
+      ).rejects.toThrow(NO_PROJECT_PATH_ERROR)
 
       // Test with get-uirs
       await expect(
@@ -763,9 +789,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/some/path' },
           },
         })
-      ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-      )
+      ).rejects.toThrow(NO_PROJECT_PATH_ERROR)
 
       // Test with get-bpds
       await expect(
@@ -775,9 +799,7 @@ describe('ServerService', () => {
             arguments: { cwd: '/some/path' },
           },
         })
-      ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-      )
+      ).rejects.toThrow(NO_PROJECT_PATH_ERROR)
 
       // Test with get-user-stories
       await expect(
@@ -790,9 +812,7 @@ describe('ServerService', () => {
             },
           },
         })
-      ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-      )
+      ).rejects.toThrow(NO_PROJECT_PATH_ERROR)
 
       // Test with get-tasks
       await expect(
@@ -806,9 +826,7 @@ describe('ServerService', () => {
             },
           },
         })
-      ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-      )
+      ).rejects.toThrow(NO_PROJECT_PATH_ERROR)
 
       // Test with get-task
       await expect(
@@ -823,9 +841,7 @@ describe('ServerService', () => {
             },
           },
         })
-      ).rejects.toThrow(
-        'No project path set. Use set-project-path first or provide a valid cwd to auto-infer.'
-      )
+      ).rejects.toThrow(NO_PROJECT_PATH_ERROR)
     })
   })
 
