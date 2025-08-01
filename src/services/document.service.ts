@@ -12,6 +12,7 @@ import type {
   TC,
   UserStory,
   Task,
+  ProjectMetadata,
 } from '../types'
 import { FileService } from './file.service'
 import { logger } from '../utils/logger'
@@ -60,11 +61,15 @@ export class DocumentService {
             id: feature.id,
             title: feature.name,
             description: feature.description,
+            ...(feature.pmoId && { pmoId: feature.pmoId }),
+            ...(feature.pmoIssueType && { pmoIssueType: feature.pmoIssueType }),
             tasks: feature.tasks.map(
               (task: any): Task => ({
                 id: task.id,
                 title: task.list,
                 description: task.acceptance,
+                ...(task.pmoId && { pmoId: task.pmoId }),
+                ...(task.pmoIssueType && { pmoIssueType: task.pmoIssueType }),
               })
             ),
           }))
@@ -78,7 +83,10 @@ export class DocumentService {
             id: obj.name.replace('.json', '').replace('-base', ''),
             title: obj.content.title,
             description: obj.content.requirement,
+            ...(obj.content.pmoId && { pmoId: obj.content.pmoId }),
+            ...(obj.content.pmoIssueType && { pmoIssueType: obj.content.pmoIssueType }),
             userStories,
+            ...(obj.content.linkedBRDIds && { linkedBRDIds: obj.content.linkedBRDIds }),
           }
         }
         return null
@@ -87,10 +95,32 @@ export class DocumentService {
   }
 
   /**
+   * Load metadata from project directory
+   * @param projectPath - Path to the project directory
+   * @returns Project metadata
+   */
+  private async loadMetadata(projectPath: string): Promise<ProjectMetadata> {
+    try {
+      const metadataFiles = await this.fileService.readAllJsonFiles(projectPath)
+      const metadataFile = metadataFiles.find((file) => file.name === '.metadata.json')
+
+      if (metadataFile && metadataFile.content) {
+        logger.debug({ projectPath }, 'Metadata loaded successfully')
+        return metadataFile.content as ProjectMetadata
+      }
+
+      throw new Error('No metadata file found')
+    } catch (error) {
+      logger.error({ error, projectPath }, 'Error loading metadata')
+      throw error
+    }
+  }
+
+  /**
    * Load test cases from user story subdirectories
    * @param tcPath - Path to the TC directory
    * @returns Array of test case file contents
-   */
+` */
   private async loadTestCases(tcPath: string): Promise<JsonFileContent[]> {
     try {
       // First check if the TC directory exists
@@ -105,12 +135,9 @@ export class DocumentService {
       // Filter directories that start with "US"
       const usDirectories = userStoryDirs.filter((dir: string) => dir.startsWith('US'))
 
-      // If no user story directories found, try reading directly from TC directory
+      // If no user story directories found, return empty array as there are no test cases
       if (usDirectories.length === 0) {
-        logger.info(
-          { tcPath },
-          'No user story directories found, reading directly from TC directory'
-        )
+        logger.info({ tcPath }, 'No user story directories found in TC directory')
         return []
       }
 
@@ -119,8 +146,12 @@ export class DocumentService {
 
       for (const usDir of usDirectories) {
         const usPath = join(tcPath, usDir)
-        const testCases = await this.fileService.readAllJsonFiles(usPath)
-        allTestCases.push(...testCases)
+        try {
+          const testCases = await this.fileService.readAllJsonFiles(usPath)
+          allTestCases.push(...testCases)
+        } catch (error) {
+          logger.warn({ error, usPath }, `Error loading test cases from ${usDir}`)
+        }
       }
 
       logger.info({ count: allTestCases.length }, 'Loaded test cases from user story directories')
@@ -131,6 +162,11 @@ export class DocumentService {
     }
   }
 
+  /**
+   * Load all documents from a project directory
+   * @param projectPath - Path to the project directory
+   * @returns Solution containing all document types
+   */
   async loadSolution(projectPath: string): Promise<Solution> {
     logger.info({ projectPath }, 'Loading solution')
 
@@ -140,24 +176,26 @@ export class DocumentService {
     }
 
     try {
-      const [bps, brds, prds, nfrs, uirs] = await Promise.all([
+      // Load test cases first to ensure they're properly loaded
+      const tcs = await this.loadTestCases(join(projectPath, 'TC'))
+
+      const [bps, brds, prds, nfrs, uirs, metadata] = await Promise.all([
         this.fileService.readAllJsonFiles(join(projectPath, 'BP')),
         this.fileService.readAllJsonFiles(join(projectPath, 'BRD')),
         this.fileService.readAllJsonFiles(join(projectPath, 'PRD')),
         this.fileService.readAllJsonFiles(join(projectPath, 'NFR')),
         this.fileService.readAllJsonFiles(join(projectPath, 'UIR')),
+        this.loadMetadata(projectPath),
       ])
 
-      // Load test cases from user story subdirectories
-      const tcs = await this.loadTestCases(join(projectPath, 'TC'))
-
-      const solution = {
+      const solution: Solution = {
         BP: this.normalize(bps) as BP[],
         BRD: this.normalize(brds) as BRD[],
         PRD: this.processPRDs(prds),
         NFR: this.normalize(nfrs) as NFR[],
         UIR: this.normalize(uirs) as UIR[],
         TC: this.normalize(tcs) as TC[],
+        METADATA: metadata,
       }
 
       logger.info(
@@ -168,6 +206,7 @@ export class DocumentService {
           nfrsCount: solution.NFR.length,
           uirsCount: solution.UIR.length,
           tcsCount: solution.TC.length,
+          hasMetadata: !!metadata,
         },
         'Solution loaded successfully'
       )
@@ -182,6 +221,7 @@ export class DocumentService {
         NFR: [],
         UIR: [],
         TC: [],
+        METADATA: null,
       }
     }
   }

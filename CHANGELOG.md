@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 (2025-07-30)
+
+* feat: integrate Pmo ID support across MCP document tools (#31) ([f587590](https://github.com/presidio-oss/specifai-mcp-server/commit/f587590)), closes [#31](https://github.com/presidio-oss/specifai-mcp-server/issues/31)
+
 ## <small>0.4.3 (2025-06-24)</small>
 
 * docs: update README and add new image assets ([b36f642](https://github.com/presidio-oss/specifai-mcp-server/commit/b36f642))
