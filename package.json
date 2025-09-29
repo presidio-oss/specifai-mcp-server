@@ -49,7 +49,7 @@
     "release:ci": "release-it --ci"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.7.1",
+    "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^19.7.1",
     "@jest/globals": "^29.7.0",
     "@release-it/conventional-changelog": "^10.0.0",
