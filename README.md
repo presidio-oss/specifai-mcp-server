@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/presidio-oss-specifai-mcp-server-badge.png)](https://mseep.ai/app/presidio-oss-specifai-mcp-server)
+
 # Specifai MCP Server
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
